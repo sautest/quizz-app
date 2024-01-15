@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/health")
+@RequestMapping("/api/healthTest")
 @RequiredArgsConstructor
 public class HealthCheckController {
     @Autowired

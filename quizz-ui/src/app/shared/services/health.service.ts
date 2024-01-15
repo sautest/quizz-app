@@ -11,6 +11,6 @@ export class HealthService {
   readonly URL = `http://localhost:8080`;
 
   public health(): Observable<any> {
-    return this.http.get<any>(`${this.URL}/api/health`);
+    return this.http.get<any>(`${this.URL}/api/healthTest`);
   }
 }
