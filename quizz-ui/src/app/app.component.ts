@@ -1,17 +1,13 @@
-import { Component } from "@angular/core";
-import { HealthService } from "./shared/services/health.service";
+import { Component } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
-  selector: "app-root",
-  templateUrl: "./app.component.html",
-  styleUrls: ["./app.component.scss"],
+  selector: 'app-root',
+  standalone: true,
+  imports: [RouterOutlet],
+  templateUrl: './app.component.html',
+  styleUrl: './app.component.scss'
 })
 export class AppComponent {
-  title = "quizz-app";
-
-  constructor(private service: HealthService) {}
-
-  onClick() {
-    this.service.health().subscribe((message) => console.log(message));
-  }
+  title = 'quizz-ui';
 }
