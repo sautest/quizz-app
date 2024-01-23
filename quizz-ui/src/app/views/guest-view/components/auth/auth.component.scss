@@ -1,0 +1,46 @@
+.dialog {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+
+  .header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .header-icon {
+      color: black;
+    }
+    .header-text {
+      color: var(--gray-800);
+    }
+  }
+
+  .body {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+  }
+
+  .footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+
+    a {
+      text-decoration: none;
+      color: var(--gray-500);
+      font-weight: bolder;
+      transition: color 0.3s ease;
+    }
+
+    a:hover {
+      text-decoration: underline;
+      cursor: pointer;
+    }
+  }
+}

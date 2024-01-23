@@ -1,0 +1,44 @@
+<p-dialog
+  [(visible)]="showSignUpDialog || showSignInDialog"
+  [position]="'top'"
+  [closable]="false"
+  [draggable]="false"
+  [style]="{width: '35rem'}"
+>
+  <div class="dialog">
+    <div class="header">
+      <p-avatar class="header-icon" icon="pi pi-user" size="xlarge" shape="circle"></p-avatar>
+      <h1 class="header-text">{{ showSignUpDialog ? "Sign Up" : "Sign in" }}</h1>
+    </div>
+
+    <div class="body">
+      <span *ngIf="showEmailInput" class="p-float-label">
+        <input pInputText id="email" type="email" [(ngModel)]="email" />
+        <label for="email">Email Address*</label>
+      </span>
+
+      <span *ngIf="showUsernameInput" class="p-float-label">
+        <input pInputText id="username" [(ngModel)]="username" />
+        <label for="username">Username*</label>
+      </span>
+
+      <span *ngIf="showPasswordInput" class="p-float-label">
+        <input pInputText id="password" type="password" [(ngModel)]="password" />
+        <label for="password">Password*</label>
+      </span>
+    </div>
+
+    <div class="footer">
+      <p-button
+        [label]="showSignUpDialog ? 'Sign Up' : 'Sign in'"
+        icon="pi pi-unlock"
+        severity="help"
+        [disabled]="!isFormFilled"
+        (onClick)="onSubmitBtnClick()"
+      ></p-button>
+      <a (click)="onToggleDialog()">
+        {{ showSignUpDialog ? "Already have an account? Sign in" : "Don't have an account? Sign Up" }}
+      </a>
+    </div>
+  </div>
+</p-dialog>
