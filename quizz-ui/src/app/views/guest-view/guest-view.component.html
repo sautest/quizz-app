@@ -1,31 +1,33 @@
-<p-sidebar styleClass="w-15rem" [visible]="true" [modal]="false" [showCloseIcon]="false">
-  <p-button
-    label="Quizzes"
-    icon="pi pi-question-circle"
-    [text]="true"
-    severity="help"
-    size="large"
-    styleClass="w-full mt-2"
-    (onClick)="onQuizzesBtnClick()"
-  ></p-button>
-  <p-button
-    label="Sign In"
-    icon="pi pi-sign-in"
-    [text]="true"
-    severity="help"
-    size="large"
-    styleClass="w-full mt-2"
-    (onClick)="onSignInBtnClick()"
-  ></p-button>
-  <p-button
-    label="Sign Up"
-    icon="pi pi-user-plus"
-    [text]="true"
-    severity="help"
-    size="large"
-    styleClass="w-full mt-2"
-    (onClick)="onSignUpBtnClick()"
-  ></p-button>
-</p-sidebar>
+<div>
+  <app-sidebar>
+    <p-button
+      label="Quizzes"
+      icon="pi pi-question-circle"
+      [text]="true"
+      severity="help"
+      size="large"
+      styleClass="w-full mt-2"
+      (onClick)="onQuizzesBtnClick()"
+    ></p-button>
+    <p-button
+      label="Sign In"
+      icon="pi pi-sign-in"
+      [text]="true"
+      severity="help"
+      size="large"
+      styleClass="w-full mt-2"
+      (onClick)="onSignInBtnClick()"
+    ></p-button>
+    <p-button
+      label="Sign Up"
+      icon="pi pi-user-plus"
+      [text]="true"
+      severity="help"
+      size="large"
+      styleClass="w-full mt-2"
+      (onClick)="onSignUpBtnClick()"
+    ></p-button>
+  </app-sidebar>
 
-<app-auth [showSignUpDialog]="showSignUpDialog" [showSignInDialog]="showSignInDialog"></app-auth>
+  <app-auth [showSignUpDialog]="showSignUpDialog" [showSignInDialog]="showSignInDialog"></app-auth>
+</div>

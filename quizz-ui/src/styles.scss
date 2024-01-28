@@ -3,7 +3,9 @@
 @import "primeng/resources/primeng.css";
 @import "primeicons/primeicons.css";
 @import "primeflex/primeflex.css";
-
+@import "ngx-toastr/toastr";
 html {
+  height: 100%;
+  width: 100%;
   background-color: var(--surface-100);
 }

@@ -1,0 +1,17 @@
+<div class="flex flex-row gap-3">
+  <app-sidebar>
+    <p-button label="Dashboard" icon="pi pi-list" [text]="true" severity="help" size="large" styleClass="w-full mt-2"></p-button>
+    <p-button label="New project" icon="pi pi-plus" [text]="true" severity="help" size="large" styleClass="w-full mt-2"></p-button>
+    <p-button label="Profile" icon="pi pi-user" [text]="true" severity="help" size="large" styleClass="w-full mt-2"></p-button>
+    <p-button
+      label="Log out"
+      icon="pi pi-sign-out"
+      [text]="true"
+      severity="help"
+      size="large"
+      styleClass="w-full mt-2"
+      (onClick)="onLogOutBtnClick()"
+    ></p-button>
+  </app-sidebar>
+  <p-breadcrumb class="max-w-full" [model]="items" [home]="home"></p-breadcrumb>
+</div>

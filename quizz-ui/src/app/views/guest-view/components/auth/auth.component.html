@@ -34,7 +34,7 @@
         icon="pi pi-unlock"
         severity="help"
         [disabled]="!isFormFilled"
-        (onClick)="onSubmitBtnClick()"
+        (onClick)="showSignUpDialog ? onSignUpBtnClick() : onSignInBtnClick()"
       ></p-button>
       <a (click)="onToggleDialog()">
         {{ showSignUpDialog ? "Already have an account? Sign in" : "Don't have an account? Sign Up" }}
