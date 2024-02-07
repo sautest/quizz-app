@@ -1,0 +1,27 @@
+<p-dialog header="New project" [(visible)]="showInitProjectDialog" [closable]="false" [draggable]="true" [style]="{width: '40rem'}">
+  <div class="dialog">
+    <div class="body flex flex-column gap-5 mt-5">
+      <span class="p-float-label">
+        <p-dropdown
+          [options]="projectTypes"
+          [(ngModel)]="selectedProjectType"
+          optionLabel="name"
+          autoWidth="false"
+          [style]="{width: '100%'}"
+        ></p-dropdown>
+        <label for="float-label">Select Type</label>
+      </span>
+
+      <span class="p-float-label">
+        <input pInputText class="w-full" id="project-title" type="text" [(ngModel)]="projectTitle" />
+        <label for="project-title">Project Title</label>
+      </span>
+    </div>
+
+    <p-divider></p-divider>
+    <div class="footer flex justify-content-end gap-3">
+      <p-button label="Cancel" [outlined]="true" severity="primary" (onClick)="onCancelClick()"></p-button>
+      <p-button label="Create project" icon="pi pi-plus" severity="primary" (onClick)="onCreateProjectClick()"></p-button>
+    </div>
+  </div>
+</p-dialog>

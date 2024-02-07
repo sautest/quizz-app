@@ -1,0 +1,70 @@
+<p-dialog
+  [header]="editableQuestion ? 'Update Question' : 'New Question'"
+  [visible]="true"
+  [modal]="true"
+  [closable]="false"
+  [draggable]="true"
+  [style]="{width: '40rem'}"
+>
+  <div class="dialog">
+    <div class="body flex flex-column gap-5 mt-5 mb-3">
+      <span class="p-float-label">
+        <p-dropdown
+          [options]="questionTypes"
+          [(ngModel)]="selectedQuestionType"
+          optionLabel="name"
+          autoWidth="false"
+          [style]="{width: '40%'}"
+          inputId="float-label"
+        ></p-dropdown>
+        <label for="float-label">Question Type</label>
+      </span>
+    </div>
+
+    <div><angular-editor [placeholder]="'Question...'" [(ngModel)]="htmlContent"></angular-editor></div>
+
+    <div class="flex flex-column gap-2 mt-5">
+      <div class="flex align-items-center" *ngFor="let option of options; let i = index">
+        <div class="p-inputgroup">
+          <span class="p-inputgroup-addon">
+            <label for="inputField">Option</label>
+          </span>
+          <input id="inputField" type="text" pInputText [(ngModel)]="option.text" />
+        </div>
+        <p-checkbox
+          [value]="true"
+          class="mx-2"
+          [binary]="true"
+          name="groupname"
+          value="val1"
+          label="Correct"
+          [(ngModel)]="option.correct"
+        ></p-checkbox>
+        <span class="pi pi-trash mx-2 cursor-pointer" (click)="onDeleteQuestionOptionClick(i)"></span>
+      </div>
+    </div>
+
+    <div class="mt-2">
+      <p-button
+        label="Add Option"
+        icon="pi pi-plus-circle"
+        [text]="true"
+        severity="primary"
+        size="small"
+        (onClick)="onAddQuestionOptionClick()"
+      ></p-button>
+    </div>
+
+    <p-divider></p-divider>
+    <div class="footer flex justify-content-end gap-3">
+      <p-button label="Cancel" [outlined]="true" severity="primary" (onClick)="onCloseBtnClick()"></p-button>
+      <p-button
+        label="Save Question"
+        icon="pi pi-save"
+        severity="primary"
+        [disabled]="isSaveBtnDisabled()"
+        (onClick)="onSaveBtnClick()"
+      ></p-button>
+    </div>
+  </div>
+</p-dialog>

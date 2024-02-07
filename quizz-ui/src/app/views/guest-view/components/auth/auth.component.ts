@@ -2,8 +2,6 @@ import {Component, Input, OnInit} from "@angular/core";
 import {Router} from "@angular/router";
 import {UserService} from "../../../../shared/services/user/user.service";
 import {ToastrNotificationService} from "../../../../shared/services/toastr/toastr-notification.service";
-import {Store} from "@ngrx/store";
-import {setUserContext} from "../../../../shared/store/user/user.actions";
 
 @Component({
   selector: "app-auth",
@@ -11,12 +9,7 @@ import {setUserContext} from "../../../../shared/store/user/user.actions";
   styleUrl: "./auth.component.scss"
 })
 export class AuthComponent {
-  constructor(
-    private store: Store,
-    private router: Router,
-    private userService: UserService,
-    private notificationService: ToastrNotificationService
-  ) {}
+  constructor(private router: Router, private userService: UserService, private notificationService: ToastrNotificationService) {}
 
   @Input() showSignUpDialog: boolean = false;
   @Input() showSignInDialog: boolean = false;
@@ -63,8 +56,10 @@ export class AuthComponent {
     this.userService.login(this.username, this.password).subscribe(res => {
       if (res?.response.severity === "SUCCESS") {
         this.notificationService.success("Logged In!");
-        this.router.navigate(["/dashboard"]);
-        this.store.dispatch(setUserContext({userContext: {id: res.id, token: res.token}}));
+        this.router.navigate([`/dashboard/${res.id}`]);
+
+        localStorage.setItem("token", res.token);
+        localStorage.setItem("id", res.id);
       }
     });
   }

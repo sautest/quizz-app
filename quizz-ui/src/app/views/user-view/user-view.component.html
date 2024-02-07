@@ -1,8 +1,32 @@
 <div class="flex flex-row gap-3">
   <app-sidebar>
-    <p-button label="Dashboard" icon="pi pi-list" [text]="true" severity="help" size="large" styleClass="w-full mt-2"></p-button>
-    <p-button label="New project" icon="pi pi-plus" [text]="true" severity="help" size="large" styleClass="w-full mt-2"></p-button>
-    <p-button label="Profile" icon="pi pi-user" [text]="true" severity="help" size="large" styleClass="w-full mt-2"></p-button>
+    <p-button
+      label="Dashboard"
+      icon="pi pi-list"
+      [text]="true"
+      severity="help"
+      size="large"
+      styleClass="w-full mt-2"
+      (onClick)="onDashboardBtnClick()"
+    ></p-button>
+    <p-button
+      label="New project"
+      icon="pi pi-plus"
+      [text]="true"
+      severity="help"
+      size="large"
+      styleClass="w-full mt-2"
+      (onClick)="onNewProjectBtnClick()"
+    ></p-button>
+    <p-button
+      label="Profile"
+      icon="pi pi-user"
+      [text]="true"
+      severity="help"
+      size="large"
+      styleClass="w-full mt-2"
+      (onClick)="onUserProfileBtnClick()"
+    ></p-button>
     <p-button
       label="Log out"
       icon="pi pi-sign-out"
@@ -13,5 +37,12 @@
       (onClick)="onLogOutBtnClick()"
     ></p-button>
   </app-sidebar>
-  <p-breadcrumb class="max-w-full" [model]="items" [home]="home"></p-breadcrumb>
+
+  <div class="flex flex-column">
+    <p-breadcrumb class="w-5" [model]="items" [home]="home"></p-breadcrumb>
+    <app-dashboard-view class="mt-5" *ngIf="showDashboard"></app-dashboard-view>
+    <app-new-project-view *ngIf="showNewProjectDialog"></app-new-project-view>
+    <app-edit-project-view *ngIf="showEditProjectView"> </app-edit-project-view>
+    <div *ngIf="showUserProfile">profile</div>
+  </div>
 </div>

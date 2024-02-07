@@ -1,0 +1,73 @@
+<div *ngIf="project" class="grid">
+  <div class="col-6 flex flex-row align-items-center justify-content-start gap-2">
+    <h3 class="w-3">Project Name</h3>
+    <input type="text" pInputText [(ngModel)]="project.title" />
+  </div>
+
+  <div class="col-6 flex flex-row align-items-center justify-content-start gap-2">
+    <h3 class="w-3">Progress Bar</h3>
+    <p-inputSwitch [(ngModel)]="this.project.settings.enableProgressBar"></p-inputSwitch>
+  </div>
+
+  <div class="col-6 flex flex-row align-items-center justify-content-start gap-2">
+    <h3 class="w-3">Time Limit</h3>
+    <p-checkbox class="mx-2" [binary]="true" name="groupname" value="val1" [(ngModel)]="this.project.settings.enableTimeLimit"></p-checkbox>
+
+    <label>h:</label>
+    <input
+      pInputText
+      class="w-4rem"
+      type="number"
+      min="0"
+      max="24"
+      placeholder="H"
+      [(ngModel)]="this.project.settings.hours"
+      [disabled]="!this.project.settings.enableTimeLimit"
+    />
+    <label>m:</label>
+    <input
+      pInputText
+      class="w-4rem"
+      type="number"
+      min="0"
+      max="60"
+      placeholder="M"
+      [(ngModel)]="this.project.settings.min"
+      [disabled]="!this.project.settings.enableTimeLimit"
+    />
+  </div>
+
+  <div class="col-6 flex flex-row align-items-center justify-content-start gap-2">
+    <h3 class="w-3">Randomize Questions</h3>
+    <p-inputSwitch [(ngModel)]="this.project.settings.enableRandomizeQuestions"></p-inputSwitch>
+  </div>
+
+  <div class="col-6 flex flex-row align-items-center justify-content-start gap-2">
+    <h3 class="w-3">Questions per Page</h3>
+    <input pInputText class="w-4rem" type="number" min="0" [(ngModel)]="this.project.settings.questionsPerPage" />
+  </div>
+
+  <div class="col-6 flex flex-row align-items-center justify-content-start gap-2">
+    <h3 class="w-3">Public</h3>
+    <p-inputSwitch [(ngModel)]="this.project.settings.enablePublic"></p-inputSwitch>
+  </div>
+
+  <div class="col-6 flex flex-row align-items-center justify-content-start gap-2">
+    <h3 class="w-3">Answer not in Order</h3>
+    <p-inputSwitch [(ngModel)]="this.project.settings.enableAnswerNotInOrder"></p-inputSwitch>
+  </div>
+
+  <div class="col-6 flex flex-row align-items-center justify-content-start gap-2">
+    <h3 class="w-3">Show Answers at the end</h3>
+    <p-inputSwitch [(ngModel)]="this.project.settings.enableShowAnswersAtTheEnd"></p-inputSwitch>
+  </div>
+
+  <div class="col-6 flex flex-row align-items-center justify-content-start gap-2">
+    <h3 class="w-3">Ask for Basic User Info</h3>
+    <p-inputSwitch [(ngModel)]="this.project.settings.enableAskForBasicUserInfo"></p-inputSwitch>
+  </div>
+</div>
+
+<div class="mt-4">
+  <p-button label="Save Settings" icon="pi pi-save" severity="primary" (onClick)="onSaveSettings()"></p-button>
+</div>

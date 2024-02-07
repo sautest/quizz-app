@@ -20,3 +20,7 @@ export enum LogLevel {
   warning = "warning",
   error = "error"
 }
+
+export function getFromLocalStorage(key: string): string {
+  return localStorage.getItem(key) ?? "";
+}

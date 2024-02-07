@@ -1,0 +1,102 @@
+<p-tabView styleClass="tabview-custom mt-3">
+  <p-tabPanel>
+    <ng-template pTemplate="header">
+      <i class="pi pi-plus"></i>
+      <span class="ml-1">Create</span>
+    </ng-template>
+
+    <div>
+      <div class="card flex align-items-center justify-content-between">
+        <h2 *ngIf="project">{{ projectTitle }}</h2>
+        <p-selectButton [options]="stateOptions" [(ngModel)]="value" optionLabel="label" optionValue="value"></p-selectButton>
+      </div>
+
+      <p-divider></p-divider>
+
+      <div class="flex align-items-center justify-content-start gap-4" [ngStyle]="{'min-width': '75vw'}">
+        <p-button label="Add question" icon="pi pi-question-circle" (onClick)="onAddQuestionClick()"></p-button>
+        <p-button label="Question bank" icon="pi pi-list"></p-button>
+      </div>
+
+      <div *ngIf="project" cdkDropList class="my-2" (cdkDropListDropped)="drop($event)">
+        @for (question of project.questions; track question; ) {
+        <div cdkDrag class="example-list card flex justify-content-left mb-3">
+          <p-card [header]="question.text" class="example-box w-12">
+            <div class="example-handle flex flex-row gap-3">
+              <div pTooltip="Move" tooltipPosition="top" cdkDragHandle>
+                <span class="move-icon pi pi-arrows-alt" style="font-size: 1.25rem"></span>
+              </div>
+              <div (click)="onShowEditDialog(question)">
+                <span class="pi pi-file-edit" pTooltip="Edit" tooltipPosition="top" style="font-size: 1.25rem"></span>
+              </div>
+              <div>
+                <span class="pi pi-sitemap" pTooltip="Logic" tooltipPosition="top" style="font-size: 1.25rem"></span>
+              </div>
+
+              <div>
+                <span
+                  class="pi pi-times"
+                  pTooltip="Delete"
+                  tooltipPosition="top"
+                  style="font-size: 1.25rem"
+                  (click)="onDeleteConfirmation($event, question)"
+                ></span>
+              </div>
+            </div>
+
+            <div *ngIf="question.type === QUESTION_TYPE.SINGLE_CHOICE" class="m-0">
+              <div class="flex flex-column gap-3">
+                <div *ngFor="let option of question.options" class="field-checkbox">
+                  <p-radioButton [disabled]="true" [(ngModel)]="option.text"></p-radioButton>
+                  <label [for]="option.text" class="ml-2">{{ option.text }}</label>
+                </div>
+              </div>
+            </div>
+
+            <div *ngIf="question.type === QUESTION_TYPE.MULTI_CHOICE" class="m-0">
+              <div class="flex flex-column gap-3">
+                <div *ngFor="let option of question.options" class="field-checkbox">
+                  <p-checkbox [label]="option.text" name="group" [value]="false" [(ngModel)]="option.text"></p-checkbox>
+                </div>
+              </div>
+            </div>
+          </p-card>
+        </div>
+        }
+      </div>
+      <p-confirmDialog></p-confirmDialog>
+    </div>
+  </p-tabPanel>
+  <p-tabPanel header="Header II">
+    <ng-template pTemplate="header">
+      <i class="pi pi-cog"></i>
+      <span class="ml-1">Settings</span>
+    </ng-template>
+    <div [ngStyle]="{'min-width': '75vw'}"><app-settings [project]="project"> </app-settings></div>
+  </p-tabPanel>
+  <p-tabPanel header="Header III">
+    <ng-template pTemplate="header">
+      <i class="pi pi-send"></i>
+      <span class="ml-1">Release</span>
+    </ng-template>
+    <p>
+      At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores
+      et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id
+      est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est
+      eligendi optio cumque nihil impedit quo minus.
+    </p>
+  </p-tabPanel>
+
+  <p-tabPanel header="Header IV">
+    <ng-template pTemplate="header">
+      <i class="pi pi-eye"></i>
+      <span class="ml-1">Preview</span>
+    </ng-template>
+  </p-tabPanel>
+</p-tabView>
+
+<app-question-dialog
+  *ngIf="showQuestionDialog"
+  [editableQuestion]="editableQuestion"
+  (onClose)="onCloseQuestionClick()"
+></app-question-dialog>

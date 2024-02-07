@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Entity
 @Data
 @Table(name = "user")
@@ -24,5 +26,14 @@ public class User {
     private String password;
     @Column(name="roles")
     private String roles;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id",referencedColumnName = "id")
+    private List<Quiz> quiz;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id",referencedColumnName = "id")
+    private List<Survey> survey;
+
 
 }
