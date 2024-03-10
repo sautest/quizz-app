@@ -43,18 +43,8 @@
   </div>
 
   <div class="col-6 flex flex-row align-items-center justify-content-start gap-2">
-    <h3 class="w-3">Questions per Page</h3>
-    <input pInputText class="w-4rem" type="number" min="0" [(ngModel)]="this.project.settings.questionsPerPage" />
-  </div>
-
-  <div class="col-6 flex flex-row align-items-center justify-content-start gap-2">
     <h3 class="w-3">Public</h3>
     <p-inputSwitch [(ngModel)]="this.project.settings.enablePublic"></p-inputSwitch>
-  </div>
-
-  <div class="col-6 flex flex-row align-items-center justify-content-start gap-2">
-    <h3 class="w-3">Answer not in Order</h3>
-    <p-inputSwitch [(ngModel)]="this.project.settings.enableAnswerNotInOrder"></p-inputSwitch>
   </div>
 
   <div class="col-6 flex flex-row align-items-center justify-content-start gap-2">

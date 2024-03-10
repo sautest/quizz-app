@@ -34,7 +34,11 @@ export class QuestionDialogComponent implements OnInit {
 
   selectedQuestionType!: IQuestionType;
 
+  scoreValue: number = 1;
+
   htmlContent: string = "";
+
+  addToQuestionBank: boolean = false;
 
   options: QuestionOption[] = [{text: "", correct: false}];
 
@@ -54,7 +58,12 @@ export class QuestionDialogComponent implements OnInit {
       };
       this.htmlContent = this.editableQuestion.text;
       this.options = this.editableQuestion.options;
+      this.scoreValue = this.editableQuestion.score ?? 11;
     }
+  }
+
+  get showQuizElements(): boolean {
+    return this.route.snapshot.params["type"] === "quiz";
   }
 
   onAddQuestionOptionClick() {
@@ -70,13 +79,18 @@ export class QuestionDialogComponent implements OnInit {
       id: this.questionId,
       type: this.selectedQuestionType.code,
       text: this.htmlContent,
+      inBank: this.addToQuestionBank,
+      ownerId: +getFromLocalStorage("id"),
+      score: this.scoreValue,
       options: this.options,
+      logic: this.editableQuestion?.logic,
       quizzes: []
     };
 
+    console.log(question);
+
     if (this.editableQuestion) {
       this.questionService.update(question, getFromLocalStorage("token")).subscribe(res => {
-        console.log(res);
         this.notificationService.success("Question Updated!");
         this.onClose.emit();
       });

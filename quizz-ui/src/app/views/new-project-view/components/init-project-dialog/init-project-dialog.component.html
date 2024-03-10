@@ -1,4 +1,12 @@
-<p-dialog header="New project" [(visible)]="showInitProjectDialog" [closable]="false" [draggable]="true" [style]="{width: '40rem'}">
+<p-dialog
+  header="New project"
+  [(visible)]="showInitProjectDialog"
+  [position]="'top'"
+  [closable]="false"
+  [modal]="true"
+  [draggable]="true"
+  [style]="{width: '40rem'}"
+>
   <div class="dialog">
     <div class="body flex flex-column gap-5 mt-5">
       <span class="p-float-label">

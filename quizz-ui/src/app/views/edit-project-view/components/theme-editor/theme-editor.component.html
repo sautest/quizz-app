@@ -1,0 +1,85 @@
+<div class="flex flex-row justify-content-between gap-8">
+  <div class="flex flex-row justify-content-between align-items-center gap-3" style="width: 50%">
+    <div>Background</div>
+    <p-colorPicker [(ngModel)]="project.theme.bgColor"></p-colorPicker>
+  </div>
+
+  <div class="flex flex-row justify-content-between align-items-center gap-3" style="width: 50%">
+    <div>Question</div>
+    <p-colorPicker [(ngModel)]="project.theme.questionColor"></p-colorPicker>
+  </div>
+</div>
+
+<p-divider></p-divider>
+
+<div class="flex flex-row justify-content-between gap-8">
+  <div class="flex flex-row justify-content-between align-items-center gap-3" style="width: 50%">
+    <div>Option Background</div>
+    <p-colorPicker [(ngModel)]="project.theme.optionBgColor"></p-colorPicker>
+  </div>
+
+  <div class="flex flex-row justify-content-between align-items-center gap-3" style="width: 50%">
+    <div>Option Text</div>
+    <p-colorPicker [(ngModel)]="project.theme.optionTextColor"></p-colorPicker>
+  </div>
+</div>
+
+<p-divider></p-divider>
+
+<div class="flex flex-row justify-content-between gap-8">
+  <div class="flex flex-row justify-content-between align-items-center gap-3" style="width: 50%">
+    <div>Button Background</div>
+    <p-colorPicker [(ngModel)]="project.theme.buttonBgColor"></p-colorPicker>
+  </div>
+
+  <div class="flex flex-row justify-content-between align-items-center gap-3" style="width: 50%">
+    <div>Button Text</div>
+    <p-colorPicker [(ngModel)]="project.theme.buttonTextColor"></p-colorPicker>
+  </div>
+</div>
+
+<p-divider></p-divider>
+
+<div class="flex justify-content-center p-6" [ngStyle]="{background: project.theme.bgColor}">
+  <div class="flex flex-column justify-content-start align-items-center bg-white border-round" style="width: 40vw">
+    <h2 class="zoomin" [style.color]="project.theme.questionColor">Question?</h2>
+
+    <div
+      class="flex justify-content-start text-color border-round m-1 cursor-pointer hover:shadow-5 zoomin"
+      style="height: 8vh; width: 25vw"
+      [style]="{background: project.theme.optionBgColor}"
+    >
+      <p-checkbox class="mx-2" (ngModel)="(false)" [binary]="true" [label]="'Yes'"></p-checkbox>
+    </div>
+
+    <div
+      class="flex justify-content-start text-color border-round m-1 cursor-pointer hover:shadow-5 zoomin"
+      style="height: 8vh; width: 25vw"
+      [ngStyle]="{background: project.theme.optionBgColor}"
+    >
+      <p-checkbox class="mx-2" (ngModel)="(false)" [binary]="true" [label]="'No'"></p-checkbox>
+    </div>
+
+    <div class="flex justify-content-between w-full m-5">
+      <button
+        class="ml-8 border-round border-0 zoomin px-5 py-3"
+        [ngStyle]="{background: project.theme.buttonBgColor, color: project.theme.buttonTextColor, fontWeight: 'bold'}"
+      >
+        <span class="fa-solid fa-arrow-left"></span>
+        Back
+      </button>
+
+      <button
+        class="mr-8 border-round border-0 zoomin px-5 py-3"
+        [ngStyle]="{background: project.theme.buttonBgColor, color: project.theme.buttonTextColor, fontWeight: 'bold'}"
+      >
+        <span class="fa-solid fa-arrow-right"></span>
+        Next
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="mt-4 mb-4 ml-auto">
+  <p-button class="ml-auto" label="Save Theme" icon="pi pi-save" severity="primary" (onClick)="onSaveTheme()"></p-button>
+</div>

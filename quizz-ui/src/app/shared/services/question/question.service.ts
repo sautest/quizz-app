@@ -6,6 +6,7 @@ import {ToastrNotificationService} from "../toastr/toastr-notification.service";
 import {Observable, catchError} from "rxjs";
 import {Question} from "../../models/question.interface";
 import {ProjectType} from "../../../views/new-project-view/components/init-project-dialog/init-project-dialog.component";
+import {getFromLocalStorage} from "../../app-util";
 
 @Injectable({
   providedIn: "root"
@@ -15,6 +16,16 @@ export class QuestionService extends BaseService {
 
   constructor(private http: HttpClient, protected override notificationService: ToastrNotificationService) {
     super(notificationService);
+  }
+
+  public get(id: number): Observable<any> {
+    return this.http
+      .get<any>(`${this.URL}/${id}`, {
+        headers: new HttpHeaders({
+          Authorization: "Bearer " + getFromLocalStorage("token")
+        })
+      })
+      .pipe(catchError(err => this.httpCatchErrorWithResponse(err)));
   }
 
   public create(question: Question, projectId: number, type: string, token: string): Observable<any> {

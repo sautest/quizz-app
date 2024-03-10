@@ -1,0 +1,191 @@
+<p-tabView *ngIf="loadingFinished" styleClass="tabview-custom mt-3 p-3">
+  <p-tabPanel>
+    <ng-template pTemplate="header">
+      <i class="fa-solid fa-chart-simple"></i>
+      <span class="ml-1">Charts</span>
+    </ng-template>
+
+    <div *ngIf="loadingFinished" class="card flex justify-content-end gap-6" [ngStyle]="{width: '95vw'}">
+      <p-selectButton [options]="chartOptions" [(ngModel)]="value" optionLabel="icon" optionValue="value">
+        <ng-template let-item pTemplate>
+          <i [class]="item.icon"></i>
+        </ng-template>
+      </p-selectButton>
+
+      <p-selectButton [options]="listOptions" [(ngModel)]="showList" optionLabel="icon" optionValue="value">
+        <ng-template let-item pTemplate>
+          <i [class]="item.icon"></i>
+        </ng-template>
+      </p-selectButton>
+    </div>
+
+    <div *ngIf="loadingFinished" class="flex flex-column gap-4 mt-2">
+      <div *ngFor="let item of data; let i = index">
+        <div class="flex flex-column align-items-center justify-content-center border-1 border-round" style="width: 95vw">
+          <h2 class="w-full text-color text-center">{{ project.questions[i].text }}</h2>
+
+          <ngx-charts-pie-chart
+            *ngIf="value === chartType.PIE_CHART"
+            [view]="view"
+            [scheme]="colorSchemeH"
+            [results]="item"
+            [gradient]="gradient"
+            [legend]="showLegend"
+            [legendPosition]="legendPosition"
+            [labels]="showLabels"
+            [doughnut]="isDoughnut"
+            [labels]="true"
+            (select)="onSelect($event)"
+            (activate)="onActivate($event)"
+            (deactivate)="onDeactivate($event)"
+          >
+          </ngx-charts-pie-chart>
+
+          <ngx-charts-pie-grid
+            *ngIf="value === chartType.PIE_GRID_CHART"
+            [view]="view"
+            [scheme]="colorSchemeH"
+            [results]="item"
+            (select)="onSelect($event)"
+          >
+          </ngx-charts-pie-grid>
+
+          <ngx-charts-bar-horizontal
+            *ngIf="value === chartType.HORIZONTAL_BAR_CHART"
+            [view]="view"
+            [scheme]="colorSchemeH"
+            [schemeType]="schemeType"
+            [results]="item"
+            [gradient]="gradient"
+            [xAxis]="showXAxis"
+            [yAxis]="showYAxis"
+            [legend]="showLegend"
+            [legendPosition]="legendPosition"
+            [showXAxisLabel]="showXAxisLabel"
+            [showYAxisLabel]="showYAxisLabel"
+            [xAxisLabel]="xAxisLabel"
+            [yAxisLabel]="yAxisLabel"
+            (select)="onSelect($event)"
+            (activate)="onActivate($event)"
+            (deactivate)="onDeactivate($event)"
+          >
+          </ngx-charts-bar-horizontal>
+
+          <ngx-charts-bar-vertical
+            *ngIf="value === chartType.VERTICAL_BAR_CHART"
+            [view]="view"
+            [scheme]="colorSchemeV"
+            [schemeType]="schemeType"
+            [results]="item"
+            [gradient]="gradient"
+            [xAxis]="showXAxis"
+            [yAxis]="showYAxis"
+            [showXAxisLabel]="showXAxisLabel"
+            [showYAxisLabel]="showYAxisLabel"
+            [xAxisLabel]="xAxisLabel"
+            [yAxisLabel]="yAxisLabel"
+            (select)="onSelect($event)"
+            (activate)="onActivate($event)"
+            (deactivate)="onDeactivate($event)"
+          >
+          </ngx-charts-bar-vertical>
+
+          <div *ngIf="showList" class="card mt-2 mb-2">
+            <p-table [value]="data[i]" styleClass="p-datatable-gridlines" [tableStyle]="{'min-width': '40vw'}">
+              <ng-template pTemplate="header">
+                <tr>
+                  <th></th>
+                  <th>Answer</th>
+                  <th>Value</th>
+                  <th>Percent</th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-product let-ii="rowIndex">
+                <tr>
+                  <td>{{ ii + 1 }}</td>
+                  <td>{{ product.name }}</td>
+                  <td>{{ product.value }}</td>
+                  <td>{{ countAnswerPercentage(data[i], product.value) }}</td>
+                </tr>
+              </ng-template>
+            </p-table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </p-tabPanel>
+
+  <p-tabPanel>
+    <ng-template pTemplate="header">
+      <i class="fa-regular fa-file-lines"></i>
+      <span class="ml-1">Responses</span>
+    </ng-template>
+
+    <span class="p-input-icon-left mb-3">
+      <i class="pi pi-search"></i>
+      <input type="text" pInputText [(ngModel)]="searchValue" placeholder="Search..." />
+    </span>
+
+    <div class="flex flex-column gap-4" style="width: 95vw" *ngIf="loadingFinished">
+      <div *ngFor="let response of indData | keyvalue" class="border-1 border-round">
+        <div class="flex flex-row justify-content-between surface-100 p-2">
+          <div>
+            Name: <b>{{ response.key }}</b>
+          </div>
+
+          <div>
+            Date: <b>{{ date }}</b>
+          </div>
+
+          <div *ngIf="showLeaderboard">
+            Score: <b>{{ calcUserScore(response.value) }}</b>
+          </div>
+        </div>
+
+        <div *ngFor="let item of response.value">
+          <div class="flex flex-row gap-3 ml-4">
+            <h4 class="text-blue-700">{{ item.text }}:</h4>
+            <h4 *ngFor="let opt of item.selectedOptions">
+              {{ opt.text }}
+            </h4>
+          </div>
+          <p-divider></p-divider>
+        </div>
+      </div>
+    </div>
+  </p-tabPanel>
+
+  <p-tabPanel *ngIf="showLeaderboard">
+    <ng-template pTemplate="header">
+      <i class="fa-solid fa-medal"></i>
+      <span class="ml-1">Leaderboard</span>
+    </ng-template>
+
+    <div class="card mt-2 mb-2">
+      <p-table [value]="getLeaderboardList()" styleClass="p-datatable-gridlines" [tableStyle]="{'min-width': '95vw'}">
+        <ng-template pTemplate="header">
+          <tr>
+            <th>Place</th>
+            <th>Name</th>
+            <th>Score</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-product let-ii="rowIndex">
+          <tr>
+            <td>
+              <i
+                *ngIf="ii + 1 <= 3"
+                class="fa-solid fa-trophy"
+                [style.color]="ii + 1 === 1 ? 'gold' : ii + 1 === 2 ? 'silver' : ii + 1 === 3 ? '#CD7F32' : 'black'"
+              >
+              </i>
+              {{ ii + 1 }}
+            </td>
+            <td>{{ product.name }}</td>
+            <td>{{ product.score }}</td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </p-tabPanel>
+</p-tabView>

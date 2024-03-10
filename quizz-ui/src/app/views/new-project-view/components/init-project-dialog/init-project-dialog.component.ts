@@ -6,6 +6,7 @@ import {SurveyService} from "../../../../shared/services/survey/survey.service";
 import {ToastrNotificationService} from "../../../../shared/services/toastr/toastr-notification.service";
 import {getFromLocalStorage} from "../../../../shared/app-util";
 import {Settings} from "../../../../shared/models/settings.interface";
+import {Theme} from "../../../../shared/models/theme.interface";
 
 export enum ProjectType {
   QUIZ = "QUIZ",
@@ -39,6 +40,15 @@ export class InitProjectDialogComponent implements OnInit {
     enableRandomizeQuestions: false
   };
 
+  defaultTheme: Theme = {
+    bgColor: "#8b5cf6",
+    questionColor: "#4b5563",
+    optionBgColor: "#f3f4f6",
+    optionTextColor: "#4b5563",
+    buttonBgColor: "#8b5cf6",
+    buttonTextColor: "#ffffff"
+  };
+
   constructor(
     private router: Router,
     private quizService: QuizService,
@@ -60,14 +70,14 @@ export class InitProjectDialogComponent implements OnInit {
   onCreateProjectClick() {
     if (this.selectedProjectType.code === ProjectType.QUIZ) {
       this.quizService
-        .create(this.projectTitle, this.defaultSettings, getFromLocalStorage("id"), getFromLocalStorage("token"))
+        .create(this.projectTitle, this.defaultSettings, this.defaultTheme, getFromLocalStorage("id"), getFromLocalStorage("token"))
         .subscribe(res => {
           this.notificationService.success("Quiz Created!");
           this.router.navigate([`/create/quiz/${res.id}`]);
         });
     } else {
       this.surveyService
-        .create(this.projectTitle, this.defaultSettings, getFromLocalStorage("id"), getFromLocalStorage("token"))
+        .create(this.projectTitle, this.defaultSettings, this.defaultTheme, getFromLocalStorage("id"), getFromLocalStorage("token"))
         .subscribe(res => {
           this.notificationService.success("Survey Created!");
           this.router.navigate([`/create/survey/${res.id}`]);

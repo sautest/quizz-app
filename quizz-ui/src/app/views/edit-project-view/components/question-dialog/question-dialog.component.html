@@ -7,17 +7,22 @@
   [style]="{width: '40rem'}"
 >
   <div class="dialog">
-    <div class="body flex flex-column gap-5 mt-5 mb-3">
-      <span class="p-float-label">
+    <div class="body flex flex-row justify-content-between pt-3 mt-5 mb-3">
+      <span class="p-float-label w-4">
         <p-dropdown
           [options]="questionTypes"
           [(ngModel)]="selectedQuestionType"
           optionLabel="name"
           autoWidth="false"
-          [style]="{width: '40%'}"
+          [style]="{width: '100%'}"
           inputId="float-label"
         ></p-dropdown>
         <label for="float-label">Question Type</label>
+      </span>
+
+      <span class="p-float-label w-1" *ngIf="showQuizElements">
+        <input class="w-12" type="number" pInputText id="username" [(ngModel)]="scoreValue" />
+        <label class="w-12" for="username">Score</label>
       </span>
     </div>
 
@@ -32,6 +37,7 @@
           <input id="inputField" type="text" pInputText [(ngModel)]="option.text" />
         </div>
         <p-checkbox
+          *ngIf="showQuizElements"
           [value]="true"
           class="mx-2"
           [binary]="true"

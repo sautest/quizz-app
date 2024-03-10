@@ -1,24 +1,44 @@
-<p-tabView styleClass="tabview-custom mt-3">
+<p-tabView styleClass="tabview-custom mt-3 p-3">
   <p-tabPanel>
     <ng-template pTemplate="header">
       <i class="pi pi-plus"></i>
       <span class="ml-1">Create</span>
     </ng-template>
 
-    <div>
+    <div [ngStyle]="{width: '95vw'}">
       <div class="card flex align-items-center justify-content-between">
         <h2 *ngIf="project">{{ projectTitle }}</h2>
-        <p-selectButton [options]="stateOptions" [(ngModel)]="value" optionLabel="label" optionValue="value"></p-selectButton>
+        <p-selectButton
+          [options]="stateOptions"
+          [(ngModel)]="value"
+          optionLabel="label"
+          optionValue="value"
+          (onChange)="onSelectButtonChange($event)"
+        ></p-selectButton>
       </div>
 
       <p-divider></p-divider>
-
-      <div class="flex align-items-center justify-content-start gap-4" [ngStyle]="{'min-width': '75vw'}">
-        <p-button label="Add question" icon="pi pi-question-circle" (onClick)="onAddQuestionClick()"></p-button>
-        <p-button label="Question bank" icon="pi pi-list"></p-button>
+      <div class="flex align-items-center justify-content-between">
+        <div class="flex align-items-center justify-content-start gap-4">
+          <p-button label="Add question" icon="pi pi-question-circle" (onClick)="onAddQuestionClick()"></p-button>
+          <!-- <p-button label="Question bank" icon="pi pi-list" (onClick)="onQuestionBankClick()"></p-button> -->
+        </div>
+        <div>
+          <p-button label="Preview" [text]="true" icon="pi pi-eye" (click)="redirectToPreview()"></p-button>
+        </div>
       </div>
 
-      <div *ngIf="project" cdkDropList class="my-2" (cdkDropListDropped)="drop($event)">
+      <div class="graph-view" [ngClass]="{hidden: !showGraph}">
+        <app-graph
+          [project]="project"
+          (onQuestionEdit)="onShowEditDialog($event)"
+          (onQuestionDelete)="onQuestionDelete($event)"
+          (onQuestionMove)="onQuestionMoveInGraph($event)"
+          (onQuestionLogic)="onShowLogicDialog($event)"
+        ></app-graph>
+      </div>
+
+      <div *ngIf="project && !showGraph" cdkDropList class="my-2" (cdkDropListDropped)="drop($event)">
         @for (question of project.questions; track question; ) {
         <div cdkDrag class="example-list card flex justify-content-left mb-3">
           <p-card [header]="question.text" class="example-box w-12">
@@ -29,7 +49,7 @@
               <div (click)="onShowEditDialog(question)">
                 <span class="pi pi-file-edit" pTooltip="Edit" tooltipPosition="top" style="font-size: 1.25rem"></span>
               </div>
-              <div>
+              <div (click)="onShowLogicDialog(question)">
                 <span class="pi pi-sitemap" pTooltip="Logic" tooltipPosition="top" style="font-size: 1.25rem"></span>
               </div>
 
@@ -74,24 +94,32 @@
     </ng-template>
     <div [ngStyle]="{'min-width': '75vw'}"><app-settings [project]="project"> </app-settings></div>
   </p-tabPanel>
+
   <p-tabPanel header="Header III">
+    <ng-template pTemplate="header">
+      <i class="fa-solid fa-palette"></i>
+      <span class="ml-1">Theme</span>
+    </ng-template>
+
+    <div [ngStyle]="{'min-width': '95vw'}"><app-theme-editor [project]="project"></app-theme-editor></div>
+  </p-tabPanel>
+
+  <p-tabPanel header="Header IIV">
     <ng-template pTemplate="header">
       <i class="pi pi-send"></i>
       <span class="ml-1">Release</span>
     </ng-template>
-    <p>
-      At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores
-      et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id
-      est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est
-      eligendi optio cumque nihil impedit quo minus.
-    </p>
-  </p-tabPanel>
+    <div [ngStyle]="{'min-width': '95vw'}">
+      <div class="flex flex-row gap-1">
+        <h3>{{ projectStatusLabel }}</h3>
+        <h3 class="font-medium">{{ project.status }}</h3>
+      </div>
+      <p-button label="{{ projectStatusChangeBtnLabel }}" (onClick)="onChangeProjectStatus()"></p-button>
 
-  <p-tabPanel header="Header IV">
-    <ng-template pTemplate="header">
-      <i class="pi pi-eye"></i>
-      <span class="ml-1">Preview</span>
-    </ng-template>
+      <h3>Share Link:</h3>
+
+      <p-button [label]="shareLink" [text]="true" [raised]="true" icon="fa-regular fa-copy" (onClick)="onCopyShareLink()"></p-button>
+    </div>
   </p-tabPanel>
 </p-tabView>
 
@@ -100,3 +128,17 @@
   [editableQuestion]="editableQuestion"
   (onClose)="onCloseQuestionClick()"
 ></app-question-dialog>
+
+<app-question-bank-dialog
+  *ngIf="showQuestionBankDialog"
+  [project]="project"
+  (onClose)="onCloseQuestionBankClick()"
+></app-question-bank-dialog>
+
+<app-logic-dialog
+  *ngIf="showLogicDialog"
+  [editableQuestion]="editableQuestion"
+  [project]="project"
+  (onClose)="onCloseLogicDialog()"
+  (onSave)="onSaveLogicDialog()"
+></app-logic-dialog>

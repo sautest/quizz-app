@@ -1,0 +1,25 @@
+<div class="graph-container">
+  <div class="graph-view">
+    <div class="graph-toolbar">
+      <label for="alignmentSwitch">Vertical Alignment</label>
+      <p-inputSwitch inputId="alignmentSwitch" [(ngModel)]="isVerticalAlignment" (onChange)="onAlignmentChange()"></p-inputSwitch>
+      <i
+        class="fa-solid fa-arrows-to-eye cursor-pointer m-2"
+        style="font-size: 2rem"
+        pTooltip="Center"
+        tooltipPosition="top"
+        (click)="centerGraph()"
+      ></i>
+    </div>
+
+    <div class="graph h-1" #graph></div>
+  </div>
+</div>
+
+<app-context-menu
+  *ngIf="contextMenu.items.length > 0 && viewStatus === ConnectionsViewStatus.SHOW_MENU"
+  [location]="contextMenu.location"
+  [items]="contextMenu.items"
+  (onItemSelected)="onNodeContextMenuItemSelected($event)"
+>
+</app-context-menu>

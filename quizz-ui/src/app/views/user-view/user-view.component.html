@@ -1,5 +1,5 @@
-<div class="flex flex-row gap-3">
-  <app-sidebar>
+<p-toolbar class="sticky">
+  <div class="p-toolbar-group-start">
     <p-button
       label="Dashboard"
       icon="pi pi-list"
@@ -9,6 +9,7 @@
       styleClass="w-full mt-2"
       (onClick)="onDashboardBtnClick()"
     ></p-button>
+
     <p-button
       label="New project"
       icon="pi pi-plus"
@@ -18,6 +19,8 @@
       styleClass="w-full mt-2"
       (onClick)="onNewProjectBtnClick()"
     ></p-button>
+  </div>
+  <div class="p-toolbar-group-center">
     <p-button
       label="Profile"
       icon="pi pi-user"
@@ -27,6 +30,7 @@
       styleClass="w-full mt-2"
       (onClick)="onUserProfileBtnClick()"
     ></p-button>
+
     <p-button
       label="Log out"
       icon="pi pi-sign-out"
@@ -36,13 +40,15 @@
       styleClass="w-full mt-2"
       (onClick)="onLogOutBtnClick()"
     ></p-button>
-  </app-sidebar>
+  </div>
+</p-toolbar>
 
+<div class="flex flex-row gap-3">
   <div class="flex flex-column">
-    <p-breadcrumb class="w-5" [model]="items" [home]="home"></p-breadcrumb>
     <app-dashboard-view class="mt-5" *ngIf="showDashboard"></app-dashboard-view>
     <app-new-project-view *ngIf="showNewProjectDialog"></app-new-project-view>
     <app-edit-project-view *ngIf="showEditProjectView"> </app-edit-project-view>
-    <div *ngIf="showUserProfile">profile</div>
+    <app-statistics-view *ngIf="showStatisticsView"></app-statistics-view>
+    <app-profile-view *ngIf="showUserProfile"> </app-profile-view>
   </div>
 </div>

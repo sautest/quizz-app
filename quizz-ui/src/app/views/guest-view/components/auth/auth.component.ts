@@ -2,6 +2,7 @@ import {Component, Input, OnInit} from "@angular/core";
 import {Router} from "@angular/router";
 import {UserService} from "../../../../shared/services/user/user.service";
 import {ToastrNotificationService} from "../../../../shared/services/toastr/toastr-notification.service";
+import {getDate} from "../../../../shared/app-util";
 
 @Component({
   selector: "app-auth",

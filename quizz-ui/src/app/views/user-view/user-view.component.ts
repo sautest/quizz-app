@@ -16,6 +16,7 @@ export class UserViewComponent implements OnInit {
   showNewProjectDialog: boolean = false;
   showEditProjectView: boolean = false;
   showUserProfile: boolean = false;
+  showStatisticsView: boolean = false;
   constructor(private router: Router, private notificationService: ToastrNotificationService, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
@@ -27,6 +28,7 @@ export class UserViewComponent implements OnInit {
       this.showNewProjectDialog = data["showNewProjectDialog"];
       this.showEditProjectView = data["showEditProjectView"];
       this.showUserProfile = data["showUserProfile"];
+      this.showStatisticsView = data["showStatisticsView"];
     });
   }
 
@@ -39,7 +41,7 @@ export class UserViewComponent implements OnInit {
   }
 
   onUserProfileBtnClick() {
-    this.router.navigate(["/profile"]);
+    this.router.navigate([`/profile/${getFromLocalStorage("id")}`]);
   }
 
   onLogOutBtnClick() {

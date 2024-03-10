@@ -1,0 +1,66 @@
+<p-dialog header="Add Logic" [visible]="true" [modal]="true" [closable]="false" [draggable]="true" [style]="{width: '40rem'}">
+  <div class="dialog">
+    <div
+      *ngFor="let item of questionLogic; let i = index"
+      class="body relative flex flex-column gap-5 mt-5 mb-3 p-5 surface-100 border-round"
+    >
+      <span class="pi pi-times absolute top-0 right-0 m-2 cursor-pointer" (click)="onLogicItemDelete(i)"></span>
+      <div class="flex flex-row gap-2 flex-wrap">
+        <span class="p-float-label">
+          <p-dropdown
+            [options]="logicConditionTypes"
+            [(ngModel)]="item.conditionType"
+            optionLabel="name"
+            autoWidth="false"
+            [style]="{width: '15rem'}"
+            inputId="float-label"
+          ></p-dropdown>
+          <label for="float-label">Condition</label>
+        </span>
+        <span *ngIf="item.conditionType.code !== LOGIC_CONDITION_TYPE.ALWAYS" class="p-float-label flex-grow-1">
+          <p-dropdown
+            [options]="questionOptions"
+            [(ngModel)]="item.conditionOption"
+            optionLabel="name"
+            autoWidth="false"
+            placeholder="Select Option"
+            [style]="{width: '100%'}"
+          ></p-dropdown>
+          <label for="float-label">Option</label>
+        </span>
+      </div>
+
+      <div class="flex flex-row gap-2 flex-wrap">
+        <span class="p-float-label">
+          <p-dropdown
+            [options]="logicActionTypes"
+            [(ngModel)]="item.actionType"
+            optionLabel="name"
+            autoWidth="false"
+            [style]="{width: '15rem'}"
+            inputId="float-label"
+          ></p-dropdown>
+          <label for="float-label">Action</label>
+        </span>
+        <span *ngIf="item.actionType.code !== LOGIC_ACTION_TYPE.END_QUESTIONING" class="p-float-label flex-grow-1">
+          <p-dropdown
+            [options]="questions"
+            [(ngModel)]="item.actionOption"
+            optionLabel="name"
+            autoWidth="false"
+            [style]="{width: '100%'}"
+            inputId="float-label"
+          ></p-dropdown>
+          <label for="float-label">Question</label>
+        </span>
+      </div>
+    </div>
+
+    <p-button label="Add logic" icon="pi pi-plus" severity="primary" (onClick)="onAddLogicBtnClick()"></p-button>
+  </div>
+
+  <div class="footer flex justify-content-end gap-3">
+    <p-button label="Cancel" [outlined]="true" severity="primary" (onClick)="onCloseBtnClick()"></p-button>
+    <p-button label="Save" icon="pi pi-save" severity="primary" (onClick)="onSaveBtnClick()"></p-button>
+  </div>
+</p-dialog>

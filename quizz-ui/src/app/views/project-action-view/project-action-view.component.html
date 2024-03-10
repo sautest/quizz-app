@@ -1,0 +1,195 @@
+<div *ngIf="this.project" class="flex align-items-center justify-content-center h-screen" [ngStyle]="{background: project.theme.bgColor}">
+  <div
+    *ngIf="showQuestions"
+    class="flex flex-column justify-content-start align-items-center bg-white border-round p-2"
+    style="width: 60vw"
+  >
+    <div class="w-full h-full m-3">
+      <p-progressBar *ngIf="showProgressBar" [value]="progressBar"></p-progressBar>
+    </div>
+
+    <h4 *ngIf="showTimer" class="text-color border-1 border-round p-2 zoomin">Time Left: {{ getFormattedTime }}</h4>
+    <h2 class="zoomin" [style.color]="project.theme.questionColor">{{ project.questions[currentPage].text }}</h2>
+
+    <div class="flex flex-wrap justify-content-center mt-5">
+      <div
+        *ngFor="let option of project.questions[currentPage].options"
+        class="flex justify-content-start border-round m-3 cursor-pointer hover:shadow-5 zoomin"
+        style="height: 8vh; width: 25vw"
+        [style]="{background: project.theme.optionBgColor, color: project.theme.optionTextColor}"
+      >
+        <p-checkbox
+          *ngIf="project.questions[currentPage].type === QUESTION_TYPE.MULTI_CHOICE"
+          class="mx-2"
+          [(ngModel)]="option.checked"
+          [binary]="true"
+          [label]="option.text"
+        ></p-checkbox>
+
+        <p-radioButton
+          *ngIf="project.questions[currentPage].type === QUESTION_TYPE.SINGLE_CHOICE"
+          class="mx-2"
+          [label]="option.text"
+          [value]="option.text"
+          [(ngModel)]="project.questions[currentPage].selected"
+        ></p-radioButton>
+      </div>
+    </div>
+    <div class="flex justify-content-between w-full m-5">
+      <p-button
+        class="ml-8 border-round cursor-pointer border-0 zoomin"
+        [ngStyle]="{background: project.theme.buttonBgColor, color: project.theme.buttonTextColor, fontWeight: 'bold'}"
+        [disabled]="currentPage === 0"
+        label="Back"
+        icon="fa-solid fa-arrow-left"
+        (onClick)="onBackToPreviousQuestion()"
+      >
+      </p-button>
+
+      <p-button
+        class="mr-8 border-round cursor-pointer border-0 zoomin"
+        [ngStyle]="{background: project.theme.buttonBgColor, color: project.theme.buttonTextColor, fontWeight: 'bold'}"
+        [disabled]="isNextQuestionDisabled()"
+        label="Start"
+        icon="fa-solid fa-arrow-right"
+        (onClick)="onNextQuestion()"
+      >
+      </p-button>
+    </div>
+
+    <p-paginator
+      class="pointer-events-none"
+      [first]="currentPage"
+      [rows]="questionsPerPage"
+      [totalRecords]="questionsAmount"
+      [showFirstLastIcon]="false"
+      (onPageChange)="onPageChange($event)"
+    ></p-paginator>
+  </div>
+
+  <div
+    *ngIf="showParticipantForm"
+    class="flex flex-column justify-content-start align-items-center bg-white border-round p-2"
+    style="width: 25vw"
+  >
+    <h2 class="text-color zoomin">Enter User info</h2>
+
+    <div class="flex flex-column gap-4">
+      <span class="p-float-label">
+        <input pInputText class="w-full" id="user-name" type="text" [(ngModel)]="name" />
+        <label for="user-name">Name</label>
+      </span>
+
+      <span class="p-float-label">
+        <input pInputText class="w-full" id="user-age" min="0" max="120" type="number" [(ngModel)]="age" />
+        <label for="user-age">Age</label>
+      </span>
+
+      <p-button
+        class="ml-8 border-round ml-auto cursor-pointer border-0 zoomin"
+        [ngStyle]="{background: project.theme.buttonBgColor, color: project.theme.buttonTextColor, fontWeight: 'bold'}"
+        label="Start"
+        icon="fa-solid fa-arrow-right"
+        (onClick)="onSaveUserInfo()"
+      >
+      </p-button>
+    </div>
+  </div>
+
+  <div
+    *ngIf="showAnswersInEnding"
+    class="flex flex-column justify-content-start align-items-center bg-white border-round p-2 gap-4"
+    style="width: 40vw"
+  >
+    <div class="flex flex-row gap-3">
+      <h2 class="text-color zoomin">Score</h2>
+      <h2 class="text-gray-500 zoomin">{{ calculateScore() }}</h2>
+    </div>
+
+    <div class="flex flex-row gap-3">
+      <h2 class="text-color zoomin">Elapsed Time</h2>
+      <h2 class="text-gray-500 zoomin">{{ displayDuration }}</h2>
+    </div>
+
+    <p-button class="zoomin green-600" label="Review Answers" icon="fa-solid fa-check" (onClick)="onReviewAnswers()"></p-button>
+  </div>
+
+  <div *ngIf="showMessageInEnding" class="flex flex-column justify-content-start align-items-center bg-white border-round p-8 gap-4">
+    <h2 class="text-color zoomin">{{ endingGreeting }}</h2>
+  </div>
+
+  <div
+    *ngIf="showDetailedAnswers"
+    class="flex flex-column justify-content-start bg-white border-round p-2"
+    style="width: 60vw; max-height: 80vh"
+  >
+    <h2 class="text-color zoomin m-1">Review Answers</h2>
+    <p-divider class="w-full"></p-divider>
+
+    <div class="overflow-y-scroll">
+      <div *ngFor="let question of project.questions">
+        <div class="flex flex-row p-2">
+          <div class="flex flex-column justify-content-start align-items-center">
+            <i *ngIf="isQuestionCorrectlyAnswered(question)" class="pi pi-times" style="font-size: 1.5rem; color: green"></i>
+            <i *ngIf="!isQuestionCorrectlyAnswered(question)" class="pi pi-times" style="font-size: 1.5rem; color: red"></i>
+            <p class="text-color m-0">Points:</p>
+            <p class="text-color m-0">{{ getQuestionScore(question) }}</p>
+          </div>
+          <p-divider class="m-0" layout="vertical"></p-divider>
+
+          <div *ngIf="question.type === QUESTION_TYPE.MULTI_CHOICE" class="m-0">
+            <div class="flex flex-column gap-3">
+              <div *ngFor="let option of question.options" class="field-checkbox">
+                <p-checkbox
+                  class="text-color"
+                  [label]="option.text"
+                  name="group"
+                  [binary]="true"
+                  [value]="option.checked"
+                  [(ngModel)]="option.checked"
+                  [disabled]="true"
+                ></p-checkbox>
+                <i *ngIf="option.checked && !option.correct" class="pi pi-times ml-1" style="font-size: 1rem; color: red"></i>
+                <i *ngIf="option.checked && option.correct" class="pi pi-check ml-1" style="font-size: 1rem; color: green"></i>
+                <i *ngIf="!option.checked && option.correct" class="pi pi-check ml-1" style="font-size: 1rem; color: blue"></i>
+              </div>
+            </div>
+          </div>
+
+          <div *ngIf="question.type === QUESTION_TYPE.SINGLE_CHOICE" class="m-0">
+            <div class="flex flex-column gap-3">
+              <div *ngFor="let option of question.options" class="field-checkbox">
+                <p-radioButton [(ngModel)]="question.selected" [value]="option.text" [disabled]="true"></p-radioButton>
+                <label [for]="option.text" class="ml-2" style="color: #b2b7bb">{{ option.text }}</label>
+                <i
+                  *ngIf="question.selected === option.text && !option.correct"
+                  class="pi pi-times ml-1"
+                  style="font-size: 1rem; color: red"
+                ></i>
+                <i
+                  *ngIf="question.selected === option.text && option.correct"
+                  class="pi pi-check ml-1"
+                  style="font-size: 1rem; color: green"
+                ></i>
+
+                <i
+                  *ngIf="question.selected !== option.text && option.correct"
+                  class="pi pi-check ml-1"
+                  style="font-size: 1rem; color: blue"
+                ></i>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p-divider class="m-0"></p-divider>
+      </div>
+    </div>
+    <p-divider class="w-full"></p-divider>
+    <div class="flex flex-row justify-content-end gap-3 mr-4">
+      <h4 class="text-color zoomin">Score</h4>
+      <h4 class="text-gray-500 zoomin">{{ calculateScore() }}</h4>
+      <h4 class="text-color zoomin">Elapsed Time</h4>
+      <h4 class="text-gray-500 zoomin">{{ displayDuration }}</h4>
+    </div>
+  </div>
+</div>
