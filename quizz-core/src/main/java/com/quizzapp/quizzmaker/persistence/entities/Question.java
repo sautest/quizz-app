@@ -23,10 +23,26 @@ public class Question {
     private int id;
     private String text;
     private QuestionType type;
+    private int score;
+
+    @Column(name = "in_bank")
+    private boolean inBank;
+    @Column(name = "owner_id")
+    private int ownerId;
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "question_id",referencedColumnName = "id")
     private List<QuestionOption> options;
+
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "question_id",referencedColumnName = "id")
+    private List<QuestionLogic> logic;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "question_id",referencedColumnName = "id")
+    private List<Answer> answers;
+
 
     @ManyToMany(mappedBy = "questions")
     @JsonIgnoreProperties("questions")
@@ -35,5 +51,6 @@ public class Question {
     @ManyToMany(mappedBy = "questions")
     @JsonIgnoreProperties("questions")
     private List<Survey> surveys = new ArrayList<>();
+
 
 }

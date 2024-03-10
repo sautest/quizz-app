@@ -1,0 +1,11 @@
+digraph  {
+     rankdir=#if($horizontalAlignmentDef)"LR"#else"TB"#end
+     compound=true
+     bgcolor="#f5f9ff"
+     node [shape=note fontname="Arial" fontsize="9"]
+     edge [penwidth=1]
+
+     $questionDef
+
+     $edgeDef
+}

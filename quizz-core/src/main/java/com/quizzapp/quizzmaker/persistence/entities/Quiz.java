@@ -2,7 +2,7 @@ package com.quizzapp.quizzmaker.persistence.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.quizzapp.quizzmaker.persistence.models.ProjectStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,7 +20,13 @@ public class Quiz {
     @Column(name = "id",length = 45)
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
+    @Column(name = "uuid", length = 36)
+    private String uuid;
     private String title;
+    private int responses;
+    private String dateCreated;
+
+    private ProjectStatus status;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
@@ -29,12 +35,15 @@ public class Quiz {
 
     @ManyToMany
     @JoinTable(name = "quiz_question", joinColumns = @JoinColumn(name= "quiz_id"),inverseJoinColumns = @JoinColumn(name="question_id"))
-    @JsonIgnoreProperties("quizzes")
+    @JsonIgnoreProperties(allowSetters = true)
     private List<Question> questions = new ArrayList<>();
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "settings_id")
     private Settings settings;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "theme_id")
+    private Theme theme;
 
 }

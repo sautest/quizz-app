@@ -51,16 +51,22 @@ public class UserController {
         }
     }
 
+    @PutMapping ("/edit")
+    @PreAuthorize("hasAuthority('USER_ROLES')")
+    public User editUser(@RequestBody @Valid UserDTO userDTO) {
+        return userService.editUser(userDTO);
+    }
+
+
     @GetMapping("/getUsers")
     @PreAuthorize("hasAuthority('ADMIN_ROLES')")
     public List<User> getAllUsers() {
         return userService.getAllUser();
     }
 
-
     @PreAuthorize("hasAuthority('USER_ROLES')")
     @GetMapping("/getUsers/{id}")
-    public User getAllUsers(@PathVariable Integer id) {
+    public User getUser(@PathVariable Integer id) {
         return userService.getUser(id);
     }
 

@@ -4,7 +4,6 @@ import com.quizzapp.quizzmaker.dto.QuestionDTO;
 import com.quizzapp.quizzmaker.persistence.entities.Question;
 import com.quizzapp.quizzmaker.persistence.entities.Quiz;
 import com.quizzapp.quizzmaker.persistence.entities.Survey;
-import com.quizzapp.quizzmaker.persistence.repositories.QuestionOptionRepository;
 import com.quizzapp.quizzmaker.persistence.repositories.QuestionRepository;
 import com.quizzapp.quizzmaker.persistence.repositories.QuizRepository;
 import com.quizzapp.quizzmaker.persistence.repositories.SurveyRepository;
@@ -28,7 +27,14 @@ public class QuestionImpl implements QuestionService {
 
 
     @Override
+    public List<Question> getAllUserQuestions(Long id) {
+
+        return  questionRepository.findAllByOwnerId(id);
+    }
+
+    @Override
     public Question createQuestion(QuestionDTO questionDTO) {
+
         int questionId = questionRepository.save(questionDTO.getQuestion()).getId();
         Question question = questionRepository.findById((long) questionId).orElseThrow(() -> new RuntimeException("Question not found"));
 
@@ -56,13 +62,17 @@ public class QuestionImpl implements QuestionService {
 
     @Override
     public Question updateQuestion(QuestionDTO questionDTO) {
+        System.out.println(questionDTO);
 
         Question question = questionRepository.findById((long) questionDTO.getQuestion().getId()).orElseThrow(() -> new RuntimeException("Question not found"));
 
         question.setType(questionDTO.getQuestion().getType());
         question.setText(questionDTO.getQuestion().getText());
+
+        question.setScore(questionDTO.getQuestion().getScore());
         
         question.setOptions(questionDTO.getQuestion().getOptions());
+        question.setLogic(questionDTO.getQuestion().getLogic());
 
         return questionRepository.save(question);
     }
@@ -77,8 +87,8 @@ public class QuestionImpl implements QuestionService {
         question.getSurveys().forEach(survey -> survey.getQuestions().remove(question));
 
         questionRepository.delete(question);
-
     }
+
 
 
 }

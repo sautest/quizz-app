@@ -1,17 +1,15 @@
 package com.quizzapp.quizzmaker.controller;
 
 import com.quizzapp.quizzmaker.dto.QuestionDTO;
-import com.quizzapp.quizzmaker.dto.QuizDTO;
 import com.quizzapp.quizzmaker.persistence.entities.Question;
-import com.quizzapp.quizzmaker.persistence.entities.Quiz;
 import com.quizzapp.quizzmaker.services.QuestionService;
-import com.quizzapp.quizzmaker.services.QuizService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -20,6 +18,13 @@ public class QuestionController {
 
     @Autowired
     private final QuestionService questionService;
+
+
+    @GetMapping(path = "/{id}")
+    @PreAuthorize("hasAuthority('USER_ROLES')")
+    public List<Question> getQuestions(@PathVariable @Valid Long id) {
+       return questionService.getAllUserQuestions(id);
+    }
 
     @PostMapping(path = "/create")
     @PreAuthorize("hasAuthority('USER_ROLES')")
@@ -35,7 +40,7 @@ public class QuestionController {
 
     @DeleteMapping(path = "/delete/{id}")
     @PreAuthorize("hasAuthority('USER_ROLES')")
-    public void updateQuestion(@PathVariable @Valid Long id) {
+    public void deleteQuestion(@PathVariable @Valid Long id) {
          questionService.deleteQuestion(id);
     }
 }

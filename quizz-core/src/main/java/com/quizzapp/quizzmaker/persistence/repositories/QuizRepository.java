@@ -15,4 +15,6 @@ public interface QuizRepository  extends JpaRepository<Quiz,Long> {
     List<Quiz> findByUserId(Long userId);
 
     List<Quiz> findAllById(Long quizId);
+
+    List<Quiz> findAllByUuid(String quizId);
 }

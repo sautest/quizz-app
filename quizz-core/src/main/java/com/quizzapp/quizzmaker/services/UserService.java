@@ -18,5 +18,7 @@ public interface UserService  {
 
     List<User> getAllUser();
 
+    User editUser(UserDTO userDTO);
+
 
 }

@@ -1,10 +1,12 @@
 package com.quizzapp.quizzmaker.services.impl;
 
 import com.quizzapp.quizzmaker.dto.UserDTO;
+import com.quizzapp.quizzmaker.persistence.entities.Question;
 import com.quizzapp.quizzmaker.persistence.entities.Quiz;
 import com.quizzapp.quizzmaker.persistence.entities.Survey;
 import com.quizzapp.quizzmaker.persistence.entities.User;
 import com.quizzapp.quizzmaker.persistence.repositories.UserRepository;
+import com.quizzapp.quizzmaker.security.JWTService;
 import com.quizzapp.quizzmaker.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -22,6 +24,8 @@ import java.util.Optional;
 public class UserImpl implements UserDetailsService, UserService {
 
     @Autowired
+    private JWTService jwtService;
+    @Autowired
     private UserRepository userRepository;
 
     @Autowired
@@ -37,6 +41,7 @@ public class UserImpl implements UserDetailsService, UserService {
                 userDTO.getEmail(),
                 userDTO.getUsername(),
                 userDTO.getPassword(),
+                userDTO.getDateJoined(),
                 "USER_ROLES", new ArrayList<Quiz>(),new ArrayList<Survey>()
         );
 
@@ -55,6 +60,17 @@ public class UserImpl implements UserDetailsService, UserService {
 
     public List<User> getAllUser() {
         return userRepository.findAll();
+    }
+
+    @Override
+    public User editUser(UserDTO userDTO) {
+        User user = userRepository.findById(userDTO.getId()).orElseThrow(() -> new RuntimeException("User not found"));
+
+        user.setUsername(userDTO.getUsername());
+        user.setEmail(userDTO.getEmail());
+
+        return userRepository.save(user);
+
     }
 
     public User getUser(Integer id) {

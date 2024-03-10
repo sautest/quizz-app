@@ -7,6 +7,7 @@ import java.util.List;
 
 public interface QuestionService {
 
+    List<Question> getAllUserQuestions(Long id);
     Question createQuestion(QuestionDTO questionDTO);
 
     Question updateQuestion(QuestionDTO questionDTO);

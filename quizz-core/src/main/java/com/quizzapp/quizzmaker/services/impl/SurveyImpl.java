@@ -4,6 +4,7 @@ import com.quizzapp.quizzmaker.dto.SurveyDTO;
 import com.quizzapp.quizzmaker.persistence.entities.Quiz;
 import com.quizzapp.quizzmaker.persistence.entities.Survey;
 import com.quizzapp.quizzmaker.persistence.entities.User;
+import com.quizzapp.quizzmaker.persistence.models.ProjectStatus;
 import com.quizzapp.quizzmaker.persistence.repositories.QuizRepository;
 import com.quizzapp.quizzmaker.persistence.repositories.SurveyRepository;
 import com.quizzapp.quizzmaker.persistence.repositories.UserRepository;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class SurveyImpl implements SurveyService {
@@ -26,7 +28,8 @@ public class SurveyImpl implements SurveyService {
     @Override
     public Survey createSurvey(SurveyDTO surveyDTO) {
         User user = userRepository.findById(surveyDTO.getUserId()).orElseThrow(() -> new RuntimeException("User not found"));
-        Survey survey = new Survey(surveyDTO.getId(), surveyDTO.getTitle(), user,new ArrayList<>(),surveyDTO.getSettings());
+        Survey survey = new Survey(surveyDTO.getId(), UUID.randomUUID().toString().substring(0, 36), surveyDTO.getTitle(), ProjectStatus.IN_DESIGN,
+                0, surveyDTO.getDateCreated(), user, new ArrayList<>(), surveyDTO.getSettings(), surveyDTO.getTheme());
         user.getSurvey().add(survey);
         userRepository.save((user));
 
@@ -35,10 +38,13 @@ public class SurveyImpl implements SurveyService {
 
     @Override
     public Survey updateSurvey(SurveyDTO surveyDTO) {
-        Survey survey = surveyRepository.findById((long)surveyDTO.getId()).orElseThrow(() -> new RuntimeException("Survey not found"));
+        Survey survey = surveyRepository.findById((long) surveyDTO.getId()).orElseThrow(() -> new RuntimeException("Survey not found"));
         survey.setTitle(surveyDTO.getTitle());
+        survey.setStatus(surveyDTO.getStatus());
         survey.setQuestions(surveyDTO.getQuestions());
         survey.setSettings(surveyDTO.getSettings());
+        survey.setTheme(surveyDTO.getTheme());
+        survey.setResponses(surveyDTO.getResponses());
         return surveyRepository.save(survey);
     }
 
@@ -50,7 +56,27 @@ public class SurveyImpl implements SurveyService {
     }
 
     @Override
+    public List<Survey> getAllSurveys() {
+        return surveyRepository.findAll();
+    }
+
+    @Override
     public List<Survey> getAllQuestions(Long id) {
         return surveyRepository.findAllById(id);
     }
+
+    @Override
+    public List<Survey> getAllQuestionsByUuid(String uuid) {
+        return surveyRepository.findAllByUuid(uuid);
+    }
+
+    @Override
+    public void deleteSurvey(Long id) {
+        Survey survey = surveyRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Survey not found with id: " + id));
+
+        surveyRepository.delete(survey);
+    }
+
+
 }

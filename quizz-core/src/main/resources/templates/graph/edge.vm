@@ -1,0 +1,3 @@
+$sourceNode->$targetNode [fontname="Arial"   #if($isCorrectEdge || $isIncorrectEdge || $isSurveyEdge )label=<<font point-size="10"
+ color="#if($isSurveyEdge)#374151#elseif($isCorrectEdge)#188a42#else#d9342b#end"><b>$edgeLabel</b></font>>#end
+ color="#if($isDefaultEdge)#374151#elseif($isSurveyEdge)#374151 #elseif($isAlwaysEdge)#A78BFA #elseif($isCorrectEdge)#188a42#else#d9342b#end"   #if($isDefaultEdge)style=dashed#end ]

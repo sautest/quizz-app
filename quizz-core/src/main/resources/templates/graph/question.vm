@@ -1,0 +1,17 @@
+ $nodeId [id="$questionId" style="filled", fillcolor="#a78bfa" label=<
+        <table border="0" cellborder="0" cellspacing="0">
+
+            <tr>
+                <td align="left"> <font face="'Font Awesome 6 Free'" point-size="11.0"> &#xf059; </font> </td>
+                <td align="left"><b>$questionTitle</b></td>
+                <td align="right" width="25"><font point-size="15.0"><b>⋮</b></font></td>
+            </tr>
+
+            #foreach ($option in $questionOptions)
+            <tr>
+                <td></td>
+                <td  align="left"> <font face="'Font Awesome 6 Free'"  point-size="9.0" color="#if($option.correct)#188a42#else#d9342b#end">#if($isSurveyEdge)#elseif($option.correct)&#xf058;#else&#xf057;#end </font> <font  point-size="8"><b>$option.text</b></font></td>
+            </tr>
+            #end
+        </table>
+    >]

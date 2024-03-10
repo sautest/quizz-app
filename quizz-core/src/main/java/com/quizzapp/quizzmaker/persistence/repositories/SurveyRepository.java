@@ -1,5 +1,6 @@
 package com.quizzapp.quizzmaker.persistence.repositories;
 
+import com.quizzapp.quizzmaker.persistence.entities.Quiz;
 import com.quizzapp.quizzmaker.persistence.entities.Survey;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -14,4 +15,7 @@ public interface SurveyRepository   extends JpaRepository<Survey,Long> {
     List<Survey> findByUserId(Long userId);
 
     List<Survey> findAllById(Long surveyId);
+
+    List<Survey> findAllByUuid(String surveyId);
 }
+
