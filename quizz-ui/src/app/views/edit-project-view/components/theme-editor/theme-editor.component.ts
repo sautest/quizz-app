@@ -22,11 +22,29 @@ export class ThemeEditorComponent {
     private notificationService: ToastrNotificationService
   ) {}
 
+  uploadedFiles: any[] = [];
+
+  onUpload(event: any) {
+    const file = event.files[0];
+
+    const fileReader = new FileReader();
+    fileReader.onload = () => {
+      const base64String = fileReader.result as string;
+      this.project.theme.bgImage = base64String;
+    };
+    fileReader.readAsDataURL(file);
+  }
+
+  removeBgImage() {
+    this.project.theme.bgImage = null;
+  }
+
   onSaveTheme(): void {
     console.log(this.project);
     if (this.route.snapshot.params["type"] === "quiz") {
       this.quizService.update(this.project, getFromLocalStorage("id"), getFromLocalStorage("token")).subscribe(res => {
         this.notificationService.success("Settings Updated!");
+        console.log(this.project);
       });
     } else {
       this.surveyService.update(this.project, getFromLocalStorage("id"), getFromLocalStorage("token")).subscribe(res => {

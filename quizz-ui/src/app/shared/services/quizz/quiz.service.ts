@@ -85,7 +85,8 @@ export class QuizService extends BaseService {
         settings: quiz.settings,
         theme: quiz.theme,
         userId: userId,
-        questions: quiz.questions
+        questions: quiz.questions,
+        logo: quiz.logo
       })
       .pipe(catchError(err => this.httpCatchErrorWithResponse(err)));
   }

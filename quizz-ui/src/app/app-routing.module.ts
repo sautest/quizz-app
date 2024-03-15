@@ -9,6 +9,7 @@ const routes: Routes = [
   {path: "home", component: GuestViewComponent, data: {showPublicProjects: true, showSignUpDialog: false, showSignInDialog: false}},
   {path: "sign-in", component: GuestViewComponent, data: {showSignUpDialog: false, showSignInDialog: true}},
   {path: "sign-up", component: GuestViewComponent, data: {showSignUpDialog: true, showSignInDialog: false}},
+  {path: "users", component: UserViewComponent, data: {showUsersList: true}},
   {path: "dashboard/:id", component: UserViewComponent, data: {showDashboard: true}},
   {path: "create", component: UserViewComponent, data: {showNewProjectDialog: true}},
   {path: "create/:type/:id", component: UserViewComponent, data: {showEditProjectView: true}},

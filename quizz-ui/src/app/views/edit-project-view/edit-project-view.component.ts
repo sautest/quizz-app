@@ -79,6 +79,8 @@ export class EditProjectViewComponent implements OnInit {
     if (this.route.snapshot.params["type"] === "quiz") {
       this.quizService.getQuizzQuestions(this.route.snapshot.params["id"]).subscribe(res => {
         this.project = res[0];
+
+        console.log(this.project);
         this.graphComponent.renderGraph(this.project, true);
       });
     } else {
@@ -110,7 +112,7 @@ export class EditProjectViewComponent implements OnInit {
 
     if (this.route.snapshot.params["type"] === "quiz") {
       this.quizService.update(this.project, getFromLocalStorage("id"), getFromLocalStorage("token")).subscribe(res => {
-        this.graphComponent.renderGraph(this.project, false);
+        this.graphComponent.renderGraph(this.project, true);
       });
     } else {
       this.surveyService.update(this.project, getFromLocalStorage("id"), getFromLocalStorage("token")).subscribe(res => {

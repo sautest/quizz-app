@@ -1,4 +1,4 @@
-import {Component, OnInit} from "@angular/core";
+import {Component, ElementRef, OnInit, Renderer2, ViewChild} from "@angular/core";
 import {ActivatedRoute} from "@angular/router";
 import {QuizService} from "../../shared/services/quizz/quiz.service";
 import {SurveyService} from "../../shared/services/survey/survey.service";
@@ -7,6 +7,8 @@ import {Survey} from "../../shared/models/survey.interface";
 import {Quiz} from "../../shared/models/quiz.interface";
 import {LegendPosition, ScaleType} from "@swimlane/ngx-charts";
 import {getDate} from "../../shared/app-util";
+import jsPDF, * as jspdf from "jspdf";
+import html2canvas from "html2canvas";
 
 export enum ChartType {
   PIE_CHART,
@@ -15,12 +17,22 @@ export enum ChartType {
   HORIZONTAL_BAR_CHART
 }
 
+export enum ExportType {
+  CHARTS,
+  RESPONSES,
+  LEADERBOARD
+}
+
 @Component({
   selector: "app-statistics-view",
   templateUrl: "./statistics-view.component.html",
   styleUrl: "./statistics-view.component.scss"
 })
 export class StatisticsViewComponent implements OnInit {
+  @ViewChild("charts") charts!: ElementRef;
+  @ViewChild("responses") responses!: ElementRef;
+  @ViewChild("leaderboard") leaderboard!: ElementRef;
+
   project!: Quiz | Survey;
   data: any[][] = [];
   individualData: Map<string, any[]> = new Map();
@@ -40,11 +52,13 @@ export class StatisticsViewComponent implements OnInit {
   showLabels: boolean = true;
   isDoughnut: boolean = false;
 
-  colorSchemeH = "ocean";
-  colorSchemeV = "ocean";
+  colorSchemeH = "nightLights";
+  colorSchemeV = "nightLights";
   schemeType: ScaleType = ScaleType.Ordinal;
 
   chartType = ChartType;
+  exportType = ExportType;
+
   value: ChartType = ChartType.PIE_CHART;
   chartOptions: any[] = [
     {icon: "fa-solid fa-chart-pie", value: ChartType.PIE_CHART},
@@ -79,7 +93,8 @@ export class StatisticsViewComponent implements OnInit {
     private route: ActivatedRoute,
     private quizService: QuizService,
     private surveyService: SurveyService,
-    private answerService: AnswerService
+    private answerService: AnswerService,
+    private renderer: Renderer2
   ) {}
 
   ngOnInit(): void {
@@ -241,5 +256,78 @@ export class StatisticsViewComponent implements OnInit {
     }
 
     return leaderboardList.sort((a, b) => b.score - a.score);
+  }
+
+  downloadResultsPdf(exportType: ExportType) {
+    let exportElement;
+    if (exportType === ExportType.CHARTS) {
+      exportElement = this.charts.nativeElement;
+    } else if (exportType === ExportType.RESPONSES) {
+      exportElement = this.responses.nativeElement;
+    } else {
+      exportElement = this.leaderboard.nativeElement;
+    }
+
+    console.log(exportElement);
+    const pdf = new jsPDF();
+    const pageHeight = 800;
+
+    const childElements = Array.from(exportElement.children);
+
+    const captureAndSavePage = (index: number, remainingHeight: number, isFirstPage: boolean) => {
+      if (index >= childElements.length) {
+        pdf.save(`project_results_${Date.now()}.pdf`);
+        return;
+      }
+
+      const childElement = childElements[index] as HTMLElement;
+
+      const elementHeight = childElement.scrollHeight;
+
+      const windowHeight = Math.min(remainingHeight, elementHeight);
+
+      html2canvas(childElement, {
+        windowHeight: windowHeight,
+        scale: 1,
+        logging: false
+      }).then(canvas => {
+        const imgData = canvas.toDataURL("image/jpeg");
+        const imgWidth = 202;
+        const imgHeight = (canvas.height * imgWidth) / canvas.width;
+        let imgMargin = 4;
+        if (isFirstPage) {
+          let headerText;
+          if (exportType === ExportType.CHARTS) {
+            headerText = `${this.project.title} Charts`;
+          } else if (exportType === ExportType.RESPONSES) {
+            headerText = `${this.project.title} Responses`;
+          } else {
+            headerText = `${this.project.title} Leaderboard`;
+          }
+
+          const textWidth = pdf.getTextDimensions(headerText).w;
+
+          // Calculate x position to center the text
+          const xPosition = (pdf.internal.pageSize.width - textWidth) / 2;
+
+          // Add header at the top center
+          pdf.text(headerText, xPosition, 10); // Adjust y position as needed
+          imgMargin = 20;
+        }
+
+        pdf.addImage(imgData, "jpeg", 4, imgMargin, imgWidth, imgHeight);
+
+        const nextRemainingHeight = remainingHeight - windowHeight;
+
+        if (index < childElements.length - 1 && nextRemainingHeight >= elementHeight) {
+          captureAndSavePage(index + 1, nextRemainingHeight, false);
+        } else {
+          pdf.addPage();
+          captureAndSavePage(index + 1, pageHeight, false);
+        }
+      });
+    };
+
+    captureAndSavePage(0, pageHeight, true);
   }
 }

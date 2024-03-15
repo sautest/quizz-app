@@ -1,46 +1,90 @@
-<div class="flex flex-row justify-content-between gap-8">
-  <div class="flex flex-row justify-content-between align-items-center gap-3" style="width: 50%">
+<div class="grid" [ngStyle]="{width: '90vw'}">
+  <div class="col-12 flex flex-row justify-content-between align-items-center px-2 lg:col-6">
     <div>Background</div>
     <p-colorPicker [(ngModel)]="project.theme.bgColor"></p-colorPicker>
   </div>
 
-  <div class="flex flex-row justify-content-between align-items-center gap-3" style="width: 50%">
-    <div>Question</div>
-    <p-colorPicker [(ngModel)]="project.theme.questionColor"></p-colorPicker>
+  <div class="col-12 flex flex-row justify-content-between align-items-center px-2 lg:col-6">
+    <div>Background image</div>
+
+    <div class="flex align-items-center gap-2">
+      <p-fileUpload
+        mode="basic"
+        chooseLabel="Choose"
+        name="demo[]"
+        [auto]="true"
+        url="https://www.primefaces.org/cdn/api/upload.php"
+        accept="image/*"
+        [maxFileSize]="1000000"
+        (onUpload)="onUpload($event)"
+      ></p-fileUpload>
+
+      <div class="flex align-items-center gap-1">
+        <img *ngIf="this.project.theme.bgImage" [src]="this.project.theme.bgImage" width="55" height="55" />
+        <p-button
+          *ngIf="this.project.theme.bgImage"
+          (click)="removeBgImage()"
+          icon="pi pi-times"
+          [rounded]="true"
+          [text]="true"
+          severity="danger"
+        ></p-button>
+      </div>
+    </div>
   </div>
-</div>
 
-<p-divider></p-divider>
+  <p-divider class="col-12"></p-divider>
 
-<div class="flex flex-row justify-content-between gap-8">
-  <div class="flex flex-row justify-content-between align-items-center gap-3" style="width: 50%">
+  <div class="col-12 flex flex-row justify-content-between align-items-center px-2 lg:col-6">
     <div>Option Background</div>
     <p-colorPicker [(ngModel)]="project.theme.optionBgColor"></p-colorPicker>
   </div>
 
-  <div class="flex flex-row justify-content-between align-items-center gap-3" style="width: 50%">
+  <div class="col-12 flex flex-row justify-content-between align-items-center px-2 lg:col-6">
     <div>Option Text</div>
     <p-colorPicker [(ngModel)]="project.theme.optionTextColor"></p-colorPicker>
   </div>
-</div>
 
-<p-divider></p-divider>
+  <p-divider class="col-12"></p-divider>
 
-<div class="flex flex-row justify-content-between gap-8">
-  <div class="flex flex-row justify-content-between align-items-center gap-3" style="width: 50%">
+  <div class="col-12 flex flex-row justify-content-between align-items-center px-2 lg:col-6">
     <div>Button Background</div>
     <p-colorPicker [(ngModel)]="project.theme.buttonBgColor"></p-colorPicker>
   </div>
 
-  <div class="flex flex-row justify-content-between align-items-center gap-3" style="width: 50%">
+  <div class="col-12 flex flex-row justify-content-between align-items-center px-2 lg:col-6">
     <div>Button Text</div>
     <p-colorPicker [(ngModel)]="project.theme.buttonTextColor"></p-colorPicker>
   </div>
+
+  <p-divider class="col-12"></p-divider>
+
+  <div class="col-12 flex flex-row justify-content-between align-items-center px-2 lg:col-6">
+    <div>Question</div>
+    <p-colorPicker [(ngModel)]="project.theme.questionColor"></p-colorPicker>
+  </div>
+
+  <div class="col-12 flex flex-row justify-content-between align-items-center px-2 lg:col-6"></div>
 </div>
 
-<p-divider></p-divider>
+<p-divider class="col-12"></p-divider>
 
-<div class="flex justify-content-center p-6" [ngStyle]="{background: project.theme.bgColor}">
+<div class="mt-4 mb-4 ml-auto">
+  <p-button class="ml-auto" label="Save Theme" icon="pi pi-save" severity="primary" (onClick)="onSaveTheme()"></p-button>
+</div>
+
+<div
+  class="flex justify-content-center p-6"
+  [ngStyle]="{
+    background: project.theme.bgColor,
+    'background-image': 'url(' + project.theme.bgImage + ')',
+    'background-repeat': 'no-repeat',
+    'background-size': 'cover',
+    'background-position': 'center',
+    height: '100%',
+    width: '100%'
+  }"
+>
   <div class="flex flex-column justify-content-start align-items-center bg-white border-round" style="width: 40vw">
     <h2 class="zoomin" [style.color]="project.theme.questionColor">Question?</h2>
 
@@ -60,9 +104,9 @@
       <p-checkbox class="mx-2" (ngModel)="(false)" [binary]="true" [label]="'No'"></p-checkbox>
     </div>
 
-    <div class="flex justify-content-between w-full m-5">
+    <div class="flex flex-column justify-content-between align-items-center m-5 gap-3 md:flex-row">
       <button
-        class="ml-8 border-round border-0 zoomin px-5 py-3"
+        class="border-round border-0 zoomin px-5 py-3 md:ml-8"
         [ngStyle]="{background: project.theme.buttonBgColor, color: project.theme.buttonTextColor, fontWeight: 'bold'}"
       >
         <span class="fa-solid fa-arrow-left"></span>
@@ -70,7 +114,7 @@
       </button>
 
       <button
-        class="mr-8 border-round border-0 zoomin px-5 py-3"
+        class="border-round border-0 zoomin px-5 py-3 md:mr-8"
         [ngStyle]="{background: project.theme.buttonBgColor, color: project.theme.buttonTextColor, fontWeight: 'bold'}"
       >
         <span class="fa-solid fa-arrow-right"></span>
@@ -78,8 +122,4 @@
       </button>
     </div>
   </div>
-</div>
-
-<div class="mt-4 mb-4 ml-auto">
-  <p-button class="ml-auto" label="Save Theme" icon="pi pi-save" severity="primary" (onClick)="onSaveTheme()"></p-button>
 </div>

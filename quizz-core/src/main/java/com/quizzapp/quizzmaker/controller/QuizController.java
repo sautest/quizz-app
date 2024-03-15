@@ -29,7 +29,7 @@ public class QuizController {
 
     
     @GetMapping("/{id}")
-    @PreAuthorize("hasAuthority('USER_ROLES')")
+    @PreAuthorize("hasAnyAuthority('USER_ROLES', 'ADMIN_ROLES')")
     public List<Quiz> getAllUserQuizzes(@PathVariable @Valid Long id){
         return quizService.getAllUserQuizzes(id);
     }
@@ -41,7 +41,7 @@ public class QuizController {
     }
 
     @GetMapping("/{id}/questions")
-    @PreAuthorize("hasAuthority('USER_ROLES')")
+    @PreAuthorize("hasAnyAuthority('USER_ROLES', 'ADMIN_ROLES')")
     public List<Quiz> getAllQuestions(@PathVariable @Valid Long id){
         return quizService.getAllQuestions(id);
     }
@@ -52,13 +52,13 @@ public class QuizController {
     }
 
     @PostMapping(path = "/create")
-    @PreAuthorize("hasAuthority('USER_ROLES')")
+    @PreAuthorize("hasAnyAuthority('USER_ROLES', 'ADMIN_ROLES')")
     public Quiz createQuiz(@RequestBody @Valid QuizDTO quizDTO) {
         return quizService.createQuiz(quizDTO);
     }
 
     @PostMapping(path = "/generate")
-    @PreAuthorize("hasAuthority('USER_ROLES')")
+    @PreAuthorize("hasAnyAuthority('USER_ROLES', 'ADMIN_ROLES')")
     public ResponseEntity<Map<String, String>> generateQuizGraph(@RequestBody @Valid GraphDTO graphDTO) {
 
         Map<String, String> response = new HashMap<>();
@@ -72,7 +72,7 @@ public class QuizController {
     }
 
     @DeleteMapping(path = "/delete/{id}")
-    @PreAuthorize("hasAuthority('USER_ROLES')")
+    @PreAuthorize("hasAnyAuthority('USER_ROLES', 'ADMIN_ROLES')")
     public void deleteQuiz(@PathVariable @Valid Long id) {
         quizService.deleteQuiz(id);
     }

@@ -1,8 +1,20 @@
-<div *ngIf="this.project" class="flex align-items-center justify-content-center h-screen" [ngStyle]="{background: project.theme.bgColor}">
+<div
+  *ngIf="this.project"
+  class="flex align-items-center justify-content-center h-screen"
+  [ngStyle]="{
+    background: project.theme.bgColor,
+    'background-image': 'url(' + project.theme.bgImage + ')',
+    'background-repeat': 'no-repeat',
+    'background-size': 'cover',
+    'background-position': 'center',
+    height: '100vh',
+    width: '100vw'
+  }"
+>
   <div
     *ngIf="showQuestions"
-    class="flex flex-column justify-content-start align-items-center bg-white border-round p-2"
-    style="width: 60vw"
+    class="flex flex-column justify-content-start align-items-center bg-white border-round p-2 my-2"
+    style="width: 65vw"
   >
     <div class="w-full h-full m-3">
       <p-progressBar *ngIf="showProgressBar" [value]="progressBar"></p-progressBar>
@@ -35,9 +47,9 @@
         ></p-radioButton>
       </div>
     </div>
-    <div class="flex justify-content-between w-full m-5">
+    <div class="flex flex-column justify-content-between p-5 gap-3 md:flex-row md:gap-8">
       <p-button
-        class="ml-8 border-round cursor-pointer border-0 zoomin"
+        class="border-round cursor-pointer border-0 zoomin"
         [ngStyle]="{background: project.theme.buttonBgColor, color: project.theme.buttonTextColor, fontWeight: 'bold'}"
         [disabled]="currentPage === 0"
         label="Back"
@@ -47,10 +59,10 @@
       </p-button>
 
       <p-button
-        class="mr-8 border-round cursor-pointer border-0 zoomin"
+        class="border-round cursor-pointer border-0 zoomin"
         [ngStyle]="{background: project.theme.buttonBgColor, color: project.theme.buttonTextColor, fontWeight: 'bold'}"
         [disabled]="isNextQuestionDisabled()"
-        label="Start"
+        label="Next"
         icon="fa-solid fa-arrow-right"
         (onClick)="onNextQuestion()"
       >
@@ -99,7 +111,7 @@
   <div
     *ngIf="showAnswersInEnding"
     class="flex flex-column justify-content-start align-items-center bg-white border-round p-2 gap-4"
-    style="width: 40vw"
+    style="width: 55vw"
   >
     <div class="flex flex-row gap-3">
       <h2 class="text-color zoomin">Score</h2>
@@ -121,7 +133,7 @@
   <div
     *ngIf="showDetailedAnswers"
     class="flex flex-column justify-content-start bg-white border-round p-2"
-    style="width: 60vw; max-height: 80vh"
+    style="width: 75vw; max-height: 80vh"
   >
     <h2 class="text-color zoomin m-1">Review Answers</h2>
     <p-divider class="w-full"></p-divider>

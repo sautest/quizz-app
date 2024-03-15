@@ -49,6 +49,5 @@ public class Survey {
     @JoinColumn(name = "theme_id")
     private Theme theme;
 
-
 }
 

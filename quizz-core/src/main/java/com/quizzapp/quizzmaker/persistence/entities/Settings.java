@@ -15,6 +15,9 @@ public class Settings {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
+    @Column(length = 1000000000)
+    private String logo;
+
     private boolean enableTimeLimit;
     @Column(nullable = true)
     private int min ;

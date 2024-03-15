@@ -12,4 +12,5 @@ export interface Survey {
   questions: Question[];
   settings: Settings;
   theme: Theme;
+  logo: string;
 }

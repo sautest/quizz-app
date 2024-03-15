@@ -10,4 +10,5 @@ export interface Settings {
   enableRandomizeQuestions: boolean;
   enablePublic: boolean;
   enableShowAnswersAtTheEnd: boolean;
+  logo: any;
 }

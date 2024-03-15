@@ -1,15 +1,44 @@
-<div *ngIf="project" class="grid">
-  <div class="col-6 flex flex-row align-items-center justify-content-start gap-2">
+<div *ngIf="project" class="grid" [ngStyle]="{width: '90vw'}">
+  <div class="col-12 flex flex-row align-items-center justify-content-start gap-2 lg:col-6">
     <h3 class="w-3">Project Name</h3>
     <input type="text" pInputText [(ngModel)]="project.title" />
   </div>
 
-  <div class="col-6 flex flex-row align-items-center justify-content-start gap-2">
+  <div class="col-12 flex flex-row justify-content-start align-items-center gap-2 lg:col-6">
+    <h3 class="w-3">Logo</h3>
+
+    <div class="flex align-items-center gap-2">
+      <p-fileUpload
+        mode="basic"
+        chooseLabel="Choose"
+        name="demo[]"
+        [auto]="true"
+        url="https://www.primefaces.org/cdn/api/upload.php"
+        accept="image/*"
+        [maxFileSize]="1000000"
+        (onUpload)="onUpload($event)"
+      ></p-fileUpload>
+
+      <div class="flex align-items-center gap-1">
+        <img *ngIf="this.project.settings.logo" [src]="this.project.settings.logo" width="55" height="55" style="border-radius: 50%" />
+        <p-button
+          *ngIf="this.project.settings.logo"
+          (click)="removeBgImage()"
+          icon="pi pi-times"
+          [rounded]="true"
+          [text]="true"
+          severity="danger"
+        ></p-button>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-12 flex flex-row align-items-center justify-content-start gap-2 lg:col-6">
     <h3 class="w-3">Progress Bar</h3>
     <p-inputSwitch [(ngModel)]="this.project.settings.enableProgressBar"></p-inputSwitch>
   </div>
 
-  <div class="col-6 flex flex-row align-items-center justify-content-start gap-2">
+  <div class="col-12 flex flex-row align-items-center justify-content-start gap-2 lg:col-6">
     <h3 class="w-3">Time Limit</h3>
     <p-checkbox class="mx-2" [binary]="true" name="groupname" value="val1" [(ngModel)]="this.project.settings.enableTimeLimit"></p-checkbox>
 
@@ -37,22 +66,22 @@
     />
   </div>
 
-  <div class="col-6 flex flex-row align-items-center justify-content-start gap-2">
+  <div class="col-12 flex flex-row align-items-center justify-content-start gap-2 lg:col-6">
     <h3 class="w-3">Randomize Questions</h3>
     <p-inputSwitch [(ngModel)]="this.project.settings.enableRandomizeQuestions"></p-inputSwitch>
   </div>
 
-  <div class="col-6 flex flex-row align-items-center justify-content-start gap-2">
+  <div class="col-12 flex flex-row align-items-center justify-content-start gap-2 lg:col-6">
     <h3 class="w-3">Public</h3>
     <p-inputSwitch [(ngModel)]="this.project.settings.enablePublic"></p-inputSwitch>
   </div>
 
-  <div class="col-6 flex flex-row align-items-center justify-content-start gap-2">
+  <div class="col-12 flex flex-row align-items-center justify-content-start gap-2 lg:col-6">
     <h3 class="w-3">Show Answers at the end</h3>
     <p-inputSwitch [(ngModel)]="this.project.settings.enableShowAnswersAtTheEnd"></p-inputSwitch>
   </div>
 
-  <div class="col-6 flex flex-row align-items-center justify-content-start gap-2">
+  <div class="col-12 flex flex-row align-items-center justify-content-start gap-2 lg:col-6">
     <h3 class="w-3">Ask for Basic User Info</h3>
     <p-inputSwitch [(ngModel)]="this.project.settings.enableAskForBasicUserInfo"></p-inputSwitch>
   </div>

@@ -32,13 +32,13 @@ public class SurveyController {
     private final GraphService graphService;
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAuthority('USER_ROLES')")
+    @PreAuthorize("hasAnyAuthority('USER_ROLES', 'ADMIN_ROLES')")
     public List<Survey> getAllUserSurveys(@PathVariable @Valid Long id){
         return surveyService.getAllUserSurveys(id);
     }
 
     @GetMapping("/{id}/questions")
-    @PreAuthorize("hasAuthority('USER_ROLES')")
+    @PreAuthorize("hasAnyAuthority('USER_ROLES', 'ADMIN_ROLES')")
     public List<Survey> getAllQuestions(@PathVariable @Valid Long id){
         return surveyService.getAllQuestions(id);
     }
@@ -54,13 +54,13 @@ public class SurveyController {
     }
 
     @PostMapping(path = "/create")
-    @PreAuthorize("hasAuthority('USER_ROLES')")
+    @PreAuthorize("hasAnyAuthority('USER_ROLES', 'ADMIN_ROLES')")
     public Survey createSurvey(@RequestBody @Valid SurveyDTO surveyDTO) {
         return surveyService.createSurvey(surveyDTO);
     }
 
     @PostMapping(path = "/generate")
-    @PreAuthorize("hasAuthority('USER_ROLES')")
+    @PreAuthorize("hasAnyAuthority('USER_ROLES', 'ADMIN_ROLES')")
     public ResponseEntity<Map<String, String>> generateQuizGraph(@RequestBody @Valid GraphDTO graphDTO) {
 
         Map<String, String> response = new HashMap<>();
@@ -69,13 +69,13 @@ public class SurveyController {
     }
 
     @PutMapping(path = "/edit")
-    @PreAuthorize("hasAuthority('USER_ROLES')")
+    @PreAuthorize("hasAnyAuthority('USER_ROLES', 'ADMIN_ROLES')")
     public Survey updateSurvey(@RequestBody @Valid SurveyDTO surveyDTO) {
         return surveyService.updateSurvey(surveyDTO);
     }
 
     @DeleteMapping(path = "/delete/{id}")
-    @PreAuthorize("hasAuthority('USER_ROLES')")
+    @PreAuthorize("hasAnyAuthority('USER_ROLES', 'ADMIN_ROLES')")
     public void deleteSurvey(@PathVariable @Valid Long id) {
         surveyService.deleteSurvey(id);
     }

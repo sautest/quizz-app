@@ -23,6 +23,22 @@ export class SettingsComponent {
     private surveyService: SurveyService,
     private notificationService: ToastrNotificationService
   ) {}
+
+  onUpload(event: any) {
+    const file = event.files[0];
+
+    const fileReader = new FileReader();
+    fileReader.onload = () => {
+      const base64String = fileReader.result as string;
+      this.project.settings.logo = base64String;
+    };
+    fileReader.readAsDataURL(file);
+  }
+
+  removeBgImage() {
+    this.project.settings.logo = "";
+  }
+
   onSaveSettings(): void {
     if (this.route.snapshot.params["type"] === "quiz") {
       this.quizService.update(this.project, getFromLocalStorage("id"), getFromLocalStorage("token")).subscribe(res => {

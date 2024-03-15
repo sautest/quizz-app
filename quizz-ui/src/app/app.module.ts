@@ -25,6 +25,7 @@ import {AuthComponent} from "./views/guest-view/components/auth/auth.component";
 import {DividerModule} from "primeng/divider";
 import {DragDropModule} from "@angular/cdk/drag-drop";
 import {DropdownModule} from "primeng/dropdown";
+import {FileUploadModule} from "primeng/fileupload";
 import {TableModule} from "primeng/table";
 import {TooltipModule} from "primeng/tooltip";
 import {TabViewModule} from "primeng/tabview";
@@ -56,6 +57,8 @@ import {QuestionBankDialogComponent} from "./views/edit-project-view/components/
 import {PickListModule} from "primeng/picklist";
 import {ThemeEditorComponent} from "./views/edit-project-view/components/theme-editor/theme-editor.component";
 import {ToolbarModule} from "primeng/toolbar";
+import {UsersListViewComponent} from "./views/users-list-view/users-list-view.component";
+import {MenubarModule} from "primeng/menubar";
 
 @NgModule({
   declarations: [
@@ -77,7 +80,8 @@ import {ToolbarModule} from "primeng/toolbar";
     StatisticsViewComponent,
     ProfileViewComponent,
     QuestionBankDialogComponent,
-    ThemeEditorComponent
+    ThemeEditorComponent,
+    UsersListViewComponent
   ],
   imports: [
     BrowserModule,
@@ -95,8 +99,10 @@ import {ToolbarModule} from "primeng/toolbar";
     ConfirmDialogModule,
     ToolbarModule,
     ProgressBarModule,
+    MenubarModule,
     SelectButtonModule,
     DividerModule,
+    FileUploadModule,
     DataViewModule,
     MenuModule,
     PickListModule,

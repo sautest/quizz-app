@@ -1,50 +1,8 @@
-<p-toolbar class="sticky">
-  <div class="p-toolbar-group-start">
-    <p-button
-      label="Dashboard"
-      icon="pi pi-list"
-      [text]="true"
-      severity="help"
-      size="large"
-      styleClass="w-full mt-2"
-      (onClick)="onDashboardBtnClick()"
-    ></p-button>
-
-    <p-button
-      label="New project"
-      icon="pi pi-plus"
-      [text]="true"
-      severity="help"
-      size="large"
-      styleClass="w-full mt-2"
-      (onClick)="onNewProjectBtnClick()"
-    ></p-button>
-  </div>
-  <div class="p-toolbar-group-center">
-    <p-button
-      label="Profile"
-      icon="pi pi-user"
-      [text]="true"
-      severity="help"
-      size="large"
-      styleClass="w-full mt-2"
-      (onClick)="onUserProfileBtnClick()"
-    ></p-button>
-
-    <p-button
-      label="Log out"
-      icon="pi pi-sign-out"
-      [text]="true"
-      severity="help"
-      size="large"
-      styleClass="w-full mt-2"
-      (onClick)="onLogOutBtnClick()"
-    ></p-button>
-  </div>
-</p-toolbar>
+<p-menubar [model]="items" class="sticky text-primary" [ngStyle]="{'z-index': '999999'}"></p-menubar>
 
 <div class="flex flex-row gap-3">
   <div class="flex flex-column">
+    <app-users-list-view class="mt-7" *ngIf="showUsersList"></app-users-list-view>
     <app-dashboard-view class="mt-5" *ngIf="showDashboard"></app-dashboard-view>
     <app-new-project-view *ngIf="showNewProjectDialog"></app-new-project-view>
     <app-edit-project-view *ngIf="showEditProjectView"> </app-edit-project-view>

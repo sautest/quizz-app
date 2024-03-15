@@ -7,7 +7,10 @@ import com.quizzapp.quizzmaker.persistence.entities.AuthRequest;
 import com.quizzapp.quizzmaker.persistence.entities.User;
 import com.quizzapp.quizzmaker.security.JWTService;
 import com.quizzapp.quizzmaker.services.UserService;
+import com.quizzapp.quizzmaker.services.impl.UserInfoDetails;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -27,6 +30,7 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+
     @Autowired
     private AuthenticationManager authenticationManager;
     @Autowired
@@ -40,19 +44,38 @@ public class UserController {
 
 
     @PostMapping("/login")
-    public LoginDTO addUser(@RequestBody AuthRequest authRequest) {
-        Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
-        if (authenticate.isAuthenticated()) {
-            return new LoginDTO(userService.getUser(authRequest.getUsername()).getId(),
-                       jwtService.generateToken(authRequest.getUsername()),
-                       new ResponseDTO("Login success", "SUCCESS"));
-        } else {
-            throw new UsernameNotFoundException("Invalid user request");
+    public ResponseEntity<Object> addUser(@RequestBody AuthRequest authRequest) {
+
+        try {
+            if (userService.getUser(authRequest.getUsername()).isBlocked()) {
+               throw new UsernameNotFoundException("This account is blocked.");
+           }
+        } catch (Exception ex) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("This account is blocked!");
+
         }
+
+        try {
+            Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
+            if (authenticate.isAuthenticated()) {
+                LoginDTO loginDTO = new LoginDTO(userService.getUser(authRequest.getUsername()).getId(),
+                        jwtService.generateToken(authRequest.getUsername(),userService.getUser(authRequest.getUsername()).getRoles()),
+                        new ResponseDTO("Login success", "SUCCESS"));
+
+                return ResponseEntity.ok(loginDTO);
+
+            } else {
+                throw new UsernameNotFoundException("Invalid credentials!");
+            }
+        }catch (Exception  ex) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Invalid credentials!");
+        }
+
+
     }
 
-    @PutMapping ("/edit")
-    @PreAuthorize("hasAuthority('USER_ROLES')")
+    @PutMapping("/edit")
+    @PreAuthorize("hasAnyAuthority('USER_ROLES', 'ADMIN_ROLES')")
     public User editUser(@RequestBody @Valid UserDTO userDTO) {
         return userService.editUser(userDTO);
     }
@@ -64,8 +87,8 @@ public class UserController {
         return userService.getAllUser();
     }
 
-    @PreAuthorize("hasAuthority('USER_ROLES')")
     @GetMapping("/getUsers/{id}")
+    @PreAuthorize("hasAnyAuthority('USER_ROLES', 'ADMIN_ROLES')")
     public User getUser(@PathVariable Integer id) {
         return userService.getUser(id);
     }

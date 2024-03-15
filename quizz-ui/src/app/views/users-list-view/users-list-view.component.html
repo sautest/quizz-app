@@ -1,0 +1,35 @@
+<div class="w-screen flex justify-content-center">
+  <div class="p-1 bg-white overflow-visible border-round" [ngStyle]="{width: '98vw'}">
+    <p-table columnResizeMode="expand" [value]="users" [rowHover]="true" [paginator]="true" [rows]="5" [rowsPerPageOptions]="[5, 10, 20]">
+      <ng-template pTemplate="caption" class="">
+        <div>Users</div>
+      </ng-template>
+      <ng-template pTemplate="header">
+        <tr>
+          <th class="px-5">Username</th>
+          <th class="px-5">Email</th>
+          <th class="px-5">Quiz count</th>
+          <th class="px-5">Survey count</th>
+          <th class="px-5">Join date</th>
+          <th class="px-5">Status</th>
+
+          <th></th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-item>
+        <tr>
+          <td class="px-5">{{ item.username }}</td>
+          <td class="px-5">{{ item.email }}</td>
+          <td class="px-5">{{ item.quiz.length }}</td>
+          <td class="px-5">{{ item.survey.length }}</td>
+          <td class="px-5">{{ item.dateJoined }}</td>
+          <td class="px-5">{{ item.blocked ? "BLOCKED" : "ACTIVE" }}</td>
+
+          <td class="flex justify-content-end">
+            <p-button label="Block/Unblock" [text]="true" (click)="onToggleBlock(item.id)"> </p-button>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>

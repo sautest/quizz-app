@@ -2,6 +2,7 @@ import {Component, OnInit} from "@angular/core";
 import {UserService} from "../../shared/services/user/user.service";
 import {User} from "../../shared/models/user.interface";
 import {ToastrNotificationService} from "../../shared/services/toastr/toastr-notification.service";
+import {getFromLocalStorage} from "../../shared/app-util";
 
 @Component({
   selector: "app-profile-view",
@@ -12,6 +13,7 @@ export class ProfileViewComponent implements OnInit {
   username: string = "";
   email: string = "";
   dateJoined: string = "";
+  blocked: boolean = false;
 
   constructor(private userService: UserService, private notificationService: ToastrNotificationService) {}
 
@@ -21,11 +23,12 @@ export class ProfileViewComponent implements OnInit {
       this.username = res.username;
       this.email = res.email;
       this.dateJoined = res.dateJoined;
+      this.blocked = res.blocked;
     });
   }
 
   onSave(): void {
-    this.userService.edit(this.email, this.username).subscribe(res => {
+    this.userService.edit(getFromLocalStorage("id"), this.email, this.username, this.blocked).subscribe(res => {
       this.notificationService.success("Profile updated!");
     });
   }

@@ -26,6 +26,7 @@ public class Quiz {
     private int responses;
     private String dateCreated;
 
+
     private ProjectStatus status;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -45,5 +46,7 @@ public class Quiz {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "theme_id")
     private Theme theme;
+
+
 
 }

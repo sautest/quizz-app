@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Base64;
+
 @Entity
 @Data
 @AllArgsConstructor
@@ -16,6 +18,9 @@ public class Theme {
     private int id;
 
     private String bgColor;
+    @Column(length = 10000000)
+    private String bgImage;
+
     private String questionColor;
 
     private String optionBgColor;

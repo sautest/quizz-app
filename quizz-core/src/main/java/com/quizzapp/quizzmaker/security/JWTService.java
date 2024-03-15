@@ -16,8 +16,13 @@ import java.util.function.Function;
 public class JWTService {
     private static final String SECRET = "8ACD9883538E0C699DA902EEF4ED6DF336B187138B5F15E7D9FFA85791D93BFA";
 
-    public String generateToken(String userName){
-        Map<String, Objects> claims = new HashMap<>();
+    public String generateToken(String userName,String roles){
+
+        Map<String, String> claims = new HashMap<>();
+
+        claims.put("roles", roles);
+
+
         return Jwts.builder()
                 .setClaims(claims)
                 .setSubject(userName)

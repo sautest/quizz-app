@@ -37,11 +37,13 @@ export class InitProjectDialogComponent implements OnInit {
     enableProgressBar: true,
     enablePublic: false,
     enableShowAnswersAtTheEnd: false,
-    enableRandomizeQuestions: false
+    enableRandomizeQuestions: false,
+    logo: null
   };
 
   defaultTheme: Theme = {
     bgColor: "#8b5cf6",
+    bgImage: null,
     questionColor: "#4b5563",
     optionBgColor: "#f3f4f6",
     optionTextColor: "#4b5563",

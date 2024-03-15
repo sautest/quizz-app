@@ -1,73 +1,52 @@
-<p-toolbar>
-  <div class="p-toolbar-group-start">
-    <p-button
-      label="Quizzes"
-      icon="pi pi-question-circle"
-      [text]="true"
-      severity="help"
-      size="large"
-      styleClass="w-full mt-2"
-      (onClick)="onQuizzesBtnClick()"
-    ></p-button>
-  </div>
-  <div class="p-toolbar-group-center">
-    <p-button
-      label="Sign In"
-      icon="pi pi-sign-in"
-      [text]="true"
-      severity="help"
-      size="large"
-      styleClass="w-full mt-2"
-      (onClick)="onSignInBtnClick()"
-    ></p-button>
+<p-menubar [model]="items" class="sticky text-primary" [ngStyle]="{'z-index': '999999'}"></p-menubar>
 
-    <p-button
-      label="Sign Up"
-      icon="pi pi-user-plus"
-      [text]="true"
-      severity="help"
-      size="large"
-      styleClass="w-full mt-2"
-      (onClick)="onSignUpBtnClick()"
-    ></p-button>
-  </div>
-</p-toolbar>
-
-<div class="flex justify-content-end align-items-center gap-2 mt-3 mr-4 mb-1">
-  <label for="surveySwitch">Survey View </label> <p-inputSwitch inputId="surveySwitch" [(ngModel)]="showSurveys"></p-inputSwitch>
+<div *ngIf="showPublicProjects" class="flex justify-content-end align-items-center gap-2 mt-3 mr-4 mb-1">
+  <label for="surveySwitch"><div class="text-gray-200 font-medium">Survey View</div> </label>
+  <p-inputSwitch inputId="surveySwitch" [(ngModel)]="showSurveys"></p-inputSwitch>
 </div>
-<div class="flex flex-row gap-3">
+<div class="flex flex-row justify-content-center gap-3">
   <app-auth [showSignUpDialog]="showSignUpDialog" [showSignInDialog]="showSignInDialog"></app-auth>
-  <div *ngIf="showPublicProjects">
-    <div class="card mt-3 mr-6 pr-4 w-screen">
-      <p-dataView #dv [value]="showSurveys ? publicSurveys : publicQuizzes" [rows]="5" [paginator]="true">
-        <ng-template let-products pTemplate="list">
-          <div class="grid grid-nogutter">
-            <div class="col-12" *ngFor="let item of products; let first = first">
-              <div class="flex flex-column xl:flex-row xl:align-items-start p-4 gap-4" [ngClass]="{'border-top-1 surface-border': !first}">
-                <p-avatar icon="fa-solid fa-clipboard-question" styleClass="mr-2 mt-4" size="xlarge" shape="circle"></p-avatar>
-                <div class="flex flex-column sm:flex-row justify-content-between align-items-center xl:align-items-start flex-1 gap-4">
-                  <div class="flex flex-column align-items-center sm:align-items-start gap-3">
-                    <div class="text-2xl font-bold text-900">{{ item.title }}</div>
-                    <div class="text-2l">{{ item.dateCreated }}</div>
-                    <div class="text-2l">{{ item.responses }} responses</div>
-                  </div>
-                  <div class="flex sm:flex-column align-items-center sm:align-items-end gap-3 sm:gap-2">
-                    <span class="text-1xl font-semibold">{{ item.status }}</span>
-                    <button
-                      pButton
-                      icon="fa-solid fa-right-to-bracket"
-                      class="md:align-self-end mb-2 p-button-rounded"
-                      [disabled]="item.status === projectStatus.CLOSED"
-                      (click)="onEnterProject(item.type, item.uuid)"
-                    ></button>
+  <div class="mr-2 ml-2" *ngIf="showPublicProjects">
+    <div class="bg-white border-round">
+      <div class="card border-round mt-3 pr-2 pl-2" [ngStyle]="{width: '90vw'}">
+        <p-dataView #dv [value]="showSurveys ? publicSurveys : publicQuizzes" [rows]="5" [paginator]="true">
+          <ng-template let-products pTemplate="list">
+            <div class="grid grid-nogutter">
+              <div class="col-12" *ngFor="let item of products; let first = first">
+                <div
+                  class="flex flex-column xl:flex-row xl:align-items-start p-4 gap-4"
+                  [ngClass]="{'border-top-1 surface-border': !first}"
+                >
+                  <div class="flex flex-column sm:flex-row justify-content-between align-items-center xl:align-items-start flex-1 gap-4">
+                    <div class="flex flex-column align-items-center sm:flex-row align-items-start gap-3">
+                      <div>
+                        <p-avatar *ngIf="item.settings.logo" [image]="item.settings.logo" size="xlarge" shape="circle"></p-avatar>
+                        <p-avatar *ngIf="!item.settings.logo" icon="fa-solid fa-clipboard-question" size="xlarge" shape="circle"></p-avatar>
+                      </div>
+
+                      <div class="flex flex-column align-items-center gap-2">
+                        <div class="text-2xl font-bold text-900">{{ item.title }}</div>
+                        <div class="text-2l">{{ item.dateCreated }}</div>
+                        <div class="text-2l">{{ item.responses }} responses</div>
+                      </div>
+                    </div>
+                    <div class="flex sm:flex-column align-items-center sm:align-items-end gap-3 sm:gap-2">
+                      <span class="text-1xl font-semibold">{{ item.status }}</span>
+                      <button
+                        pButton
+                        icon="fa-solid fa-right-to-bracket"
+                        class="md:align-self-end mb-2 p-button-rounded"
+                        [disabled]="item.status === projectStatus.CLOSED"
+                        (click)="onEnterProject(item.type, item.uuid)"
+                      ></button>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-        </ng-template>
-      </p-dataView>
+          </ng-template>
+        </p-dataView>
+      </div>
     </div>
   </div>
 </div>

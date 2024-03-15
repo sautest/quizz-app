@@ -41,6 +41,7 @@ public class UserImpl implements UserDetailsService, UserService {
                 userDTO.getEmail(),
                 userDTO.getUsername(),
                 userDTO.getPassword(),
+                false,
                 userDTO.getDateJoined(),
                 "USER_ROLES", new ArrayList<Quiz>(),new ArrayList<Survey>()
         );
@@ -68,6 +69,7 @@ public class UserImpl implements UserDetailsService, UserService {
 
         user.setUsername(userDTO.getUsername());
         user.setEmail(userDTO.getEmail());
+        user.setBlocked(userDTO.isBlocked());
 
         return userRepository.save(user);
 

@@ -26,14 +26,14 @@ export class UserService extends BaseService {
   public login(username: string, password: string): Observable<any> {
     return this.http
       .post<any>(`${this.URL}/login`, {username: username, password: password})
-      .pipe(catchError(err => this.httpCatchErrorWithResponse(err, "Incorrect credentials!")));
+      .pipe(catchError(err => this.httpCatchErrorWithResponse(err, err.error)));
   }
 
-  public edit(email: string, username: string): Observable<any> {
+  public edit(id: string, email: string, username: string, blocked: boolean): Observable<any> {
     return this.http
       .put<any>(
         `${this.URL}/edit`,
-        {id: getFromLocalStorage("id"), email: email, username: username},
+        {id: id, email: email, username: username, blocked: blocked},
         {
           headers: new HttpHeaders({
             Authorization: "Bearer " + getFromLocalStorage("token")
@@ -51,7 +51,11 @@ export class UserService extends BaseService {
     });
   }
 
-  public getUsers(): Observable<string> {
-    return this.http.get<any>(`${this.URL}/getUsers`);
+  public getUsers(): Observable<any[]> {
+    return this.http.get<any>(`${this.URL}/getUsers`, {
+      headers: new HttpHeaders({
+        Authorization: "Bearer " + getFromLocalStorage("token")
+      })
+    });
   }
 }

@@ -21,25 +21,25 @@ public class QuestionController {
 
 
     @GetMapping(path = "/{id}")
-    @PreAuthorize("hasAuthority('USER_ROLES')")
+    @PreAuthorize("hasAnyAuthority('USER_ROLES', 'ADMIN_ROLES')")
     public List<Question> getQuestions(@PathVariable @Valid Long id) {
        return questionService.getAllUserQuestions(id);
     }
 
     @PostMapping(path = "/create")
-    @PreAuthorize("hasAuthority('USER_ROLES')")
+    @PreAuthorize("hasAnyAuthority('USER_ROLES', 'ADMIN_ROLES')")
     public Question createQuestion(@RequestBody @Valid QuestionDTO questionDTO) {
         return questionService.createQuestion(questionDTO);
     }
 
     @PostMapping(path = "/edit")
-    @PreAuthorize("hasAuthority('USER_ROLES')")
+    @PreAuthorize("hasAnyAuthority('USER_ROLES', 'ADMIN_ROLES')")
     public Question updateQuestion(@RequestBody @Valid QuestionDTO questionDTO) {
         return questionService.updateQuestion(questionDTO);
     }
 
     @DeleteMapping(path = "/delete/{id}")
-    @PreAuthorize("hasAuthority('USER_ROLES')")
+    @PreAuthorize("hasAnyAuthority('USER_ROLES', 'ADMIN_ROLES')")
     public void deleteQuestion(@PathVariable @Valid Long id) {
          questionService.deleteQuestion(id);
     }

@@ -11,6 +11,7 @@ export interface Quiz {
   questions: Question[];
   settings: Settings;
   theme: Theme;
+  logo: string;
 }
 
 export enum ProjectStatus {
