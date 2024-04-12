@@ -40,6 +40,7 @@ export class GuestViewComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.data.subscribe(data => {
+      console.log(data);
       this.showPublicProjects = data["showPublicProjects"];
       this.showSignUpDialog = data["showSignUpDialog"];
       this.showSignInDialog = data["showSignInDialog"];

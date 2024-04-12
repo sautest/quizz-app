@@ -8,6 +8,7 @@
       <div class="flex flex-row gap-2 flex-wrap">
         <span class="p-float-label">
           <p-dropdown
+            class="condition"
             [options]="logicConditionTypes"
             [(ngModel)]="item.conditionType"
             optionLabel="name"
@@ -33,6 +34,7 @@
       <div class="flex flex-row gap-2 flex-wrap">
         <span class="p-float-label">
           <p-dropdown
+            class="action"
             [options]="logicActionTypes"
             [(ngModel)]="item.actionType"
             optionLabel="name"
@@ -56,11 +58,11 @@
       </div>
     </div>
 
-    <p-button label="Add logic" icon="pi pi-plus" severity="primary" (onClick)="onAddLogicBtnClick()"></p-button>
+    <p-button class="add-btn" label="Add logic" icon="pi pi-plus" severity="primary" (onClick)="onAddLogicBtnClick()"></p-button>
   </div>
 
   <div class="footer flex justify-content-end gap-3">
     <p-button label="Cancel" [outlined]="true" severity="primary" (onClick)="onCloseBtnClick()"></p-button>
-    <p-button label="Save" icon="pi pi-save" severity="primary" (onClick)="onSaveBtnClick()"></p-button>
+    <p-button id="save-btn" label="Save" icon="pi pi-save" severity="primary" (onClick)="onSaveBtnClick()"></p-button>
   </div>
 </p-dialog>

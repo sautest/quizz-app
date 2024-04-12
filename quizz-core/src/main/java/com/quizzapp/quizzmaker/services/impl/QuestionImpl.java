@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class QuestionImpl implements QuestionService {
@@ -28,9 +29,15 @@ public class QuestionImpl implements QuestionService {
 
     @Override
     public List<Question> getAllUserQuestions(Long id) {
-
         return  questionRepository.findAllByOwnerId(id);
     }
+
+    @Override
+    public Optional<Question> getQuestion(Long id) {
+        Optional<Question> optionalQuestion = questionRepository.findById(id);
+        return optionalQuestion;
+    }
+
 
     @Override
     public Question createQuestion(QuestionDTO questionDTO) {
@@ -88,6 +95,9 @@ public class QuestionImpl implements QuestionService {
 
         questionRepository.delete(question);
     }
+
+
+
 
 
 

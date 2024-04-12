@@ -78,15 +78,17 @@ export class EditProjectViewComponent implements OnInit {
   fetchQuestions(): void {
     if (this.route.snapshot.params["type"] === "quiz") {
       this.quizService.getQuizzQuestions(this.route.snapshot.params["id"]).subscribe(res => {
-        this.project = res[0];
-
-        console.log(this.project);
-        this.graphComponent.renderGraph(this.project, true);
+        if (Array.isArray(res)) {
+          this.project = res[0];
+          this.graphComponent.renderGraph(this.project, true);
+        }
       });
     } else {
       this.surveyService.getSurveyQuestions(this.route.snapshot.params["id"]).subscribe(res => {
-        this.project = res[0];
-        this.graphComponent.renderGraph(this.project, false);
+        if (Array.isArray(res)) {
+          this.project = res[0];
+          this.graphComponent.renderGraph(this.project, true);
+        }
       });
     }
   }

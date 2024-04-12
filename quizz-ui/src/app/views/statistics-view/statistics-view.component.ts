@@ -100,59 +100,61 @@ export class StatisticsViewComponent implements OnInit {
   ngOnInit(): void {
     if (this.route.snapshot.params["type"] === "quiz") {
       this.quizService.getQuizzQuestions(this.route.snapshot.params["id"]).subscribe(res => {
-        this.project = res[0];
+        if (Array.isArray(res)) {
+          this.project = res[0];
 
-        this.project.questions.forEach(q => q.options.forEach(opt => (opt.checked = false)));
+          this.project.questions.forEach(q => q.options.forEach(opt => (opt.checked = false)));
 
-        for (let question of this.project.questions) {
-          let temp: any[] = [];
-          question.options.forEach(opt => temp.push({name: opt.text, value: 0}));
-          this.data.push(temp);
-        }
-        console.log(this.data);
+          for (let question of this.project.questions) {
+            let temp: any[] = [];
+            question.options.forEach(opt => temp.push({name: opt.text, value: 0}));
+            this.data.push(temp);
+          }
+          console.log(this.data);
 
-        for (let [index, question] of this.project.questions.entries()) {
-          let answer: any[] = [];
+          for (let [index, question] of this.project.questions.entries()) {
+            let answer: any[] = [];
 
-          this.answerService.get(question.id ?? 0).subscribe(res => {
-            console.log(res);
-            answer = res;
+            this.answerService.get(question.id ?? 0).subscribe(res => {
+              console.log(res);
+              answer = res;
 
-            if (index === 0) {
-              answer.forEach(a => this.participant.push(a.participantName));
+              if (index === 0) {
+                answer.forEach(a => this.participant.push(a.participantName));
 
-              for (let p of this.participant) {
-                this.individualData.set(p, []);
-              }
-            }
-
-            answer.forEach(a =>
-              a.selectedOptions.forEach((opt: any) =>
-                this.data[index].forEach((x, i) => (opt.text === x.name ? this.data[index][i].value++ : opt))
-              )
-            );
-
-            setTimeout(() => {
-              answer.forEach(a => {
-                if (this.individualData.get(a.participantName)) {
-                  const dataArray = this.individualData.get(a.participantName) ?? [];
-                  let questiontext = this.project.questions[index].text;
-                  let questionScore = this.project.questions[index].score;
-                  a.text = questiontext;
-                  a.maxScore = questionScore;
-                  dataArray.push(a);
-                  this.individualData.set(a.participantName, dataArray);
+                for (let p of this.participant) {
+                  this.individualData.set(p, []);
                 }
+              }
 
-                console.log(this.individualData);
-              });
-            }, 200);
-          });
+              answer.forEach(a =>
+                a.selectedOptions.forEach((opt: any) =>
+                  this.data[index].forEach((x, i) => (opt.text === x.name ? this.data[index][i].value++ : opt))
+                )
+              );
+
+              setTimeout(() => {
+                answer.forEach(a => {
+                  if (this.individualData.get(a.participantName)) {
+                    const dataArray = this.individualData.get(a.participantName) ?? [];
+                    let questiontext = this.project.questions[index].text;
+                    let questionScore = this.project.questions[index].score;
+                    a.text = questiontext;
+                    a.maxScore = questionScore;
+                    dataArray.push(a);
+                    this.individualData.set(a.participantName, dataArray);
+                  }
+
+                  console.log(this.individualData);
+                });
+              }, 200);
+            });
+          }
+
+          setTimeout(() => {
+            this.loadingFinished = true;
+          }, 1000);
         }
-
-        setTimeout(() => {
-          this.loadingFinished = true;
-        }, 1000);
       });
     } else {
       this.surveyService.getSurveyQuestions(this.route.snapshot.params["id"]).subscribe(res => {
@@ -307,11 +309,9 @@ export class StatisticsViewComponent implements OnInit {
 
           const textWidth = pdf.getTextDimensions(headerText).w;
 
-          // Calculate x position to center the text
           const xPosition = (pdf.internal.pageSize.width - textWidth) / 2;
 
-          // Add header at the top center
-          pdf.text(headerText, xPosition, 10); // Adjust y position as needed
+          pdf.text(headerText, xPosition, 10);
           imgMargin = 20;
         }
 

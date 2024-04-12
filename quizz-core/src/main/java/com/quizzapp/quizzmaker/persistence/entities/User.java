@@ -10,7 +10,6 @@ import java.util.List;
 @Entity
 @Data
 @Table(name = "user")
-@AllArgsConstructor
 @NoArgsConstructor
 public class User {
 
@@ -39,5 +38,18 @@ public class User {
     @JoinColumn(name = "user_id",referencedColumnName = "id")
     private List<Survey> survey;
 
+
+    public User(int id, String email, String username, String password, boolean blocked,
+                String dateJoined, String roles, List<Quiz> quiz, List<Survey> survey) {
+        this.id = id;
+        this.email = email;
+        this.username = username;
+        this.password = password;
+        this.blocked = blocked;
+        this.dateJoined = dateJoined;
+        this.roles = roles;
+        this.quiz = quiz;
+        this.survey = survey;
+    }
 
 }

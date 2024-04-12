@@ -9,18 +9,31 @@ import {LogLevel, ResponseType} from "../../app-util";
 export class ToastrNotificationService {
   constructor(protected toastr: ToastrService, protected router: Router) {}
 
-  error(message: any, msg?: String) {
-    this.notify(LogLevel.error, this.handleMessage(msg, ResponseType.JSON));
+  error(error: any, msg?: String) {
+    this.notify(LogLevel.error, this.handleMessage(error, msg, ResponseType.JSON));
   }
 
   success(message: any) {
-    this.notify(LogLevel.success, this.handleMessage(message, ResponseType.JSON));
+    this.notify(LogLevel.success, this.handleMessage(null, message, ResponseType.JSON));
   }
 
-  private handleMessage(msg: any, responseType: ResponseType): string {
+  private handleMessage(error: any, msg: any, responseType: ResponseType): string {
     if (typeof msg === "string") {
       return msg;
     }
+
+    if (error?.status === 403) {
+      return `403 Forbidden`;
+    }
+
+    if (error?.status === 404) {
+      return `404 Not Found`;
+    }
+
+    if (error?.status === 500) {
+      return `500 Internal Server Error`;
+    }
+
     return "";
   }
 

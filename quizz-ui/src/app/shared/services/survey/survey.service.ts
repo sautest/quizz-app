@@ -20,8 +20,10 @@ export class SurveyService extends BaseService {
   }
 
   public getAllUserSurveys(): Observable<any> {
+    const userId = window.location.pathname.split("/").pop();
+
     return this.http
-      .get<any>(`${this.URL}/${getFromLocalStorage("id")}`, {
+      .get<any>(`${this.URL}/${userId}`, {
         headers: new HttpHeaders({
           Authorization: `Bearer ${getFromLocalStorage("token")}`
         })

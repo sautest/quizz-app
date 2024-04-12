@@ -1,6 +1,7 @@
 package com.quizzapp.quizzmaker.services.impl;
 
 import com.quizzapp.quizzmaker.dto.QuizDTO;
+import com.quizzapp.quizzmaker.persistence.entities.Question;
 import com.quizzapp.quizzmaker.persistence.entities.Quiz;
 import com.quizzapp.quizzmaker.persistence.entities.User;
 import com.quizzapp.quizzmaker.persistence.models.ProjectStatus;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -22,13 +24,10 @@ public class QuizImpl implements QuizService {
     private UserRepository userRepository;
 
 
-
-
     @Override
     public Quiz createQuiz(QuizDTO quizDTO) {
         User user = userRepository.findById(quizDTO.getUserId()).orElseThrow(() -> new RuntimeException("User not found"));
 
-        System.out.println(UUID.randomUUID().toString());
         Quiz quiz = new Quiz(quizDTO.getId(), UUID.randomUUID().toString().substring(0, 36),quizDTO.getTitle(),0,quizDTO.getDateCreated(),
                 ProjectStatus.IN_DESIGN,user,new ArrayList<>(),quizDTO.getSettings(),quizDTO.getTheme());
         user.getQuiz().add(quiz);
@@ -55,8 +54,14 @@ public class QuizImpl implements QuizService {
     }
 
     @Override
-    public List<Quiz> getAllQuizzes() {
+    public List<Quiz> getAllPublicQuizzes() {
         return quizRepository.findAll();
+    }
+
+    @Override
+    public Optional<Quiz> getQuiz(Long id) {
+        Optional<Quiz> quiz = quizRepository.findById(id);
+        return quiz;
     }
 
     @Override

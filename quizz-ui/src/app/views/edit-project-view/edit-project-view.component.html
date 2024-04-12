@@ -1,4 +1,4 @@
-<div class="flex justify-content-center" [ngStyle]="{width: '100vw'}">
+<div *ngIf="project" class="edit-tabview flex justify-content-center" [ngStyle]="{width: '100vw'}">
   <p-tabView styleClass="tabview-custom my-4 mr-3 border-round">
     <p-tabPanel>
       <ng-template pTemplate="header">
@@ -21,7 +21,7 @@
         <p-divider></p-divider>
         <div class="flex align-items-center justify-content-between">
           <div class="flex align-items-center justify-content-start gap-4">
-            <p-button label="Add question" icon="pi pi-question-circle" (onClick)="onAddQuestionClick()"></p-button>
+            <p-button id="add-question-btn" label="Add question" icon="pi pi-question-circle" (onClick)="onAddQuestionClick()"></p-button>
           </div>
           <div>
             <p-button label="Preview" [text]="true" icon="pi pi-eye" (click)="redirectToPreview()"></p-button>

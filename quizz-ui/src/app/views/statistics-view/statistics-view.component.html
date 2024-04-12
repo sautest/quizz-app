@@ -1,4 +1,4 @@
-<div class="flex justify-content-center" [ngStyle]="{width: '100vw'}">
+<div *ngIf="project" class="flex justify-content-center" [ngStyle]="{width: '100vw'}">
   <p-tabView *ngIf="loadingFinished" styleClass="tabview-custom my-3">
     <p-tabPanel>
       <ng-template pTemplate="header">
@@ -27,7 +27,7 @@
             <h2 class="w-full text-color text-center">{{ project.questions[i].text }}</h2>
 
             <ngx-charts-pie-chart
-              id="chart"
+              id="pie-chart"
               *ngIf="value === chartType.PIE_CHART"
               [view]="view"
               [scheme]="colorSchemeH"
@@ -45,6 +45,7 @@
             </ngx-charts-pie-chart>
 
             <ngx-charts-pie-grid
+              id="pie-grid-chart"
               *ngIf="value === chartType.PIE_GRID_CHART"
               [view]="view"
               [scheme]="colorSchemeH"
@@ -54,6 +55,7 @@
             </ngx-charts-pie-grid>
 
             <ngx-charts-bar-horizontal
+              id="pie-bar-horizontal-chart"
               *ngIf="value === chartType.HORIZONTAL_BAR_CHART"
               [view]="view"
               [scheme]="colorSchemeH"
@@ -75,6 +77,7 @@
             </ngx-charts-bar-horizontal>
 
             <ngx-charts-bar-vertical
+              id="pie-bar-vertical-chart"
               *ngIf="value === chartType.VERTICAL_BAR_CHART"
               [view]="view"
               [scheme]="colorSchemeV"
@@ -94,7 +97,7 @@
             </ngx-charts-bar-vertical>
 
             <div *ngIf="showList" class="card mt-2 mb-2">
-              <p-table [value]="data[i]" styleClass="p-datatable-gridlines" [tableStyle]="{'min-width': '40vw'}">
+              <p-table class="stat-table" [value]="data[i]" styleClass="p-datatable-gridlines" [tableStyle]="{'min-width': '40vw'}">
                 <ng-template pTemplate="header">
                   <tr>
                     <th></th>
@@ -133,7 +136,7 @@
       </div>
 
       <div class="flex flex-column gap-4" style="width: 90vw" *ngIf="loadingFinished" #responses>
-        <div *ngFor="let response of indData | keyvalue" class="border-1 border-round">
+        <div *ngFor="let response of indData | keyvalue" class="responses border-1 border-round">
           <div class="flex flex-row justify-content-between surface-100 p-2">
             <div>
               Name: <b>{{ response.key }}</b>
@@ -172,7 +175,12 @@
       </div>
 
       <div class="card mt-2 mb-2" #leaderboard>
-        <p-table [value]="getLeaderboardList()" styleClass="p-datatable-gridlines" [tableStyle]="{'min-width': '90vw'}">
+        <p-table
+          class="leaderboard-table"
+          [value]="getLeaderboardList()"
+          styleClass="p-datatable-gridlines"
+          [tableStyle]="{'min-width': '90vw'}"
+        >
           <ng-template pTemplate="header">
             <tr>
               <th>Place</th>

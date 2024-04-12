@@ -1,15 +1,10 @@
 package com.quizzapp.quizzmaker.controller;
 
 import com.quizzapp.quizzmaker.dto.AnswerDTO;
-import com.quizzapp.quizzmaker.dto.QuestionDTO;
 import com.quizzapp.quizzmaker.persistence.entities.Answer;
-import com.quizzapp.quizzmaker.persistence.entities.Question;
-import com.quizzapp.quizzmaker.persistence.entities.User;
 import com.quizzapp.quizzmaker.services.AnswerService;
-import com.quizzapp.quizzmaker.services.QuestionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -29,7 +24,7 @@ public class AnswerController {
     }
 
     @GetMapping("/getAnswers/{id}")
-    public List<Answer>  getAllUsers(@PathVariable Long id) {
+    public List<Answer> getAnswers(@PathVariable Long id) {
         return answerService.getAnswers(id);
     }
 

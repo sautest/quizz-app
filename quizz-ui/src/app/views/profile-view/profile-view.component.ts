@@ -15,15 +15,20 @@ export class ProfileViewComponent implements OnInit {
   dateJoined: string = "";
   blocked: boolean = false;
 
+  showForm: boolean = false;
+
   constructor(private userService: UserService, private notificationService: ToastrNotificationService) {}
 
   ngOnInit(): void {
     this.userService.getUser().subscribe((res: User) => {
-      console.log(res);
       this.username = res.username;
       this.email = res.email;
       this.dateJoined = res.dateJoined;
       this.blocked = res.blocked;
+
+      if (res?.id) {
+        this.showForm = true;
+      }
     });
   }
 

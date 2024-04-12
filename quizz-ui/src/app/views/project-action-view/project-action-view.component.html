@@ -13,7 +13,7 @@
 >
   <div
     *ngIf="showQuestions"
-    class="flex flex-column justify-content-start align-items-center bg-white border-round p-2 my-2"
+    class="question-form flex flex-column justify-content-start align-items-center bg-white border-round p-2 my-2"
     style="width: 65vw"
   >
     <div class="w-full h-full m-3">
@@ -40,7 +40,7 @@
 
         <p-radioButton
           *ngIf="project.questions[currentPage].type === QUESTION_TYPE.SINGLE_CHOICE"
-          class="mx-2"
+          class="radio-btn mx-2"
           [label]="option.text"
           [value]="option.text"
           [(ngModel)]="project.questions[currentPage].selected"
@@ -59,7 +59,7 @@
       </p-button>
 
       <p-button
-        class="border-round cursor-pointer border-0 zoomin"
+        class="next-btn border-round cursor-pointer border-0 zoomin"
         [ngStyle]="{background: project.theme.buttonBgColor, color: project.theme.buttonTextColor, fontWeight: 'bold'}"
         [disabled]="isNextQuestionDisabled()"
         label="Next"
@@ -98,7 +98,7 @@
       </span>
 
       <p-button
-        class="ml-8 border-round ml-auto cursor-pointer border-0 zoomin"
+        class="start-btn ml-8 border-round ml-auto cursor-pointer border-0 zoomin"
         [ngStyle]="{background: project.theme.buttonBgColor, color: project.theme.buttonTextColor, fontWeight: 'bold'}"
         label="Start"
         icon="fa-solid fa-arrow-right"
@@ -110,7 +110,7 @@
 
   <div
     *ngIf="showAnswersInEnding"
-    class="flex flex-column justify-content-start align-items-center bg-white border-round p-2 gap-4"
+    class="results-message flex flex-column justify-content-start align-items-center bg-white border-round p-2 gap-4"
     style="width: 55vw"
   >
     <div class="flex flex-row gap-3">

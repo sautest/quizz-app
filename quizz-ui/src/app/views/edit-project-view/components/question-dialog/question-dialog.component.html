@@ -10,6 +10,7 @@
     <div class="body flex flex-row justify-content-between pt-3 mt-5 mb-3">
       <span class="p-float-label w-4">
         <p-dropdown
+          id="question-type-dropdown"
           [options]="questionTypes"
           [(ngModel)]="selectedQuestionType"
           optionLabel="name"
@@ -21,12 +22,12 @@
       </span>
 
       <span class="p-float-label w-1" *ngIf="showQuizElements">
-        <input class="w-12" type="number" pInputText id="username" [(ngModel)]="scoreValue" />
-        <label class="w-12" for="username">Score</label>
+        <input class="w-12" type="number" pInputText id="score" [(ngModel)]="scoreValue" />
+        <label class="w-12" for="score">Score</label>
       </span>
     </div>
 
-    <div><angular-editor [placeholder]="'Question...'" [(ngModel)]="htmlContent"></angular-editor></div>
+    <div><angular-editor id="question-name" [placeholder]="'Question...'" [(ngModel)]="htmlContent"></angular-editor></div>
 
     <div class="flex flex-column gap-2 mt-5">
       <div class="flex align-items-center" *ngFor="let option of options; let i = index">
@@ -34,12 +35,12 @@
           <span class="p-inputgroup-addon">
             <label for="inputField">Option</label>
           </span>
-          <input id="inputField" type="text" pInputText [(ngModel)]="option.text" />
+          <input id="inputField" class="option-input" type="text" pInputText [(ngModel)]="option.text" />
         </div>
         <p-checkbox
           *ngIf="showQuizElements"
           [value]="true"
-          class="mx-2"
+          class="option-checkbox mx-2"
           [binary]="true"
           name="groupname"
           value="val1"
@@ -52,6 +53,7 @@
 
     <div class="mt-2">
       <p-button
+        id="add-option-btn"
         label="Add Option"
         icon="pi pi-plus-circle"
         [text]="true"
@@ -65,6 +67,7 @@
     <div class="footer flex justify-content-end gap-3">
       <p-button label="Cancel" [outlined]="true" severity="primary" (onClick)="onCloseBtnClick()"></p-button>
       <p-button
+        id="save-btn"
         label="Save Question"
         icon="pi pi-save"
         severity="primary"

@@ -8,7 +8,6 @@ import {getDate, getFromLocalStorage} from "../../app-util";
 import {Quiz} from "../../models/quiz.interface";
 import {Settings} from "../../models/settings.interface";
 import {Theme} from "../../models/theme.interface";
-import {Survey} from "../../models/survey.interface";
 @Injectable({
   providedIn: "root"
 })
@@ -20,8 +19,9 @@ export class QuizService extends BaseService {
   }
 
   public getAllUserQuizzes(): Observable<any> {
+    const userId = window.location.pathname.split("/").pop();
     return this.http
-      .get<any>(`${this.URL}/${getFromLocalStorage("id")}`, {
+      .get<any>(`${this.URL}/${userId}`, {
         headers: new HttpHeaders({
           Authorization: `Bearer ${getFromLocalStorage("token")}`
         })
@@ -77,17 +77,25 @@ export class QuizService extends BaseService {
 
   public update(quiz: Quiz, userId: string, token: string): Observable<any> {
     return this.http
-      .put<any>(`${this.URL}/edit`, {
-        id: quiz.id,
-        title: quiz.title,
-        responses: quiz.responses,
-        status: quiz.status,
-        settings: quiz.settings,
-        theme: quiz.theme,
-        userId: userId,
-        questions: quiz.questions,
-        logo: quiz.logo
-      })
+      .put<any>(
+        `${this.URL}/edit`,
+        {
+          id: quiz.id,
+          title: quiz.title,
+          responses: quiz.responses,
+          status: quiz.status,
+          settings: quiz.settings,
+          theme: quiz.theme,
+          userId: userId,
+          questions: quiz.questions,
+          logo: quiz.logo
+        },
+        {
+          headers: new HttpHeaders({
+            Authorization: "Bearer " + token
+          })
+        }
+      )
       .pipe(catchError(err => this.httpCatchErrorWithResponse(err)));
   }
 

@@ -5,6 +5,7 @@ import com.quizzapp.quizzmaker.persistence.entities.User;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface UserService  {
 
@@ -12,7 +13,7 @@ public interface UserService  {
 
     UserDetails loadUserByUsername(String userName);
 
-    User getUser(Integer id);
+    Optional<User> getUser(Integer id);
     
     User getUser(String  username);
 

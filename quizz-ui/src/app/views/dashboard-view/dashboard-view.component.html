@@ -1,10 +1,10 @@
-<div class="flex justify-content-end align-items-center gap-2 mr-4 mb-1">
+<div *ngIf="showData" class="flex justify-content-end align-items-center gap-2 mr-4 mb-1">
   <label for="surveySwitch"><div class="text-gray-200 font-medium">Survey View</div> </label>
   <p-inputSwitch inputId="surveySwitch" [(ngModel)]="showSurveys"></p-inputSwitch>
 </div>
 
-<div class="w-screen flex justify-content-center">
-  <div class="p-1 bg-white overflow-visible border-round" [ngStyle]="{width: '98vw'}">
+<div *ngIf="showData" class="w-screen flex justify-content-center">
+  <div class="dashboard p-1 bg-white overflow-visible border-round" [ngStyle]="{width: '98vw'}">
     <p-table
       columnResizeMode="expand"
       [value]="showSurveys ? surveys : quizzes"

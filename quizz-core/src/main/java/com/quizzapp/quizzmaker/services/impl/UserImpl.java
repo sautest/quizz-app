@@ -1,7 +1,6 @@
 package com.quizzapp.quizzmaker.services.impl;
 
 import com.quizzapp.quizzmaker.dto.UserDTO;
-import com.quizzapp.quizzmaker.persistence.entities.Question;
 import com.quizzapp.quizzmaker.persistence.entities.Quiz;
 import com.quizzapp.quizzmaker.persistence.entities.Survey;
 import com.quizzapp.quizzmaker.persistence.entities.User;
@@ -75,8 +74,8 @@ public class UserImpl implements UserDetailsService, UserService {
 
     }
 
-    public User getUser(Integer id) {
-        return userRepository.findById(id).get();
+    public Optional<User> getUser(Integer id) {
+        return userRepository.findById(id);
     }
 
     @Override

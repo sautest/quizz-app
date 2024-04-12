@@ -51,7 +51,7 @@ public class GraphImpl implements GraphService, InitializingBean {
     }
 
 
-    private String createQuestionsDef(GraphDTO graphDTO) {
+    public String createQuestionsDef(GraphDTO graphDTO) {
         List<Question> questions = new ArrayList<>();
 
 
@@ -92,7 +92,7 @@ public class GraphImpl implements GraphService, InitializingBean {
 
     }
 
-    private String createEdgesDef(GraphDTO graphDTO) {
+    public String createEdgesDef(GraphDTO graphDTO) {
 
         List<Question> questions = new ArrayList<>();
         boolean isQuiz = true;
@@ -152,13 +152,15 @@ public class GraphImpl implements GraphService, InitializingBean {
                 if (questions.get(i).getLogic().get(ii).getConditionType() == LogicConditionType.ALWAYS) {
                     context.put(GraphUtils.Keys.IS_ALWAYS_EDGE, true);
                 } else if (isQuiz) {
-                    if (option.getCorrect()) {
+                    if (option !=null && option.getCorrect()) {
                         context.put(GraphUtils.Keys.IS_CORRECT_EDGE, true);
                     } else {
                         context.put(GraphUtils.Keys.IS_INCORRECT_EDGE, true);
                     }
-                    context.put(GraphUtils.Keys.EDGE_LABEL, option.getText());
+                    if(option !=null){
+                        context.put(GraphUtils.Keys.EDGE_LABEL, option.getText());
 
+                    }
                 } else {
 
                     context.put(GraphUtils.Keys.IS_SURVEY_EDGE, true);
@@ -189,7 +191,7 @@ public class GraphImpl implements GraphService, InitializingBean {
 
     }
 
-    private static int getPositionById(List<Question> list, int id) {
+    public static int getPositionById(List<Question> list, int id) {
         for (int i = 0; i < list.size(); i++) {
             if (list.get(i).getId() == id) {
                 return i;
@@ -198,7 +200,7 @@ public class GraphImpl implements GraphService, InitializingBean {
         return -1;
     }
 
-    private static QuestionOption findObjectById(List<QuestionOption> list, int id) {
+    public static QuestionOption findObjectById(List<QuestionOption> list, int id) {
         for (QuestionOption obj : list) {
             if (obj.getId() == id) {
                 return obj;
@@ -208,7 +210,7 @@ public class GraphImpl implements GraphService, InitializingBean {
     }
 
 
-    private String processTemplate(VelocityContext context, String template) {
+    public String processTemplate(VelocityContext context, String template) {
         StringWriter writer = new StringWriter();
         velocityEngine.evaluate(context, writer, VELOCITY_LOG_TAG, template);
         return writer.toString();

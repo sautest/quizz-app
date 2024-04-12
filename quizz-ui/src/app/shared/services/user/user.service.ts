@@ -44,11 +44,14 @@ export class UserService extends BaseService {
   }
 
   public getUser(): Observable<User> {
-    return this.http.get<any>(`${this.URL}/getUsers/${getFromLocalStorage("id")}`, {
-      headers: new HttpHeaders({
-        Authorization: "Bearer " + getFromLocalStorage("token")
+    const userId = window.location.pathname.split("/").pop();
+    return this.http
+      .get<any>(`${this.URL}/getUsers/${userId}`, {
+        headers: new HttpHeaders({
+          Authorization: "Bearer " + getFromLocalStorage("token")
+        })
       })
-    });
+      .pipe(catchError(err => this.httpCatchErrorWithResponse(err)));
   }
 
   public getUsers(): Observable<any[]> {

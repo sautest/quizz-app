@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -56,9 +57,16 @@ public class SurveyImpl implements SurveyService {
     }
 
     @Override
-    public List<Survey> getAllSurveys() {
+    public List<Survey> getAllPublicSurveys() {
         return surveyRepository.findAll();
     }
+
+    @Override
+    public Optional<Survey> getSurvey(Long id) {
+        Optional<Survey> survey = surveyRepository.findById(id);
+        return survey;
+    }
+
 
     @Override
     public List<Survey> getAllQuestions(Long id) {

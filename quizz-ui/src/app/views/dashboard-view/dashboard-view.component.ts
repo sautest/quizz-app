@@ -16,6 +16,7 @@ import {ConfirmationService, MessageService} from "primeng/api";
   providers: [ConfirmationService, MessageService]
 })
 export class DashboardViewComponent implements OnInit {
+  showData: boolean = false;
   showSurveys: boolean = false;
 
   quizzes: Quiz[] = [];
@@ -34,11 +35,17 @@ export class DashboardViewComponent implements OnInit {
 
   ngOnInit(): void {
     this.quizService.getAllUserQuizzes().subscribe(res => {
-      this.quizzes = res;
+      if (Array.isArray(res)) {
+        this.quizzes = res;
+        this.showData = true;
+      }
     });
 
     this.surveyService.getAllUserSurveys().subscribe(res => {
-      this.surveys = res;
+      if (Array.isArray(res)) {
+        this.surveys = res;
+        this.showData = true;
+      }
     });
   }
 
