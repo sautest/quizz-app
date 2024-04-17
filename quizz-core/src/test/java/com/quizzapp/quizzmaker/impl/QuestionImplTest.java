@@ -44,7 +44,7 @@ public class QuestionImplTest {
     @Test
     void getAllUserQuestions_Successful() {
         Long ownerId = 1L;
-        List<Question> expectedQuestions = List.of(new Question(), new Question()); // Assume these are valid Question objects
+        List<Question> expectedQuestions = List.of(new Question(), new Question());
         when(questionRepository.findAllByOwnerId(ownerId)).thenReturn(expectedQuestions);
 
         List<Question> questions = questionService.getAllUserQuestions(ownerId);
@@ -111,14 +111,11 @@ public class QuestionImplTest {
         when(questionRepository.findById((long) savedQuestion.getId())).thenReturn(Optional.of(savedQuestion));
         when(quizRepository.findById((long) quizId)).thenReturn(Optional.of(quiz));
 
-        // Act
         Question result = questionService.createQuestion(questionDTO);
 
-        // Assert
         assertNotNull(result, "The created question should not be null");
         assertEquals(savedQuestion.getId(), result.getId(), "The IDs should match");
 
-        // Verify interactions
         verify(questionRepository).save(any(Question.class));
         verify(quizRepository).findById((long) quizId);
         verify(quizRepository).save(quiz);

@@ -58,7 +58,7 @@ public class QuizControllerTest {
         MockitoAnnotations.openMocks(this);
         mockMvc = MockMvcBuilders.standaloneSetup(quizController).build();
 
-        user = new User(1, "user@test.com", "testUser", "password123", false, "2023-01-01", "ROLE_USER", null, null); // Assume User has an appropriate constructor
+        user = new User(1, "user@test.com", "testUser", "password123", false, "2023-01-01", "ROLE_USER", null, null);
         authentication = new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword());
         securityContext = mock(SecurityContext.class);
 

@@ -40,7 +40,6 @@ export class GuestViewComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.data.subscribe(data => {
-      console.log(data);
       this.showPublicProjects = data["showPublicProjects"];
       this.showSignUpDialog = data["showSignUpDialog"];
       this.showSignInDialog = data["showSignInDialog"];
@@ -65,12 +64,7 @@ export class GuestViewComponent implements OnInit {
     return this.surveys.filter(q => q.settings.enablePublic && q.status !== this.projectStatus.IN_DESIGN);
   }
 
-  onItemClick(label: string, event: any) {
-    console.log("Clicked item:", label);
-    // Perform actions based on the clicked item
-    // For example, navigate to a different page based on the clicked item
-    // this.router.navigate(['/other-page']);
-  }
+  onItemClick(label: string, event: any) {}
 
   onEnterProject(type: ProjectType, uuid: string) {
     if (!this.showSurveys) {

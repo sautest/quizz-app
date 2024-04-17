@@ -34,9 +34,7 @@ class QuizzMakerApplicationTests {
     @Test
     void corsConfigurerTest() {
         CorsRegistry mockCorsRegistry = mock(CorsRegistry.class);
-        // Mock CorsRegistration
         CorsRegistration mockCorsRegistration = mock(CorsRegistration.class);
-        // Mock the return value of allowedOrigins() to avoid NullPointerException
         when(mockCorsRegistration.allowedOrigins(anyString())).thenReturn(mockCorsRegistration);
         when(mockCorsRegistry.addMapping(anyString())).thenReturn(mockCorsRegistration);
 

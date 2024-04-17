@@ -130,12 +130,6 @@
   (onClose)="onCloseQuestionClick()"
 ></app-question-dialog>
 
-<app-question-bank-dialog
-  *ngIf="showQuestionBankDialog"
-  [project]="project"
-  (onClose)="onCloseQuestionBankClick()"
-></app-question-bank-dialog>
-
 <app-logic-dialog
   *ngIf="showLogicDialog"
   [editableQuestion]="editableQuestion"

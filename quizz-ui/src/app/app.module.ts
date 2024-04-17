@@ -53,12 +53,12 @@ import {StatisticsViewComponent} from "./views/statistics-view/statistics-view.c
 import {NgxChartsModule} from "@swimlane/ngx-charts";
 import {ColorPickerModule} from "primeng/colorpicker";
 import {ProfileViewComponent} from "./views/profile-view/profile-view.component";
-import {QuestionBankDialogComponent} from "./views/edit-project-view/components/question-bank-dialog/question-bank-dialog.component";
 import {PickListModule} from "primeng/picklist";
 import {ThemeEditorComponent} from "./views/edit-project-view/components/theme-editor/theme-editor.component";
 import {ToolbarModule} from "primeng/toolbar";
 import {UsersListViewComponent} from "./views/users-list-view/users-list-view.component";
 import {MenubarModule} from "primeng/menubar";
+import {InputTextareaModule} from "primeng/inputtextarea";
 
 @NgModule({
   declarations: [
@@ -79,7 +79,6 @@ import {MenubarModule} from "primeng/menubar";
     ProjectActionViewComponent,
     StatisticsViewComponent,
     ProfileViewComponent,
-    QuestionBankDialogComponent,
     ThemeEditorComponent,
     UsersListViewComponent
   ],
@@ -114,6 +113,7 @@ import {MenubarModule} from "primeng/menubar";
     TabViewModule,
     InputSwitchModule,
     DragDropModule,
+    InputTextareaModule,
     DropdownModule,
     BreadcrumbModule,
     ToastModule,

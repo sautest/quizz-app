@@ -29,7 +29,7 @@ public class JWTServiceTest {
 
         Field secretField = JWTService.class.getDeclaredField("SECRET");
         secretField.setAccessible(true);
-        String secret = (String) secretField.get(null); // for static fields, pass null
+        String secret = (String) secretField.get(null);
 
 
         Claims claims = Jwts.parserBuilder()

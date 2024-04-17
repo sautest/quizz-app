@@ -14,7 +14,6 @@ export class UsersListViewComponent implements OnInit {
 
   ngOnInit(): void {
     this.userService.getUsers().subscribe(res => {
-      console.log(res);
       this.users = res.filter(user => user.roles === "USER_ROLES");
     });
   }

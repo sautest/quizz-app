@@ -94,7 +94,6 @@ export class GraphComponent {
 
   private initListeners(): void {
     this.initListenersNodes();
-    // this.initListenersConnections();
   }
 
   private initListenersNodes() {

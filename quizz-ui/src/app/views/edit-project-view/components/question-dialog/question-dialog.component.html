@@ -27,7 +27,7 @@
       </span>
     </div>
 
-    <div><angular-editor id="question-name" [placeholder]="'Question...'" [(ngModel)]="htmlContent"></angular-editor></div>
+    <textarea id="question-name" [placeholder]="'Question...'" rows="5" cols="61" pInputTextarea [(ngModel)]="htmlContent"></textarea>
 
     <div class="flex flex-column gap-2 mt-5">
       <div class="flex align-items-center" *ngFor="let option of options; let i = index">

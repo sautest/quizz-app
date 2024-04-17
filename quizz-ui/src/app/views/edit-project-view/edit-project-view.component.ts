@@ -87,7 +87,7 @@ export class EditProjectViewComponent implements OnInit {
       this.surveyService.getSurveyQuestions(this.route.snapshot.params["id"]).subscribe(res => {
         if (Array.isArray(res)) {
           this.project = res[0];
-          this.graphComponent.renderGraph(this.project, true);
+          this.graphComponent.renderGraph(this.project, false);
         }
       });
     }

@@ -107,7 +107,7 @@ public class UserController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Optional<User> authenticatedUser = userService.getUser(userDTO.getId());
 
-        if (userService.getUser(authentication.getName()).getId() == userDTO.getId() && authenticatedUser.isPresent()) {
+        if (authenticatedUser.isPresent()) {
             return userService.editUser(userDTO);
         } else {
             if (!authenticatedUser.isPresent()) {

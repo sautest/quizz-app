@@ -12,10 +12,6 @@ import java.net.http.HttpClient;
 @SpringBootApplication(exclude = SecurityAutoConfiguration.class)
 public class QuizzMakerApplication {
 
-	// shortcuts
-	// comment ctrl+/
-	// format code ctrl+alt+l
-
 	@Bean
 	public HttpClient httpClient() {
 		return HttpClient.newBuilder().build();

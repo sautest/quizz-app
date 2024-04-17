@@ -51,7 +51,7 @@
       <p-button
         class="border-round cursor-pointer border-0 zoomin"
         [ngStyle]="{background: project.theme.buttonBgColor, color: project.theme.buttonTextColor, fontWeight: 'bold'}"
-        [disabled]="currentPage === 0"
+        [disabled]="currentPage === 0 || disableBackBtn"
         label="Back"
         icon="fa-solid fa-arrow-left"
         (onClick)="onBackToPreviousQuestion()"
@@ -140,10 +140,12 @@
 
     <div class="overflow-y-scroll">
       <div *ngFor="let question of project.questions">
+        <h3 class="text-color zoomin ml-8">{{ question.text }}</h3>
         <div class="flex flex-row p-2">
           <div class="flex flex-column justify-content-start align-items-center">
-            <i *ngIf="isQuestionCorrectlyAnswered(question)" class="pi pi-times" style="font-size: 1.5rem; color: green"></i>
+            <i *ngIf="isQuestionCorrectlyAnswered(question)" class="pi pi-check" style="font-size: 1.5rem; color: green"></i>
             <i *ngIf="!isQuestionCorrectlyAnswered(question)" class="pi pi-times" style="font-size: 1.5rem; color: red"></i>
+
             <p class="text-color m-0">Points:</p>
             <p class="text-color m-0">{{ getQuestionScore(question) }}</p>
           </div>

@@ -124,7 +124,7 @@ public class QuizImplTest {
 
     @Test
     void getAllPublicQuizzes_Successful() {
-        List<Quiz> expectedQuizzes = new ArrayList<>(); // Initialize expected list of public quizzes
+        List<Quiz> expectedQuizzes = new ArrayList<>();
 
         when(quizRepository.findAll()).thenReturn(expectedQuizzes);
 
@@ -165,8 +165,8 @@ public class QuizImplTest {
 
     @Test
     void getAllQuestionsByUuid_Successful() {
-        String uuid = "example_uuid"; // Set a valid UUID
-        List<Quiz> expectedQuizzes = new ArrayList<>(); // Initialize expected list of quizzes
+        String uuid = "example_uuid";
+        List<Quiz> expectedQuizzes = new ArrayList<>();
 
         when(quizRepository.findAllByUuid(uuid)).thenReturn(expectedQuizzes);
 
@@ -192,7 +192,7 @@ public class QuizImplTest {
 
     @Test
     void deleteQuiz_QuizNotFound() {
-        Long quizId = 1L; // Set a valid quiz ID
+        Long quizId = 1L;
 
         when(quizRepository.findById(quizId)).thenReturn(Optional.empty());
 

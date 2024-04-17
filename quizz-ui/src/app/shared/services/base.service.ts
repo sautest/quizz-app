@@ -13,7 +13,6 @@ export class BaseService {
 
   protected httpCatchErrorWithResponse(error: any, msg?: string) {
     this.notificationService.error(error, msg);
-    console.log(error);
 
     const errorSub = throwError(() => {
       return new Error(error);

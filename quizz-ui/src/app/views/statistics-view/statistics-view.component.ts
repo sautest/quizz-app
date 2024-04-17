@@ -110,13 +110,11 @@ export class StatisticsViewComponent implements OnInit {
             question.options.forEach(opt => temp.push({name: opt.text, value: 0}));
             this.data.push(temp);
           }
-          console.log(this.data);
 
           for (let [index, question] of this.project.questions.entries()) {
             let answer: any[] = [];
 
             this.answerService.get(question.id ?? 0).subscribe(res => {
-              console.log(res);
               answer = res;
 
               if (index === 0) {
@@ -144,8 +142,6 @@ export class StatisticsViewComponent implements OnInit {
                     dataArray.push(a);
                     this.individualData.set(a.participantName, dataArray);
                   }
-
-                  console.log(this.individualData);
                 });
               }, 200);
             });
@@ -167,13 +163,11 @@ export class StatisticsViewComponent implements OnInit {
           question.options.forEach(opt => temp.push({name: opt.text, value: 0}));
           this.data.push(temp);
         }
-        console.log(this.data);
 
         for (let [index, question] of this.project.questions.entries()) {
           let answer: any[] = [];
 
           this.answerService.get(question.id ?? 0).subscribe(res => {
-            console.log(res);
             answer = res;
 
             if (index === 0) {
@@ -201,8 +195,6 @@ export class StatisticsViewComponent implements OnInit {
                   dataArray.push(a);
                   this.individualData.set(a.participantName, dataArray);
                 }
-
-                console.log(this.individualData);
               });
             }, 200);
           });
@@ -216,11 +208,6 @@ export class StatisticsViewComponent implements OnInit {
   }
 
   onSelect(data: any): void {
-    console.log(this.data[0]);
-    console.log(this.participant);
-    console.log(this.individualData);
-    console.log("leader", this.getLeaderboardList());
-
     console.log("Item clicked", JSON.parse(JSON.stringify(data)));
   }
 
@@ -240,9 +227,8 @@ export class StatisticsViewComponent implements OnInit {
 
   calcUserScore(array: any[]) {
     let totalScore: number = 0;
-
     for (let row of array) {
-      if (row.selectedOptions.every((opt: any) => opt.correct)) {
+      if (row.selectedOptions.length > 0 && row.selectedOptions.every((opt: any) => opt.correct)) {
         totalScore = totalScore + row.maxScore;
       }
     }
@@ -270,7 +256,6 @@ export class StatisticsViewComponent implements OnInit {
       exportElement = this.leaderboard.nativeElement;
     }
 
-    console.log(exportElement);
     const pdf = new jsPDF();
     const pageHeight = 800;
 

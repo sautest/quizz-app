@@ -24,6 +24,10 @@ export class SettingsComponent {
     private notificationService: ToastrNotificationService
   ) {}
 
+  get isQuiz(): boolean {
+    return this.route.snapshot.params["type"] === "quiz";
+  }
+
   onUpload(event: any) {
     const file = event.files[0];
 

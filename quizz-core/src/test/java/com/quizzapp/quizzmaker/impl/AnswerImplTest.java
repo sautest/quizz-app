@@ -64,7 +64,7 @@ public class AnswerImplTest {
 
         when(questionRepository.findById(questionId)).thenReturn(Optional.of(question));
         when(questionOptionRepository.findAllById(selectedOptionIds)).thenReturn(selectedOptions);
-        when(answerRepository.saveAll(anyList())).thenAnswer(invocation -> invocation.getArgument(0, List.class)); // Return the same list that's passed in
+        when(answerRepository.saveAll(anyList())).thenAnswer(invocation -> invocation.getArgument(0, List.class));
 
         List<Answer> answers = answerService.createAnswer(answerDTOList);
 

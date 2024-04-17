@@ -39,6 +39,10 @@ export class LogicDialogComponent implements OnInit {
   questionOptions!: any;
   questions!: any;
 
+  allQuestionOptions(i: number): any {
+    return this.questionOptions.filter((opt: any) => !this.questionLogic.slice(0, i).find(cond => cond.conditionOption.code === opt.code));
+  }
+
   constructor(private questionService: QuestionService, private notificationService: ToastrNotificationService) {}
 
   ngOnInit() {
@@ -52,10 +56,6 @@ export class LogicDialogComponent implements OnInit {
     ];
     this.questionOptions = this.editableQuestion?.options.map(option => ({name: option.text, code: option.id}));
     this.questions = this.project.questions.filter(q => q.id !== this.editableQuestion?.id).map(q => ({name: q.text, code: q.id}));
-
-    //fetch logic
-
-    console.log(this.editableQuestion);
 
     this.questionLogic =
       this.editableQuestion?.logic?.map(item => ({
@@ -80,8 +80,6 @@ export class LogicDialogComponent implements OnInit {
       actionType: {name: "Skip to question", code: LogicActionType.SKIP_TO_QUESTION},
       actionOption: {name: this.questions[0].name, code: this.questions[0].code}
     });
-
-    console.log(this.questionLogic);
   }
 
   onLogicItemDelete(index: number) {
@@ -104,6 +102,7 @@ export class LogicDialogComponent implements OnInit {
         inBank: this.editableQuestion.inBank,
         ownerId: this.editableQuestion.ownerId,
         options: this.editableQuestion.options,
+        score: this.editableQuestion.score,
         logic: logic,
         quizzes: []
       };

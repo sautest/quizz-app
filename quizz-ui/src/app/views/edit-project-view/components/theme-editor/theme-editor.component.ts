@@ -40,11 +40,9 @@ export class ThemeEditorComponent {
   }
 
   onSaveTheme(): void {
-    console.log(this.project);
     if (this.route.snapshot.params["type"] === "quiz") {
       this.quizService.update(this.project, getFromLocalStorage("id"), getFromLocalStorage("token")).subscribe(res => {
         this.notificationService.success("Settings Updated!");
-        console.log(this.project);
       });
     } else {
       this.surveyService.update(this.project, getFromLocalStorage("id"), getFromLocalStorage("token")).subscribe(res => {

@@ -233,7 +233,7 @@ class GraphImplTest {
 
     private String getPrivateFieldValue(Object obj, String fieldName) throws Exception {
         Field field = obj.getClass().getDeclaredField(fieldName);
-        field.setAccessible(true); // Suppress Java language access checking
+        field.setAccessible(true);
         return (String) field.get(obj);
     }
 
@@ -266,24 +266,18 @@ class GraphImplTest {
                 ));
 
         existingQuiz.setQuestions(Arrays.asList(q1,q2));
-        //existingSurvey.setQuestions(Arrays.asList(q1,q2));
 
 
         graphDTO = new GraphDTO();
         graphDTO.setQuiz(existingQuiz);
-        //graphDTO.setSurvey(existingSurvey);
         graphDTO.setIsVerticalAlignment(true);
 
 
-        // Stubbing the processTemplate method call. Adjust the matcher to match your method signature.
         when(velocityEngine.evaluate(any(VelocityContext.class), any(StringWriter.class), eq("TEMPLATE"), anyString())).thenReturn(true);
 
-        // Call the method under test
         String result = graphService.createEdgesDef(graphDTO);
 
-        // Assertions and verifications
         assertNotNull(result);
-        // More assertions to verify the content of the result as needed
 
     }
 

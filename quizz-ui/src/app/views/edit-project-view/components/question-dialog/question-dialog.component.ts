@@ -71,7 +71,11 @@ export class QuestionDialogComponent implements OnInit {
   }
 
   onDeleteQuestionOptionClick(index: number) {
-    this.options.splice(index, 1);
+    const delArr = this.options.splice(index, 1);
+
+    if (this.editableQuestion) {
+      this.editableQuestion.logic = this.editableQuestion?.logic?.filter(x => !delArr.some(item => item.id === x.conditionOptionId));
+    }
   }
 
   onSaveBtnClick() {
@@ -86,8 +90,6 @@ export class QuestionDialogComponent implements OnInit {
       logic: this.editableQuestion?.logic,
       quizzes: []
     };
-
-    console.log(question);
 
     if (this.editableQuestion) {
       this.questionService.update(question, getFromLocalStorage("token")).subscribe(res => {

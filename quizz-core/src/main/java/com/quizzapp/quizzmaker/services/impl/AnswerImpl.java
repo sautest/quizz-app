@@ -50,7 +50,6 @@ public class AnswerImpl implements AnswerService {
             }
         }
 
-        // Save all answers
         return answerRepository.saveAll(answers);
     }
 

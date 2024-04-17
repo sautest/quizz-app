@@ -233,8 +233,8 @@ public class UserControllerTest {
     @WithMockUser(username = "admin", authorities = {"ADMIN_ROLES"})
     void getUser_AccessDeniedForDifferentUser() {
         int userId = 1;
-        User adminUser = new User(2, "admin@example.com", "admin", "adminpass", false, "2023-02-01", "ROLE_ADMIN", null, null); // Different user (admin)
-        User requestedUser = new User(userId, "user1@example.com", "user1", "password", false, "2023-01-01", "ROLE_USER", null, null); // The user being requested
+        User adminUser = new User(2, "admin@example.com", "admin", "adminpass", false, "2023-02-01", "ROLE_ADMIN", null, null);
+        User requestedUser = new User(userId, "user1@example.com", "user1", "password", false, "2023-01-01", "ROLE_USER", null, null);
 
         when(userService.getUser(userId)).thenReturn(Optional.of(requestedUser));
         when(userService.getUser("admin")).thenReturn(adminUser);

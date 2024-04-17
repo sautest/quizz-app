@@ -1,5 +1,5 @@
 import {Component, OnInit} from "@angular/core";
-import {Quiz} from "../../shared/models/quiz.interface";
+import {ProjectStatus, Quiz} from "../../shared/models/quiz.interface";
 import {Survey} from "../../shared/models/survey.interface";
 import {ActivatedRoute} from "@angular/router";
 import {QuizService} from "../../shared/services/quizz/quiz.service";
@@ -69,6 +69,10 @@ export class ProjectActionViewComponent implements OnInit {
     return this.project.settings.enableShowAnswersAtTheEnd;
   }
 
+  get disableBackBtn(): boolean {
+    return !this.project.settings.enableRandomizeQuestions;
+  }
+
   get showParticipantForm(): boolean {
     return this.project.settings.enableAskForBasicUserInfo && this.showUserInfoForm;
   }
@@ -100,6 +104,12 @@ export class ProjectActionViewComponent implements OnInit {
   ngOnInit(): void {
     if (this.route.snapshot.params["type"] === "quiz") {
       this.quizService.getQuizzQuestions(this.route.snapshot.params["id"], !window.location.href.includes("preview")).subscribe(res => {
+        if (
+          (res[0].status === ProjectStatus.CLOSED || res[0].status === ProjectStatus.IN_DESIGN) &&
+          !window.location.href.includes("preview")
+        ) {
+          window.location.href = "http://localhost:4200/home";
+        }
         this.project = res[0];
 
         this.project.questions.forEach(q => q.options.forEach(opt => (opt.checked = false)));
@@ -118,14 +128,22 @@ export class ProjectActionViewComponent implements OnInit {
         this.timerSubscription = interval(1000).subscribe(() => {
           this.counter--;
           this.elapsedTime++;
+          if (this.counter === 0) {
+            this.showResults();
+          }
         });
 
-        this.answerService.get(this.project.questions[0].id ?? 0).subscribe(res => {
-          console.log(res);
-        });
+        this.answerService.get(this.project.questions[0].id ?? 0).subscribe(res => {});
       });
     } else {
       this.surveyService.getSurveyQuestions(this.route.snapshot.params["id"], !window.location.href.includes("preview")).subscribe(res => {
+        if (
+          (res[0].status === ProjectStatus.CLOSED || res[0].status === ProjectStatus.IN_DESIGN) &&
+          !window.location.href.includes("preview")
+        ) {
+          window.location.href = "http://localhost:4200/home";
+        }
+
         this.project = res[0];
         this.project.questions.forEach(q => q.options.forEach(opt => (opt.checked = false)));
 
@@ -143,11 +161,13 @@ export class ProjectActionViewComponent implements OnInit {
         this.timerSubscription = interval(1000).subscribe(() => {
           this.counter--;
           this.elapsedTime++;
+
+          if (this.counter === 0) {
+            this.showResults();
+          }
         });
 
-        this.answerService.get(this.project.questions[0].id ?? 0).subscribe(res => {
-          console.log(res);
-        });
+        this.answerService.get(this.project.questions[0].id ?? 0).subscribe(res => {});
       });
     }
   }
@@ -158,12 +178,9 @@ export class ProjectActionViewComponent implements OnInit {
   }
 
   onNextQuestion() {
-    console.log(this.project);
-
     let defaultIncrement = true;
-    console.log(this.currentPage);
 
-    if (this.project.questions[this.currentPage].logic) {
+    if (this.project.questions[this.currentPage].logic && !this.project.settings.enableRandomizeQuestions) {
       this.project.questions[this.currentPage].logic?.forEach(logic => {
         if (logic.conditionType === LogicConditionType.ALWAYS) {
           defaultIncrement = false;
@@ -195,16 +212,20 @@ export class ProjectActionViewComponent implements OnInit {
     if (defaultIncrement) this.currentPage++;
 
     if (this.currentPage >= this.questionsAmount) {
-      this.counter = this.elapsedTime;
-      this.displayDuration = this.getFormattedTime;
-
-      this.showProjectQuestions = false;
-      if (!window.location.href.includes("preview")) {
-        this.saveAnswers();
-      }
-
-      this.showEndResults = true;
+      this.showResults();
     }
+  }
+
+  showResults(): void {
+    this.counter = this.elapsedTime;
+    this.displayDuration = this.getFormattedTime;
+    this.counter = 9999;
+    this.showProjectQuestions = false;
+    if (!window.location.href.includes("preview")) {
+      this.saveAnswers();
+    }
+
+    this.showEndResults = true;
   }
 
   isNextQuestionDisabled(): boolean {
@@ -214,7 +235,6 @@ export class ProjectActionViewComponent implements OnInit {
   }
 
   onBackToPreviousQuestion() {
-    console.log(this.project);
     this.currentPage--;
   }
 
@@ -227,10 +247,6 @@ export class ProjectActionViewComponent implements OnInit {
 
     this.project.questions.forEach(q => {
       if (q.type === this.QUESTION_TYPE.MULTI_CHOICE) {
-        if (q.options.every(opt => opt.checked === false)) {
-          score = <number>q.score + score;
-        }
-
         if (q.options.every(opt => opt.checked === opt.correct)) {
           score = <number>q.score + score;
         }
@@ -258,9 +274,7 @@ export class ProjectActionViewComponent implements OnInit {
     this.showEndResults = false;
     this.showDetailedAnswers = true;
 
-    this.answerService.get(this.project.questions[0].id ?? 0).subscribe(res => {
-      console.log(res);
-    });
+    this.answerService.get(this.project.questions[0].id ?? 0).subscribe(res => {});
   }
 
   isQuestionCorrectlyAnswered(question: Question): boolean {
@@ -278,6 +292,10 @@ export class ProjectActionViewComponent implements OnInit {
   saveAnswers() {
     let answers: Answer[] = [];
 
+    if (this.name === "") {
+      this.name = `anon${Math.floor(Math.random() * 10000) + 1}`;
+    }
+
     answers = this.project.questions.map(q => ({
       questionId: q.id,
       selectedOptionIds:
@@ -285,14 +303,10 @@ export class ProjectActionViewComponent implements OnInit {
           ? q.options.filter(opt => opt.checked).map(opt => opt.id)
           : [q.options.find(opt => opt.text === q.selected)?.id],
       participantName: this.name,
-      participantAge: this.age
+      participantAge: this.age ?? 0
     }));
 
-    this.answerService.create(answers).subscribe(res => {
-      console.log(res);
-    });
-
-    console.log(this.project);
+    this.answerService.create(answers).subscribe(res => {});
 
     this.project.responses = this.project.responses + 1;
 
@@ -301,8 +315,5 @@ export class ProjectActionViewComponent implements OnInit {
     } else {
       this.surveyService.update(this.project, getFromLocalStorage("id"), getFromLocalStorage("token")).subscribe(res => {});
     }
-
-    console.log(answers);
-    console.log("save");
   }
 }

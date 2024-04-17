@@ -20,7 +20,7 @@
         </span>
         <span *ngIf="item.conditionType.code !== LOGIC_CONDITION_TYPE.ALWAYS" class="p-float-label flex-grow-1">
           <p-dropdown
-            [options]="questionOptions"
+            [options]="allQuestionOptions(i)"
             [(ngModel)]="item.conditionOption"
             optionLabel="name"
             autoWidth="false"

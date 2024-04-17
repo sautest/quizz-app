@@ -46,7 +46,6 @@ public class GraphImpl implements GraphService, InitializingBean {
         context.put(GraphUtils.Keys.QUESTION_DEF, questionsDef);
         context.put(GraphUtils.Keys.EDGE_DEF, edgesDef);
 
-        //System.out.println(processTemplate(context,graphTemplate));
         return processTemplate(context, graphTemplate);
     }
 
