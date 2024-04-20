@@ -1,0 +1,3986 @@
+{
+	"info": {
+		"_postman_id": "dfa171f8-9658-49e3-87f8-8735e584faaa",
+		"name": "API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "34112746"
+	},
+	"item": [
+		{
+			"name": "Quiz",
+			"item": [
+				{
+					"name": "GetAllUserQuzzes",
+					"item": [
+						{
+							"name": "200 http://localhost:8080/api/quiz/:userId",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const loginRequest = {\r",
+											"    url: 'http://localhost:8080/api/user/login',\r",
+											"    method: 'POST',\r",
+											"    header: 'Content-Type:application/json',\r",
+											"    body: {\r",
+											"        mode: 'raw',\r",
+											"        raw: JSON.stringify({\r",
+											"            username: 'user1',\r",
+											"            password: '123'\r",
+											"        })\r",
+											"    }\r",
+											"};\r",
+											"\r",
+											"\r",
+											"pm.sendRequest(loginRequest, function (err, res) {\r",
+											"    if (err) {\r",
+											"        console.error('Login request failed:', err);\r",
+											"    } else {\r",
+											"        if (res.code === 200) {\r",
+											"            const authToken = res.json().token; \r",
+											"\r",
+											"            pm.environment.set('authToken', authToken);\r",
+											"\r",
+											"            pm.request.headers.add({\r",
+											"                key: 'Authorization',\r",
+											"                value: 'Bearer ' + authToken\r",
+											"            });\r",
+											"            \r",
+											"        } else {\r",
+											"            console.error('Login failed:', res.code, res.body);\r",
+											"        }\r",
+											"    }\r",
+											"});\r",
+											"\r",
+											"let requestUrl = pm.request.url.toString();\r",
+											"let userId = '1'; \r",
+											"requestUrl = requestUrl.replace(':userId', userId);\r",
+											"pm.request.url = requestUrl;\r",
+											"\r",
+											"\r",
+											"\r",
+											"\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/quiz/:userId",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"quiz",
+										":userId"
+									],
+									"variable": [
+										{
+											"key": "userId",
+											"value": ""
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "403  http://localhost:8080/api/quiz/:userId",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const loginRequest = {\r",
+											"    url: 'http://localhost:8080/api/user/login',\r",
+											"    method: 'POST',\r",
+											"    header: 'Content-Type:application/json',\r",
+											"    body: {\r",
+											"        mode: 'raw',\r",
+											"        raw: JSON.stringify({\r",
+											"            username: 'user1',\r",
+											"            password: '123'\r",
+											"        })\r",
+											"    }\r",
+											"};\r",
+											"\r",
+											"\r",
+											"pm.sendRequest(loginRequest, function (err, res) {\r",
+											"    if (err) {\r",
+											"        console.error('Login request failed:', err);\r",
+											"    } else {\r",
+											"        if (res.code === 200) {\r",
+											"            const authToken = res.json().token; \r",
+											"\r",
+											"            pm.environment.set('authToken', authToken);\r",
+											"\r",
+											"            pm.request.headers.add({\r",
+											"                key: 'Authorization',\r",
+											"                value: 'Bearer ' + authToken\r",
+											"            });\r",
+											"            \r",
+											"        } else {\r",
+											"            console.error('Login failed:', res.code, res.body);\r",
+											"        }\r",
+											"    }\r",
+											"});\r",
+											"\r",
+											"let requestUrl = pm.request.url.toString();\r",
+											"let userId = '2'; \r",
+											"requestUrl = requestUrl.replace(':userId', userId);\r",
+											"pm.request.url = requestUrl;\r",
+											"\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 403\", function () {\r",
+											"    pm.response.to.have.status(403);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/quiz/:userId",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"quiz",
+										":userId"
+									],
+									"variable": [
+										{
+											"key": "userId",
+											"value": ""
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "404  http://localhost:8080/api/quiz/:userId",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const loginRequest = {\r",
+											"    url: 'http://localhost:8080/api/user/login',\r",
+											"    method: 'POST',\r",
+											"    header: 'Content-Type:application/json',\r",
+											"    body: {\r",
+											"        mode: 'raw',\r",
+											"        raw: JSON.stringify({\r",
+											"            username: 'user1',\r",
+											"            password: '123'\r",
+											"        })\r",
+											"    }\r",
+											"};\r",
+											"\r",
+											"\r",
+											"pm.sendRequest(loginRequest, function (err, res) {\r",
+											"    if (err) {\r",
+											"        console.error('Login request failed:', err);\r",
+											"    } else {\r",
+											"        if (res.code === 200) {\r",
+											"            const authToken = res.json().token; \r",
+											"\r",
+											"            pm.environment.set('authToken', authToken);\r",
+											"\r",
+											"            pm.request.headers.add({\r",
+											"                key: 'Authorization',\r",
+											"                value: 'Bearer ' + authToken\r",
+											"            });\r",
+											"            \r",
+											"        } else {\r",
+											"            console.error('Login failed:', res.code, res.body);\r",
+											"        }\r",
+											"    }\r",
+											"});\r",
+											"\r",
+											"let requestUrl = pm.request.url.toString();\r",
+											"let userId = '2222'; \r",
+											"requestUrl = requestUrl.replace(':userId', userId);\r",
+											"pm.request.url = requestUrl;\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 404\", function () {\r",
+											"    pm.response.to.have.status(404);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/quiz/:userId",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"quiz",
+										":userId"
+									],
+									"variable": [
+										{
+											"key": "userId",
+											"value": ""
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "GetAllPublicQuizzes",
+					"item": [
+						{
+							"name": "200 http://localhost:8080/api/quiz/",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/quiz/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"quiz",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "GetAllQuizQuestions",
+					"item": [
+						{
+							"name": "200 http://localhost:8080/api/quiz/:quizId/questions",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const loginRequest = {\r",
+											"    url: 'http://localhost:8080/api/user/login',\r",
+											"    method: 'POST',\r",
+											"    header: 'Content-Type:application/json',\r",
+											"    body: {\r",
+											"        mode: 'raw',\r",
+											"        raw: JSON.stringify({\r",
+											"            username: 'user1',\r",
+											"            password: '123'\r",
+											"        })\r",
+											"    }\r",
+											"};\r",
+											"\r",
+											"\r",
+											"pm.sendRequest(loginRequest, function (err, res) {\r",
+											"    if (err) {\r",
+											"        console.error('Login request failed:', err);\r",
+											"    } else {\r",
+											"        if (res.code === 200) {\r",
+											"            const authToken = res.json().token; \r",
+											"\r",
+											"            pm.environment.set('authToken', authToken);\r",
+											"\r",
+											"            pm.request.headers.add({\r",
+											"                key: 'Authorization',\r",
+											"                value: 'Bearer ' + authToken\r",
+											"            });\r",
+											"            \r",
+											"        } else {\r",
+											"            console.error('Login failed:', res.code, res.body);\r",
+											"        }\r",
+											"    }\r",
+											"});\r",
+											"\r",
+											"let requestUrl = pm.request.url.toString();\r",
+											"let quizId = '353'; \r",
+											"requestUrl = requestUrl.replace(':quizId', quizId);\r",
+											"pm.request.url = requestUrl;\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/quiz/:quizId/questions",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"quiz",
+										":quizId",
+										"questions"
+									],
+									"variable": [
+										{
+											"key": "quizId",
+											"value": ""
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "403 http://localhost:8080/api/quiz/:quizId/questions",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const loginRequest = {\r",
+											"    url: 'http://localhost:8080/api/user/login',\r",
+											"    method: 'POST',\r",
+											"    header: 'Content-Type:application/json',\r",
+											"    body: {\r",
+											"        mode: 'raw',\r",
+											"        raw: JSON.stringify({\r",
+											"            username: 'user1',\r",
+											"            password: '123'\r",
+											"        })\r",
+											"    }\r",
+											"};\r",
+											"\r",
+											"\r",
+											"pm.sendRequest(loginRequest, function (err, res) {\r",
+											"    if (err) {\r",
+											"        console.error('Login request failed:', err);\r",
+											"    } else {\r",
+											"        if (res.code === 200) {\r",
+											"            const authToken = res.json().token; \r",
+											"\r",
+											"            pm.environment.set('authToken', authToken);\r",
+											"\r",
+											"            pm.request.headers.add({\r",
+											"                key: 'Authorization',\r",
+											"                value: 'Bearer ' + authToken\r",
+											"            });\r",
+											"            \r",
+											"        } else {\r",
+											"            console.error('Login failed:', res.code, res.body);\r",
+											"        }\r",
+											"    }\r",
+											"});\r",
+											"\r",
+											"let requestUrl = pm.request.url.toString();\r",
+											"let quizId = '603'; \r",
+											"requestUrl = requestUrl.replace(':quizId', quizId);\r",
+											"pm.request.url = requestUrl;\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 403\", function () {\r",
+											"    pm.response.to.have.status(403);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/quiz/:quizId/questions",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"quiz",
+										":quizId",
+										"questions"
+									],
+									"variable": [
+										{
+											"key": "quizId",
+											"value": ""
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "404 http://localhost:8080/api/quiz/:quizId/questions",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const loginRequest = {\r",
+											"    url: 'http://localhost:8080/api/user/login',\r",
+											"    method: 'POST',\r",
+											"    header: 'Content-Type:application/json',\r",
+											"    body: {\r",
+											"        mode: 'raw',\r",
+											"        raw: JSON.stringify({\r",
+											"            username: 'user1',\r",
+											"            password: '123'\r",
+											"        })\r",
+											"    }\r",
+											"};\r",
+											"\r",
+											"\r",
+											"pm.sendRequest(loginRequest, function (err, res) {\r",
+											"    if (err) {\r",
+											"        console.error('Login request failed:', err);\r",
+											"    } else {\r",
+											"        if (res.code === 200) {\r",
+											"            const authToken = res.json().token; \r",
+											"\r",
+											"            pm.environment.set('authToken', authToken);\r",
+											"\r",
+											"            pm.request.headers.add({\r",
+											"                key: 'Authorization',\r",
+											"                value: 'Bearer ' + authToken\r",
+											"            });\r",
+											"            \r",
+											"        } else {\r",
+											"            console.error('Login failed:', res.code, res.body);\r",
+											"        }\r",
+											"    }\r",
+											"});\r",
+											"\r",
+											"let requestUrl = pm.request.url.toString();\r",
+											"let quizId = '00000'; \r",
+											"requestUrl = requestUrl.replace(':quizId', quizId);\r",
+											"pm.request.url = requestUrl;\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 404\", function () {\r",
+											"    pm.response.to.have.status(404);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/quiz/:quizId/questions",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"quiz",
+										":quizId",
+										"questions"
+									],
+									"variable": [
+										{
+											"key": "quizId",
+											"value": ""
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "CreateQuiz",
+					"item": [
+						{
+							"name": "200 http://localhost:8080/api/quiz/create",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const loginRequest = {\r",
+											"    url: 'http://localhost:8080/api/user/login',\r",
+											"    method: 'POST',\r",
+											"    header: 'Content-Type:application/json',\r",
+											"    body: {\r",
+											"        mode: 'raw',\r",
+											"        raw: JSON.stringify({\r",
+											"            username: 'user1',\r",
+											"            password: '123'\r",
+											"        })\r",
+											"    }\r",
+											"};\r",
+											"\r",
+											"\r",
+											"pm.sendRequest(loginRequest, function (err, res) {\r",
+											"    if (err) {\r",
+											"        console.error('Login request failed:', err);\r",
+											"    } else {\r",
+											"        if (res.code === 200) {\r",
+											"            const authToken = res.json().token; \r",
+											"\r",
+											"            pm.environment.set('authToken', authToken);\r",
+											"\r",
+											"            pm.request.headers.add({\r",
+											"                key: 'Authorization',\r",
+											"                value: 'Bearer ' + authToken\r",
+											"            });\r",
+											"            \r",
+											"        } else {\r",
+											"            console.error('Login failed:', res.code, res.body);\r",
+											"        }\r",
+											"    }\r",
+											"});\r",
+											"\r",
+											"\r",
+											"pm.globals.set(\"expectedResult\",({\r",
+											"    \"id\": 653,\r",
+											"    \"uuid\": \"d602f544-a19f-4c16-8cfa-1daf5808ec0b\",\r",
+											"    \"title\": \"222\",\r",
+											"    \"responses\": 0,\r",
+											"    \"dateCreated\": \"2024-04-07\",\r",
+											"    \"status\": \"IN_DESIGN\",\r",
+											"    \"questions\": [],\r",
+											"    \"settings\": {\r",
+											"        \"id\": 953,\r",
+											"        \"logo\": null,\r",
+											"        \"enableTimeLimit\": false,\r",
+											"        \"min\": 0,\r",
+											"        \"hours\": 0,\r",
+											"        \"questionsPerPage\": 1,\r",
+											"        \"enableAnswerNotInOrder\": false,\r",
+											"        \"enableAskForBasicUserInfo\": false,\r",
+											"        \"enableProgressBar\": true,\r",
+											"        \"enableRandomizeQuestions\": false,\r",
+											"        \"enablePublic\": false,\r",
+											"        \"enableShowAnswersAtTheEnd\": false\r",
+											"    },\r",
+											"    \"theme\": {\r",
+											"        \"id\": 603,\r",
+											"        \"bgColor\": \"#8b5cf6\",\r",
+											"        \"bgImage\": null,\r",
+											"        \"questionColor\": \"#4b5563\",\r",
+											"        \"optionBgColor\": \"#f3f4f6\",\r",
+											"        \"optionTextColor\": \"#4b5563\",\r",
+											"        \"buttonBgColor\": \"#8b5cf6\",\r",
+											"        \"buttonTextColor\": \"#ffffff\"\r",
+											"    }\r",
+											"}))\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test('Status code is 200', function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Response Body  is valid\", function () {\r",
+											"    pm.expect(response.title).to.eql(pm.globals.get(\"expectedResult\").title);\r",
+											"    pm.expect(response.responses).to.eql(pm.globals.get(\"expectedResult\").responses);\r",
+											"    pm.expect(response.dateCreated).to.eql(pm.globals.get(\"expectedResult\").dateCreated);\r",
+											"    pm.expect(response.questions).to.eql(pm.globals.get(\"expectedResult\").questions);\r",
+											"    pm.expect(response.status).to.eql(pm.globals.get(\"expectedResult\").status);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\": \"222\",\r\n    \"dateCreated\": \"2024-04-07\",\r\n    \"settings\": {\r\n        \"enableTimeLimit\": false,\r\n        \"questionsPerPage\": 1,\r\n        \"enableAnswerNotInOrder\": false,\r\n        \"enableAskForBasicUserInfo\": false,\r\n        \"enableProgressBar\": true,\r\n        \"enablePublic\": false,\r\n        \"enableShowAnswersAtTheEnd\": false,\r\n        \"enableRandomizeQuestions\": false,\r\n        \"logo\": null\r\n    },\r\n    \"theme\": {\r\n        \"bgColor\": \"#8b5cf6\",\r\n        \"bgImage\": null,\r\n        \"questionColor\": \"#4b5563\",\r\n        \"optionBgColor\": \"#f3f4f6\",\r\n        \"optionTextColor\": \"#4b5563\",\r\n        \"buttonBgColor\": \"#8b5cf6\",\r\n        \"buttonTextColor\": \"#ffffff\"\r\n    },\r\n    \"userId\": \"1\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/quiz/create",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"quiz",
+										"create"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "400 http://localhost:8080/api/quiz/create",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const loginRequest = {\r",
+											"    url: 'http://localhost:8080/api/user/login',\r",
+											"    method: 'POST',\r",
+											"    header: 'Content-Type:application/json',\r",
+											"    body: {\r",
+											"        mode: 'raw',\r",
+											"        raw: JSON.stringify({\r",
+											"            username: 'user1',\r",
+											"            password: '123'\r",
+											"        })\r",
+											"    }\r",
+											"};\r",
+											"\r",
+											"\r",
+											"pm.sendRequest(loginRequest, function (err, res) {\r",
+											"    if (err) {\r",
+											"        console.error('Login request failed:', err);\r",
+											"    } else {\r",
+											"        if (res.code === 200) {\r",
+											"            const authToken = res.json().token; \r",
+											"\r",
+											"            pm.environment.set('authToken', authToken);\r",
+											"\r",
+											"            pm.request.headers.add({\r",
+											"                key: 'Authorization',\r",
+											"                value: 'Bearer ' + authToken\r",
+											"            });\r",
+											"            \r",
+											"        } else {\r",
+											"            console.error('Login failed:', res.code, res.body);\r",
+											"        }\r",
+											"    }\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/quiz/create",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"quiz",
+										"create"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "403 http://localhost:8080/api/quiz/create",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 403\", function () {\r",
+											"    pm.response.to.have.status(403);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\": \"222\",\r\n    \"dateCreated\": \"2024-04-07\",\r\n    \"settings\": {\r\n        \"enableTimeLimit\": false,\r\n        \"questionsPerPage\": 1,\r\n        \"enableAnswerNotInOrder\": false,\r\n        \"enableAskForBasicUserInfo\": false,\r\n        \"enableProgressBar\": true,\r\n        \"enablePublic\": false,\r\n        \"enableShowAnswersAtTheEnd\": false,\r\n        \"enableRandomizeQuestions\": false,\r\n        \"logo\": null\r\n    },\r\n    \"theme\": {\r\n        \"bgColor\": \"#8b5cf6\",\r\n        \"bgImage\": null,\r\n        \"questionColor\": \"#4b5563\",\r\n        \"optionBgColor\": \"#f3f4f6\",\r\n        \"optionTextColor\": \"#4b5563\",\r\n        \"buttonBgColor\": \"#8b5cf6\",\r\n        \"buttonTextColor\": \"#ffffff\"\r\n    },\r\n    \"userId\": \"1\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/quiz/create",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"quiz",
+										"create"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "GenerateQuiz",
+					"item": [
+						{
+							"name": "200 http://localhost:8080/api/quiz/generate",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const loginRequest = {\r",
+											"    url: 'http://localhost:8080/api/user/login',\r",
+											"    method: 'POST',\r",
+											"    header: 'Content-Type:application/json',\r",
+											"    body: {\r",
+											"        mode: 'raw',\r",
+											"        raw: JSON.stringify({\r",
+											"            username: 'user1',\r",
+											"            password: '123'\r",
+											"        })\r",
+											"    }\r",
+											"};\r",
+											"\r",
+											"\r",
+											"pm.sendRequest(loginRequest, function (err, res) {\r",
+											"    if (err) {\r",
+											"        console.error('Login request failed:', err);\r",
+											"    } else {\r",
+											"        if (res.code === 200) {\r",
+											"            const authToken = res.json().token; \r",
+											"\r",
+											"            pm.environment.set('authToken', authToken);\r",
+											"\r",
+											"            pm.request.headers.add({\r",
+											"                key: 'Authorization',\r",
+											"                value: 'Bearer ' + authToken\r",
+											"            });\r",
+											"            \r",
+											"        } else {\r",
+											"            console.error('Login failed:', res.code, res.body);\r",
+											"        }\r",
+											"    }\r",
+											"});\r",
+											"\r",
+											"pm.globals.set(\"expectedResult\",({\r",
+											"    \"graph\": \"digraph  {\\r\\n     rankdir=\\\"LR\\\"\\r\\n     compound=true\\r\\n     bgcolor=\\\"#f5f9ff\\\"\\r\\n     node [shape=note fontname=\\\"Arial\\\" fontsize=\\\"9\\\"]\\r\\n     edge [penwidth=1]\\r\\n\\r\\n      0 [id=\\\"1302\\\" style=\\\"filled\\\", fillcolor=\\\"#a78bfa\\\" label=<\\r\\n        <table border=\\\"0\\\" cellborder=\\\"0\\\" cellspacing=\\\"0\\\">\\r\\n\\r\\n            <tr>\\r\\n                <td align=\\\"left\\\"> <font face=\\\"'Font Awesome 6 Free'\\\" point-size=\\\"11.0\\\"> &#xf059; </font> </td>\\r\\n                <td align=\\\"left\\\"><b>quesstui111???</b></td>\\r\\n                <td align=\\\"right\\\" width=\\\"25\\\"><font point-size=\\\"15.0\\\"><b>⋮</b></font></td>\\r\\n            </tr>\\r\\n\\r\\n            <tr>\\r\\n                <td></td>\\r\\n                <td  align=\\\"left\\\"> <font face=\\\"'Font Awesome 6 Free'\\\"  point-size=\\\"9.0\\\" color=\\\"#d9342b\\\">&#xf057; </font> <font  point-size=\\\"8\\\"><b>aaa</b></font></td>\\r\\n            </tr>\\r\\n            <tr>\\r\\n                <td></td>\\r\\n                <td  align=\\\"left\\\"> <font face=\\\"'Font Awesome 6 Free'\\\"  point-size=\\\"9.0\\\" color=\\\"#d9342b\\\">&#xf057; </font> <font  point-size=\\\"8\\\"><b>dd</b></font></td>\\r\\n            </tr>\\r\\n            <tr>\\r\\n                <td></td>\\r\\n                <td  align=\\\"left\\\"> <font face=\\\"'Font Awesome 6 Free'\\\"  point-size=\\\"9.0\\\" color=\\\"#d9342b\\\">&#xf057; </font> <font  point-size=\\\"8\\\"><b>ccc</b></font></td>\\r\\n            </tr>\\r\\n        </table>\\r\\n    >]\\r\\n\\n 1 [id=\\\"1305\\\" style=\\\"filled\\\", fillcolor=\\\"#a78bfa\\\" label=<\\r\\n        <table border=\\\"0\\\" cellborder=\\\"0\\\" cellspacing=\\\"0\\\">\\r\\n\\r\\n            <tr>\\r\\n                <td align=\\\"left\\\"> <font face=\\\"'Font Awesome 6 Free'\\\" point-size=\\\"11.0\\\"> &#xf059; </font> </td>\\r\\n                <td align=\\\"left\\\"><b>adasd</b></td>\\r\\n                <td align=\\\"right\\\" width=\\\"25\\\"><font point-size=\\\"15.0\\\"><b>⋮</b></font></td>\\r\\n            </tr>\\r\\n\\r\\n            <tr>\\r\\n                <td></td>\\r\\n                <td  align=\\\"left\\\"> <font face=\\\"'Font Awesome 6 Free'\\\"  point-size=\\\"9.0\\\" color=\\\"#d9342b\\\">&#xf057; </font> <font  point-size=\\\"8\\\"><b>asdasd</b></font></td>\\r\\n            </tr>\\r\\n            <tr>\\r\\n                <td></td>\\r\\n                <td  align=\\\"left\\\"> <font face=\\\"'Font Awesome 6 Free'\\\"  point-size=\\\"9.0\\\" color=\\\"#188a42\\\">&#xf058; </font> <font  point-size=\\\"8\\\"><b>czxczxc</b></font></td>\\r\\n            </tr>\\r\\n            <tr>\\r\\n                <td></td>\\r\\n                <td  align=\\\"left\\\"> <font face=\\\"'Font Awesome 6 Free'\\\"  point-size=\\\"9.0\\\" color=\\\"#d9342b\\\">&#xf057; </font> <font  point-size=\\\"8\\\"><b>2133</b></font></td>\\r\\n            </tr>\\r\\n        </table>\\r\\n    >]\\r\\n\\n 2 [id=\\\"1304\\\" style=\\\"filled\\\", fillcolor=\\\"#a78bfa\\\" label=<\\r\\n        <table border=\\\"0\\\" cellborder=\\\"0\\\" cellspacing=\\\"0\\\">\\r\\n\\r\\n            <tr>\\r\\n                <td align=\\\"left\\\"> <font face=\\\"'Font Awesome 6 Free'\\\" point-size=\\\"11.0\\\"> &#xf059; </font> </td>\\r\\n                <td align=\\\"left\\\"><b>aaaa</b></td>\\r\\n                <td align=\\\"right\\\" width=\\\"25\\\"><font point-size=\\\"15.0\\\"><b>⋮</b></font></td>\\r\\n            </tr>\\r\\n\\r\\n            <tr>\\r\\n                <td></td>\\r\\n                <td  align=\\\"left\\\"> <font face=\\\"'Font Awesome 6 Free'\\\"  point-size=\\\"9.0\\\" color=\\\"#d9342b\\\">&#xf057; </font> <font  point-size=\\\"8\\\"><b>ccc</b></font></td>\\r\\n            </tr>\\r\\n            <tr>\\r\\n                <td></td>\\r\\n                <td  align=\\\"left\\\"> <font face=\\\"'Font Awesome 6 Free'\\\"  point-size=\\\"9.0\\\" color=\\\"#d9342b\\\">&#xf057; </font> <font  point-size=\\\"8\\\"><b>3433</b></font></td>\\r\\n            </tr>\\r\\n            <tr>\\r\\n                <td></td>\\r\\n                <td  align=\\\"left\\\"> <font face=\\\"'Font Awesome 6 Free'\\\"  point-size=\\\"9.0\\\" color=\\\"#188a42\\\">&#xf058; </font> <font  point-size=\\\"8\\\"><b>saasd</b></font></td>\\r\\n            </tr>\\r\\n        </table>\\r\\n    >]\\r\\n\\n 3 [id=\\\"1402\\\" style=\\\"filled\\\", fillcolor=\\\"#a78bfa\\\" label=<\\r\\n        <table border=\\\"0\\\" cellborder=\\\"0\\\" cellspacing=\\\"0\\\">\\r\\n\\r\\n            <tr>\\r\\n                <td align=\\\"left\\\"> <font face=\\\"'Font Awesome 6 Free'\\\" point-size=\\\"11.0\\\"> &#xf059; </font> </td>\\r\\n                <td align=\\\"left\\\"><b>33</b></td>\\r\\n                <td align=\\\"right\\\" width=\\\"25\\\"><font point-size=\\\"15.0\\\"><b>⋮</b></font></td>\\r\\n            </tr>\\r\\n\\r\\n            <tr>\\r\\n                <td></td>\\r\\n                <td  align=\\\"left\\\"> <font face=\\\"'Font Awesome 6 Free'\\\"  point-size=\\\"9.0\\\" color=\\\"#d9342b\\\">&#xf057; </font> <font  point-size=\\\"8\\\"><b>aa</b></font></td>\\r\\n            </tr>\\r\\n            <tr>\\r\\n                <td></td>\\r\\n                <td  align=\\\"left\\\"> <font face=\\\"'Font Awesome 6 Free'\\\"  point-size=\\\"9.0\\\" color=\\\"#188a42\\\">&#xf058; </font> <font  point-size=\\\"8\\\"><b>cc</b></font></td>\\r\\n            </tr>\\r\\n            <tr>\\r\\n                <td></td>\\r\\n                <td  align=\\\"left\\\"> <font face=\\\"'Font Awesome 6 Free'\\\"  point-size=\\\"9.0\\\" color=\\\"#d9342b\\\">&#xf057; </font> <font  point-size=\\\"8\\\"><b>v</b></font></td>\\r\\n            </tr>\\r\\n        </table>\\r\\n    >]\\r\\n\\n4 [label=<<b>START <font face=\\\"'Font Awesome 6 Free'\\\"  point-size=\\\"18.0\\\" >&#xf04e; </font> </b>> fontsize=\\\"20\\\"]\\n5 [label=<<b>END <font face=\\\"'Font Awesome 6 Free'\\\"  point-size=\\\"18.0\\\" >&#xf11e; </font> </b>> fontsize=\\\"20\\\"]\\r\\n\\r\\n\\r\\n     0->1 [fontname=\\\"Arial\\\"   \\r\\n color=\\\"#374151\\\"   style=dashed ]\\n1->2 [fontname=\\\"Arial\\\"   \\r\\n color=\\\"#374151\\\"   style=dashed ]\\n2->3 [fontname=\\\"Arial\\\"   \\r\\n color=\\\"#374151\\\"   style=dashed ]\\n2->3 [fontname=\\\"Arial\\\"   label=<<font point-size=\\\"10\\\"\\r\\n color=\\\"#d9342b\\\"><b>3433</b></font>>\\r\\n color=\\\"#d9342b\\\"    ]\\n4->0 [fontname=\\\"Arial\\\"   \\r\\n color=\\\"#374151\\\"   style=dashed ]\\n3->5 [fontname=\\\"Arial\\\"   \\r\\n color=\\\"#374151\\\"   style=dashed ]\\r\\n}\"\r",
+											"}))\r",
+											"\r",
+											"\r",
+											"\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Response Body  is valid\", function () {\r",
+											"    pm.expect(response).to.eql(pm.globals.get(\"expectedResult\"));\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"quiz\": {\r\n        \"id\": 552,\r\n        \"uuid\": \"02f59c5c-cd44-492e-83fe-1daa87b9a885\",\r\n        \"title\": \"testing1z\",\r\n        \"responses\": 1,\r\n        \"dateCreated\": \"2024-03-14\",\r\n        \"status\": \"OPEN\",\r\n        \"questions\": [\r\n            {\r\n                \"id\": 1302,\r\n                \"text\": \"quesstui111???\",\r\n                \"type\": \"MULTI_CHOICE\",\r\n                \"score\": 2,\r\n                \"inBank\": false,\r\n                \"ownerId\": 1,\r\n                \"options\": [\r\n                    {\r\n                        \"id\": 1453,\r\n                        \"text\": \"aaa\",\r\n                        \"correct\": false,\r\n                        \"answers\": []\r\n                    },\r\n                    {\r\n                        \"id\": 1454,\r\n                        \"text\": \"dd\",\r\n                        \"correct\": false,\r\n                        \"answers\": []\r\n                    },\r\n                    {\r\n                        \"id\": 1455,\r\n                        \"text\": \"ccc\",\r\n                        \"correct\": false,\r\n                        \"answers\": []\r\n                    }\r\n                ],\r\n                \"logic\": [],\r\n                \"answers\": [\r\n                    {\r\n                        \"id\": 552,\r\n                        \"selectedOptions\": [\r\n                            {\r\n                                \"id\": 1303,\r\n                                \"text\": \"bb\",\r\n                                \"correct\": true\r\n                            }\r\n                        ],\r\n                        \"participantName\": \"dalylvis\",\r\n                        \"participantAge\": 33\r\n                    }\r\n                ],\r\n                \"quizzes\": [\r\n                    {\r\n                        \"id\": 552,\r\n                        \"uuid\": \"02f59c5c-cd44-492e-83fe-1daa87b9a885\",\r\n                        \"title\": \"testing1z\",\r\n                        \"responses\": 1,\r\n                        \"dateCreated\": \"2024-03-14\",\r\n                        \"status\": \"OPEN\",\r\n                        \"settings\": {\r\n                            \"id\": 802,\r\n                            \"logo\": \"\",\r\n                            \"enableTimeLimit\": false,\r\n                            \"min\": 0,\r\n                            \"hours\": 0,\r\n                            \"questionsPerPage\": 1,\r\n                            \"enableAnswerNotInOrder\": false,\r\n                            \"enableAskForBasicUserInfo\": true,\r\n                            \"enableProgressBar\": true,\r\n                            \"enableRandomizeQuestions\": false,\r\n                            \"enablePublic\": false,\r\n                            \"enableShowAnswersAtTheEnd\": true\r\n                        },\r\n                        \"theme\": {\r\n                            \"id\": 452,\r\n                            \"bgColor\": \"#14101f\",\r\n                            \"bgImage\": null,\r\n                            \"questionColor\": \"#006aff\",\r\n                            \"optionBgColor\": \"#f3f4f6\",\r\n                            \"optionTextColor\": \"#4b5563\",\r\n                            \"buttonBgColor\": \"#8b5cf6\",\r\n                            \"buttonTextColor\": \"#ffffff\"\r\n                        }\r\n                    }\r\n                ],\r\n                \"surveys\": []\r\n            },\r\n            {\r\n                \"id\": 1305,\r\n                \"text\": \"adasd\",\r\n                \"type\": \"MULTI_CHOICE\",\r\n                \"score\": 1,\r\n                \"inBank\": false,\r\n                \"ownerId\": 1,\r\n                \"options\": [\r\n                    {\r\n                        \"id\": 1312,\r\n                        \"text\": \"asdasd\",\r\n                        \"correct\": false,\r\n                        \"answers\": []\r\n                    },\r\n                    {\r\n                        \"id\": 1313,\r\n                        \"text\": \"czxczxc\",\r\n                        \"correct\": true,\r\n                        \"answers\": []\r\n                    },\r\n                    {\r\n                        \"id\": 1314,\r\n                        \"text\": \"2133\",\r\n                        \"correct\": false,\r\n                        \"answers\": []\r\n                    }\r\n                ],\r\n                \"logic\": [],\r\n                \"answers\": [\r\n                    {\r\n                        \"id\": 553,\r\n                        \"selectedOptions\": [],\r\n                        \"participantName\": \"dalylvis\",\r\n                        \"participantAge\": 33\r\n                    }\r\n                ],\r\n                \"quizzes\": [\r\n                    {\r\n                        \"id\": 552,\r\n                        \"uuid\": \"02f59c5c-cd44-492e-83fe-1daa87b9a885\",\r\n                        \"title\": \"testing1z\",\r\n                        \"responses\": 1,\r\n                        \"dateCreated\": \"2024-03-14\",\r\n                        \"status\": \"OPEN\",\r\n                        \"settings\": {\r\n                            \"id\": 802,\r\n                            \"logo\": \"\",\r\n                            \"enableTimeLimit\": false,\r\n                            \"min\": 0,\r\n                            \"hours\": 0,\r\n                            \"questionsPerPage\": 1,\r\n                            \"enableAnswerNotInOrder\": false,\r\n                            \"enableAskForBasicUserInfo\": true,\r\n                            \"enableProgressBar\": true,\r\n                            \"enableRandomizeQuestions\": false,\r\n                            \"enablePublic\": false,\r\n                            \"enableShowAnswersAtTheEnd\": true\r\n                        },\r\n                        \"theme\": {\r\n                            \"id\": 452,\r\n                            \"bgColor\": \"#14101f\",\r\n                            \"bgImage\": null,\r\n                            \"questionColor\": \"#006aff\",\r\n                            \"optionBgColor\": \"#f3f4f6\",\r\n                            \"optionTextColor\": \"#4b5563\",\r\n                            \"buttonBgColor\": \"#8b5cf6\",\r\n                            \"buttonTextColor\": \"#ffffff\"\r\n                        }\r\n                    }\r\n                ],\r\n                \"surveys\": []\r\n            },\r\n            {\r\n                \"id\": 1304,\r\n                \"text\": \"aaaa\",\r\n                \"type\": \"MULTI_CHOICE\",\r\n                \"score\": 0,\r\n                \"inBank\": false,\r\n                \"ownerId\": 1,\r\n                \"options\": [\r\n                    {\r\n                        \"id\": 1309,\r\n                        \"text\": \"ccc\",\r\n                        \"correct\": false,\r\n                        \"answers\": []\r\n                    },\r\n                    {\r\n                        \"id\": 1310,\r\n                        \"text\": \"3433\",\r\n                        \"correct\": false,\r\n                        \"answers\": []\r\n                    },\r\n                    {\r\n                        \"id\": 1311,\r\n                        \"text\": \"saasd\",\r\n                        \"correct\": true,\r\n                        \"answers\": [\r\n                            {\r\n                                \"id\": 554,\r\n                                \"participantName\": \"dalylvis\",\r\n                                \"participantAge\": 33\r\n                            }\r\n                        ]\r\n                    }\r\n                ],\r\n                \"logic\": [\r\n                    {\r\n                        \"id\": 1002,\r\n                        \"conditionType\": \"WHEN_ANSWER_IS\",\r\n                        \"conditionOptionId\": 1310,\r\n                        \"actionType\": \"SKIP_TO_QUESTION\",\r\n                        \"actionOptionId\": 1402\r\n                    }\r\n                ],\r\n                \"answers\": [\r\n                    {\r\n                        \"id\": 554,\r\n                        \"selectedOptions\": [\r\n                            {\r\n                                \"id\": 1311,\r\n                                \"text\": \"saasd\",\r\n                                \"correct\": true\r\n                            }\r\n                        ],\r\n                        \"participantName\": \"dalylvis\",\r\n                        \"participantAge\": 33\r\n                    }\r\n                ],\r\n                \"quizzes\": [\r\n                    {\r\n                        \"id\": 552,\r\n                        \"uuid\": \"02f59c5c-cd44-492e-83fe-1daa87b9a885\",\r\n                        \"title\": \"testing1z\",\r\n                        \"responses\": 1,\r\n                        \"dateCreated\": \"2024-03-14\",\r\n                        \"status\": \"OPEN\",\r\n                        \"settings\": {\r\n                            \"id\": 802,\r\n                            \"logo\": \"\",\r\n                            \"enableTimeLimit\": false,\r\n                            \"min\": 0,\r\n                            \"hours\": 0,\r\n                            \"questionsPerPage\": 1,\r\n                            \"enableAnswerNotInOrder\": false,\r\n                            \"enableAskForBasicUserInfo\": true,\r\n                            \"enableProgressBar\": true,\r\n                            \"enableRandomizeQuestions\": false,\r\n                            \"enablePublic\": false,\r\n                            \"enableShowAnswersAtTheEnd\": true\r\n                        },\r\n                        \"theme\": {\r\n                            \"id\": 452,\r\n                            \"bgColor\": \"#14101f\",\r\n                            \"bgImage\": null,\r\n                            \"questionColor\": \"#006aff\",\r\n                            \"optionBgColor\": \"#f3f4f6\",\r\n                            \"optionTextColor\": \"#4b5563\",\r\n                            \"buttonBgColor\": \"#8b5cf6\",\r\n                            \"buttonTextColor\": \"#ffffff\"\r\n                        }\r\n                    }\r\n                ],\r\n                \"surveys\": []\r\n            },\r\n            {\r\n                \"id\": 1402,\r\n                \"text\": \"33\",\r\n                \"type\": \"MULTI_CHOICE\",\r\n                \"score\": 1,\r\n                \"inBank\": false,\r\n                \"ownerId\": 1,\r\n                \"options\": [\r\n                    {\r\n                        \"id\": 1402,\r\n                        \"text\": \"aa\",\r\n                        \"correct\": false,\r\n                        \"answers\": []\r\n                    },\r\n                    {\r\n                        \"id\": 1403,\r\n                        \"text\": \"cc\",\r\n                        \"correct\": true,\r\n                        \"answers\": []\r\n                    },\r\n                    {\r\n                        \"id\": 1404,\r\n                        \"text\": \"v\",\r\n                        \"correct\": false,\r\n                        \"answers\": []\r\n                    }\r\n                ],\r\n                \"logic\": [],\r\n                \"answers\": [],\r\n                \"quizzes\": [\r\n                    {\r\n                        \"id\": 552,\r\n                        \"uuid\": \"02f59c5c-cd44-492e-83fe-1daa87b9a885\",\r\n                        \"title\": \"testing1z\",\r\n                        \"responses\": 1,\r\n                        \"dateCreated\": \"2024-03-14\",\r\n                        \"status\": \"OPEN\",\r\n                        \"settings\": {\r\n                            \"id\": 802,\r\n                            \"logo\": \"\",\r\n                            \"enableTimeLimit\": false,\r\n                            \"min\": 0,\r\n                            \"hours\": 0,\r\n                            \"questionsPerPage\": 1,\r\n                            \"enableAnswerNotInOrder\": false,\r\n                            \"enableAskForBasicUserInfo\": true,\r\n                            \"enableProgressBar\": true,\r\n                            \"enableRandomizeQuestions\": false,\r\n                            \"enablePublic\": false,\r\n                            \"enableShowAnswersAtTheEnd\": true\r\n                        },\r\n                        \"theme\": {\r\n                            \"id\": 452,\r\n                            \"bgColor\": \"#14101f\",\r\n                            \"bgImage\": null,\r\n                            \"questionColor\": \"#006aff\",\r\n                            \"optionBgColor\": \"#f3f4f6\",\r\n                            \"optionTextColor\": \"#4b5563\",\r\n                            \"buttonBgColor\": \"#8b5cf6\",\r\n                            \"buttonTextColor\": \"#ffffff\"\r\n                        }\r\n                    }\r\n                ],\r\n                \"surveys\": []\r\n            }\r\n        ],\r\n        \"settings\": {\r\n            \"id\": 802,\r\n            \"logo\": \"\",\r\n            \"enableTimeLimit\": false,\r\n            \"min\": 0,\r\n            \"hours\": 0,\r\n            \"questionsPerPage\": 1,\r\n            \"enableAnswerNotInOrder\": false,\r\n            \"enableAskForBasicUserInfo\": true,\r\n            \"enableProgressBar\": true,\r\n            \"enableRandomizeQuestions\": false,\r\n            \"enablePublic\": false,\r\n            \"enableShowAnswersAtTheEnd\": true\r\n        },\r\n        \"theme\": {\r\n            \"id\": 452,\r\n            \"bgColor\": \"#14101f\",\r\n            \"bgImage\": null,\r\n            \"questionColor\": \"#006aff\",\r\n            \"optionBgColor\": \"#f3f4f6\",\r\n            \"optionTextColor\": \"#4b5563\",\r\n            \"buttonBgColor\": \"#8b5cf6\",\r\n            \"buttonTextColor\": \"#ffffff\"\r\n        }\r\n    },\r\n    \"survey\": null,\r\n    \"isVerticalAlignment\": false\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/quiz/generate",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"quiz",
+										"generate"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "400 http://localhost:8080/api/quiz/generate",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/quiz/generate",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"quiz",
+										"generate"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "UpdateQuiz",
+					"item": [
+						{
+							"name": "200 http://localhost:8080/api/quiz/edit",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const loginRequest = {\r",
+											"    url: 'http://localhost:8080/api/user/login',\r",
+											"    method: 'POST',\r",
+											"    header: 'Content-Type:application/json',\r",
+											"    body: {\r",
+											"        mode: 'raw',\r",
+											"        raw: JSON.stringify({\r",
+											"            username: 'user1',\r",
+											"            password: '123'\r",
+											"        })\r",
+											"    }\r",
+											"};\r",
+											"\r",
+											"\r",
+											"pm.sendRequest(loginRequest, function (err, res) {\r",
+											"    if (err) {\r",
+											"        console.error('Login request failed:', err);\r",
+											"    } else {\r",
+											"        if (res.code === 200) {\r",
+											"            const authToken = res.json().token; \r",
+											"\r",
+											"            pm.environment.set('authToken', authToken);\r",
+											"\r",
+											"            pm.request.headers.add({\r",
+											"                key: 'Authorization',\r",
+											"                value: 'Bearer ' + authToken\r",
+											"            });\r",
+											"            \r",
+											"        } else {\r",
+											"            console.error('Login failed:', res.code, res.body);\r",
+											"        }\r",
+											"    }\r",
+											"});\r",
+											"\r",
+											"\r",
+											"pm.globals.set(\"expectedResult\",({\r",
+											"    \"id\": 552,\r",
+											"    \"uuid\": \"02f59c5c-cd44-492e-83fe-1daa87b9a885\",\r",
+											"    \"title\": \"testing2\",\r",
+											"    \"responses\": 1,\r",
+											"    \"dateCreated\": \"2024-03-14\",\r",
+											"    \"status\": \"OPEN\",\r",
+											"    \"questions\": [\r",
+											"        {\r",
+											"            \"id\": 1302,\r",
+											"            \"text\": \"quesstui111???\",\r",
+											"            \"type\": \"MULTI_CHOICE\",\r",
+											"            \"score\": 2,\r",
+											"            \"inBank\": false,\r",
+											"            \"ownerId\": 1,\r",
+											"            \"options\": [\r",
+											"                {\r",
+											"                    \"id\": 1453,\r",
+											"                    \"text\": \"aaa\",\r",
+											"                    \"correct\": false,\r",
+											"                    \"answers\": []\r",
+											"                },\r",
+											"                {\r",
+											"                    \"id\": 1454,\r",
+											"                    \"text\": \"dd\",\r",
+											"                    \"correct\": false,\r",
+											"                    \"answers\": []\r",
+											"                },\r",
+											"                {\r",
+											"                    \"id\": 1455,\r",
+											"                    \"text\": \"ccc\",\r",
+											"                    \"correct\": false,\r",
+											"                    \"answers\": []\r",
+											"                }\r",
+											"            ],\r",
+											"            \"logic\": [],\r",
+											"            \"answers\": [\r",
+											"                {\r",
+											"                    \"id\": 552,\r",
+											"                    \"selectedOptions\": [\r",
+											"                        {\r",
+											"                            \"id\": 1303,\r",
+											"                            \"text\": \"bb\",\r",
+											"                            \"correct\": true\r",
+											"                        }\r",
+											"                    ],\r",
+											"                    \"participantName\": \"dalylvis\",\r",
+											"                    \"participantAge\": 33\r",
+											"                }\r",
+											"            ],\r",
+											"            \"quizzes\": [\r",
+											"                {\r",
+											"                    \"id\": 552,\r",
+											"                    \"uuid\": \"02f59c5c-cd44-492e-83fe-1daa87b9a885\",\r",
+											"                    \"title\": \"testing2\",\r",
+											"                    \"responses\": 1,\r",
+											"                    \"dateCreated\": \"2024-03-14\",\r",
+											"                    \"status\": \"OPEN\",\r",
+											"                    \"settings\": {\r",
+											"                        \"id\": 802,\r",
+											"                        \"logo\": \"\",\r",
+											"                        \"enableTimeLimit\": false,\r",
+											"                        \"min\": 0,\r",
+											"                        \"hours\": 0,\r",
+											"                        \"questionsPerPage\": 1,\r",
+											"                        \"enableAnswerNotInOrder\": false,\r",
+											"                        \"enableAskForBasicUserInfo\": true,\r",
+											"                        \"enableProgressBar\": true,\r",
+											"                        \"enableRandomizeQuestions\": false,\r",
+											"                        \"enablePublic\": false,\r",
+											"                        \"enableShowAnswersAtTheEnd\": true\r",
+											"                    },\r",
+											"                    \"theme\": {\r",
+											"                        \"id\": 452,\r",
+											"                        \"bgColor\": \"#14101f\",\r",
+											"                        \"bgImage\": null,\r",
+											"                        \"questionColor\": \"#006aff\",\r",
+											"                        \"optionBgColor\": \"#f3f4f6\",\r",
+											"                        \"optionTextColor\": \"#4b5563\",\r",
+											"                        \"buttonBgColor\": \"#8b5cf6\",\r",
+											"                        \"buttonTextColor\": \"#ffffff\"\r",
+											"                    }\r",
+											"                }\r",
+											"            ],\r",
+											"            \"surveys\": []\r",
+											"        },\r",
+											"        {\r",
+											"            \"id\": 1305,\r",
+											"            \"text\": \"adasd\",\r",
+											"            \"type\": \"MULTI_CHOICE\",\r",
+											"            \"score\": 1,\r",
+											"            \"inBank\": false,\r",
+											"            \"ownerId\": 1,\r",
+											"            \"options\": [\r",
+											"                {\r",
+											"                    \"id\": 1312,\r",
+											"                    \"text\": \"asdasd\",\r",
+											"                    \"correct\": false,\r",
+											"                    \"answers\": []\r",
+											"                },\r",
+											"                {\r",
+											"                    \"id\": 1313,\r",
+											"                    \"text\": \"czxczxc\",\r",
+											"                    \"correct\": true,\r",
+											"                    \"answers\": []\r",
+											"                },\r",
+											"                {\r",
+											"                    \"id\": 1314,\r",
+											"                    \"text\": \"2133\",\r",
+											"                    \"correct\": false,\r",
+											"                    \"answers\": []\r",
+											"                }\r",
+											"            ],\r",
+											"            \"logic\": [],\r",
+											"            \"answers\": [\r",
+											"                {\r",
+											"                    \"id\": 553,\r",
+											"                    \"selectedOptions\": [],\r",
+											"                    \"participantName\": \"dalylvis\",\r",
+											"                    \"participantAge\": 33\r",
+											"                }\r",
+											"            ],\r",
+											"            \"quizzes\": [\r",
+											"                {\r",
+											"                    \"id\": 552,\r",
+											"                    \"uuid\": \"02f59c5c-cd44-492e-83fe-1daa87b9a885\",\r",
+											"                    \"title\": \"testing2\",\r",
+											"                    \"responses\": 1,\r",
+											"                    \"dateCreated\": \"2024-03-14\",\r",
+											"                    \"status\": \"OPEN\",\r",
+											"                    \"settings\": {\r",
+											"                        \"id\": 802,\r",
+											"                        \"logo\": \"\",\r",
+											"                        \"enableTimeLimit\": false,\r",
+											"                        \"min\": 0,\r",
+											"                        \"hours\": 0,\r",
+											"                        \"questionsPerPage\": 1,\r",
+											"                        \"enableAnswerNotInOrder\": false,\r",
+											"                        \"enableAskForBasicUserInfo\": true,\r",
+											"                        \"enableProgressBar\": true,\r",
+											"                        \"enableRandomizeQuestions\": false,\r",
+											"                        \"enablePublic\": false,\r",
+											"                        \"enableShowAnswersAtTheEnd\": true\r",
+											"                    },\r",
+											"                    \"theme\": {\r",
+											"                        \"id\": 452,\r",
+											"                        \"bgColor\": \"#14101f\",\r",
+											"                        \"bgImage\": null,\r",
+											"                        \"questionColor\": \"#006aff\",\r",
+											"                        \"optionBgColor\": \"#f3f4f6\",\r",
+											"                        \"optionTextColor\": \"#4b5563\",\r",
+											"                        \"buttonBgColor\": \"#8b5cf6\",\r",
+											"                        \"buttonTextColor\": \"#ffffff\"\r",
+											"                    }\r",
+											"                }\r",
+											"            ],\r",
+											"            \"surveys\": []\r",
+											"        },\r",
+											"        {\r",
+											"            \"id\": 1304,\r",
+											"            \"text\": \"aaaa\",\r",
+											"            \"type\": \"MULTI_CHOICE\",\r",
+											"            \"score\": 0,\r",
+											"            \"inBank\": false,\r",
+											"            \"ownerId\": 1,\r",
+											"            \"options\": [\r",
+											"                {\r",
+											"                    \"id\": 1309,\r",
+											"                    \"text\": \"ccc\",\r",
+											"                    \"correct\": false,\r",
+											"                    \"answers\": []\r",
+											"                },\r",
+											"                {\r",
+											"                    \"id\": 1310,\r",
+											"                    \"text\": \"3433\",\r",
+											"                    \"correct\": false,\r",
+											"                    \"answers\": []\r",
+											"                },\r",
+											"                {\r",
+											"                    \"id\": 1311,\r",
+											"                    \"text\": \"saasd\",\r",
+											"                    \"correct\": true,\r",
+											"                    \"answers\": [\r",
+											"                        {\r",
+											"                            \"id\": 554,\r",
+											"                            \"participantName\": \"dalylvis\",\r",
+											"                            \"participantAge\": 33\r",
+											"                        }\r",
+											"                    ]\r",
+											"                }\r",
+											"            ],\r",
+											"            \"logic\": [\r",
+											"                {\r",
+											"                    \"id\": 1002,\r",
+											"                    \"conditionType\": \"WHEN_ANSWER_IS\",\r",
+											"                    \"conditionOptionId\": 1310,\r",
+											"                    \"actionType\": \"SKIP_TO_QUESTION\",\r",
+											"                    \"actionOptionId\": 1402\r",
+											"                }\r",
+											"            ],\r",
+											"            \"answers\": [\r",
+											"                {\r",
+											"                    \"id\": 554,\r",
+											"                    \"selectedOptions\": [\r",
+											"                        {\r",
+											"                            \"id\": 1311,\r",
+											"                            \"text\": \"saasd\",\r",
+											"                            \"correct\": true\r",
+											"                        }\r",
+											"                    ],\r",
+											"                    \"participantName\": \"dalylvis\",\r",
+											"                    \"participantAge\": 33\r",
+											"                }\r",
+											"            ],\r",
+											"            \"quizzes\": [\r",
+											"                {\r",
+											"                    \"id\": 552,\r",
+											"                    \"uuid\": \"02f59c5c-cd44-492e-83fe-1daa87b9a885\",\r",
+											"                    \"title\": \"testing2\",\r",
+											"                    \"responses\": 1,\r",
+											"                    \"dateCreated\": \"2024-03-14\",\r",
+											"                    \"status\": \"OPEN\",\r",
+											"                    \"settings\": {\r",
+											"                        \"id\": 802,\r",
+											"                        \"logo\": \"\",\r",
+											"                        \"enableTimeLimit\": false,\r",
+											"                        \"min\": 0,\r",
+											"                        \"hours\": 0,\r",
+											"                        \"questionsPerPage\": 1,\r",
+											"                        \"enableAnswerNotInOrder\": false,\r",
+											"                        \"enableAskForBasicUserInfo\": true,\r",
+											"                        \"enableProgressBar\": true,\r",
+											"                        \"enableRandomizeQuestions\": false,\r",
+											"                        \"enablePublic\": false,\r",
+											"                        \"enableShowAnswersAtTheEnd\": true\r",
+											"                    },\r",
+											"                    \"theme\": {\r",
+											"                        \"id\": 452,\r",
+											"                        \"bgColor\": \"#14101f\",\r",
+											"                        \"bgImage\": null,\r",
+											"                        \"questionColor\": \"#006aff\",\r",
+											"                        \"optionBgColor\": \"#f3f4f6\",\r",
+											"                        \"optionTextColor\": \"#4b5563\",\r",
+											"                        \"buttonBgColor\": \"#8b5cf6\",\r",
+											"                        \"buttonTextColor\": \"#ffffff\"\r",
+											"                    }\r",
+											"                }\r",
+											"            ],\r",
+											"            \"surveys\": []\r",
+											"        },\r",
+											"        {\r",
+											"            \"id\": 1402,\r",
+											"            \"text\": \"33\",\r",
+											"            \"type\": \"MULTI_CHOICE\",\r",
+											"            \"score\": 1,\r",
+											"            \"inBank\": false,\r",
+											"            \"ownerId\": 1,\r",
+											"            \"options\": [\r",
+											"                {\r",
+											"                    \"id\": 1402,\r",
+											"                    \"text\": \"aa\",\r",
+											"                    \"correct\": false,\r",
+											"                    \"answers\": []\r",
+											"                },\r",
+											"                {\r",
+											"                    \"id\": 1403,\r",
+											"                    \"text\": \"cc\",\r",
+											"                    \"correct\": true,\r",
+											"                    \"answers\": []\r",
+											"                },\r",
+											"                {\r",
+											"                    \"id\": 1404,\r",
+											"                    \"text\": \"v\",\r",
+											"                    \"correct\": false,\r",
+											"                    \"answers\": []\r",
+											"                }\r",
+											"            ],\r",
+											"            \"logic\": [],\r",
+											"            \"answers\": [],\r",
+											"            \"quizzes\": [\r",
+											"                {\r",
+											"                    \"id\": 552,\r",
+											"                    \"uuid\": \"02f59c5c-cd44-492e-83fe-1daa87b9a885\",\r",
+											"                    \"title\": \"testing2\",\r",
+											"                    \"responses\": 1,\r",
+											"                    \"dateCreated\": \"2024-03-14\",\r",
+											"                    \"status\": \"OPEN\",\r",
+											"                    \"settings\": {\r",
+											"                        \"id\": 802,\r",
+											"                        \"logo\": \"\",\r",
+											"                        \"enableTimeLimit\": false,\r",
+											"                        \"min\": 0,\r",
+											"                        \"hours\": 0,\r",
+											"                        \"questionsPerPage\": 1,\r",
+											"                        \"enableAnswerNotInOrder\": false,\r",
+											"                        \"enableAskForBasicUserInfo\": true,\r",
+											"                        \"enableProgressBar\": true,\r",
+											"                        \"enableRandomizeQuestions\": false,\r",
+											"                        \"enablePublic\": false,\r",
+											"                        \"enableShowAnswersAtTheEnd\": true\r",
+											"                    },\r",
+											"                    \"theme\": {\r",
+											"                        \"id\": 452,\r",
+											"                        \"bgColor\": \"#14101f\",\r",
+											"                        \"bgImage\": null,\r",
+											"                        \"questionColor\": \"#006aff\",\r",
+											"                        \"optionBgColor\": \"#f3f4f6\",\r",
+											"                        \"optionTextColor\": \"#4b5563\",\r",
+											"                        \"buttonBgColor\": \"#8b5cf6\",\r",
+											"                        \"buttonTextColor\": \"#ffffff\"\r",
+											"                    }\r",
+											"                }\r",
+											"            ],\r",
+											"            \"surveys\": []\r",
+											"        }\r",
+											"    ],\r",
+											"    \"settings\": {\r",
+											"        \"id\": 802,\r",
+											"        \"logo\": \"\",\r",
+											"        \"enableTimeLimit\": false,\r",
+											"        \"min\": 0,\r",
+											"        \"hours\": 0,\r",
+											"        \"questionsPerPage\": 1,\r",
+											"        \"enableAnswerNotInOrder\": false,\r",
+											"        \"enableAskForBasicUserInfo\": true,\r",
+											"        \"enableProgressBar\": true,\r",
+											"        \"enableRandomizeQuestions\": false,\r",
+											"        \"enablePublic\": false,\r",
+											"        \"enableShowAnswersAtTheEnd\": true\r",
+											"    },\r",
+											"    \"theme\": {\r",
+											"        \"id\": 452,\r",
+											"        \"bgColor\": \"#14101f\",\r",
+											"        \"bgImage\": null,\r",
+											"        \"questionColor\": \"#006aff\",\r",
+											"        \"optionBgColor\": \"#f3f4f6\",\r",
+											"        \"optionTextColor\": \"#4b5563\",\r",
+											"        \"buttonBgColor\": \"#8b5cf6\",\r",
+											"        \"buttonTextColor\": \"#ffffff\"\r",
+											"    }\r",
+											"}))\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Response Body is valid\", function () {\r",
+											"    pm.expect(response).to.eql(pm.globals.get(\"expectedResult\"));\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\": 552,\r\n    \"title\": \"testing2\",\r\n    \"responses\": 1,\r\n    \"status\": \"OPEN\",\r\n    \"settings\": {\r\n        \"id\": 802,\r\n        \"logo\": \"\",\r\n        \"enableTimeLimit\": false,\r\n        \"min\": 0,\r\n        \"hours\": 0,\r\n        \"questionsPerPage\": 1,\r\n        \"enableAnswerNotInOrder\": false,\r\n        \"enableAskForBasicUserInfo\": true,\r\n        \"enableProgressBar\": true,\r\n        \"enableRandomizeQuestions\": false,\r\n        \"enablePublic\": false,\r\n        \"enableShowAnswersAtTheEnd\": true\r\n    },\r\n    \"theme\": {\r\n        \"id\": 452,\r\n        \"bgColor\": \"#14101f\",\r\n        \"bgImage\": null,\r\n        \"questionColor\": \"#006aff\",\r\n        \"optionBgColor\": \"#f3f4f6\",\r\n        \"optionTextColor\": \"#4b5563\",\r\n        \"buttonBgColor\": \"#8b5cf6\",\r\n        \"buttonTextColor\": \"#ffffff\"\r\n    },\r\n    \"userId\": \"1\",\r\n    \"questions\": [\r\n        {\r\n            \"id\": 1302,\r\n            \"text\": \"quesstui111???\",\r\n            \"type\": \"MULTI_CHOICE\",\r\n            \"score\": 2,\r\n            \"inBank\": false,\r\n            \"ownerId\": 1,\r\n            \"options\": [\r\n                {\r\n                    \"id\": 1453,\r\n                    \"text\": \"aaa\",\r\n                    \"correct\": false,\r\n                    \"answers\": []\r\n                },\r\n                {\r\n                    \"id\": 1454,\r\n                    \"text\": \"dd\",\r\n                    \"correct\": false,\r\n                    \"answers\": []\r\n                },\r\n                {\r\n                    \"id\": 1455,\r\n                    \"text\": \"ccc\",\r\n                    \"correct\": false,\r\n                    \"answers\": []\r\n                }\r\n            ],\r\n            \"logic\": [],\r\n            \"answers\": [\r\n                {\r\n                    \"id\": 552,\r\n                    \"selectedOptions\": [\r\n                        {\r\n                            \"id\": 1303,\r\n                            \"text\": \"bb\",\r\n                            \"correct\": true\r\n                        }\r\n                    ],\r\n                    \"participantName\": \"dalylvis\",\r\n                    \"participantAge\": 33\r\n                }\r\n            ],\r\n            \"quizzes\": [\r\n                {\r\n                    \"id\": 552,\r\n                    \"uuid\": \"02f59c5c-cd44-492e-83fe-1daa87b9a885\",\r\n                    \"title\": \"testing1z\",\r\n                    \"responses\": 1,\r\n                    \"dateCreated\": \"2024-03-14\",\r\n                    \"status\": \"OPEN\",\r\n                    \"settings\": {\r\n                        \"id\": 802,\r\n                        \"logo\": \"\",\r\n                        \"enableTimeLimit\": false,\r\n                        \"min\": 0,\r\n                        \"hours\": 0,\r\n                        \"questionsPerPage\": 1,\r\n                        \"enableAnswerNotInOrder\": false,\r\n                        \"enableAskForBasicUserInfo\": true,\r\n                        \"enableProgressBar\": true,\r\n                        \"enableRandomizeQuestions\": false,\r\n                        \"enablePublic\": false,\r\n                        \"enableShowAnswersAtTheEnd\": true\r\n                    },\r\n                    \"theme\": {\r\n                        \"id\": 452,\r\n                        \"bgColor\": \"#14101f\",\r\n                        \"bgImage\": null,\r\n                        \"questionColor\": \"#006aff\",\r\n                        \"optionBgColor\": \"#f3f4f6\",\r\n                        \"optionTextColor\": \"#4b5563\",\r\n                        \"buttonBgColor\": \"#8b5cf6\",\r\n                        \"buttonTextColor\": \"#ffffff\"\r\n                    }\r\n                }\r\n            ],\r\n            \"surveys\": []\r\n        },\r\n        {\r\n            \"id\": 1305,\r\n            \"text\": \"adasd\",\r\n            \"type\": \"MULTI_CHOICE\",\r\n            \"score\": 1,\r\n            \"inBank\": false,\r\n            \"ownerId\": 1,\r\n            \"options\": [\r\n                {\r\n                    \"id\": 1312,\r\n                    \"text\": \"asdasd\",\r\n                    \"correct\": false,\r\n                    \"answers\": []\r\n                },\r\n                {\r\n                    \"id\": 1313,\r\n                    \"text\": \"czxczxc\",\r\n                    \"correct\": true,\r\n                    \"answers\": []\r\n                },\r\n                {\r\n                    \"id\": 1314,\r\n                    \"text\": \"2133\",\r\n                    \"correct\": false,\r\n                    \"answers\": []\r\n                }\r\n            ],\r\n            \"logic\": [],\r\n            \"answers\": [\r\n                {\r\n                    \"id\": 553,\r\n                    \"selectedOptions\": [],\r\n                    \"participantName\": \"dalylvis\",\r\n                    \"participantAge\": 33\r\n                }\r\n            ],\r\n            \"quizzes\": [\r\n                {\r\n                    \"id\": 552,\r\n                    \"uuid\": \"02f59c5c-cd44-492e-83fe-1daa87b9a885\",\r\n                    \"title\": \"testing1z\",\r\n                    \"responses\": 1,\r\n                    \"dateCreated\": \"2024-03-14\",\r\n                    \"status\": \"OPEN\",\r\n                    \"settings\": {\r\n                        \"id\": 802,\r\n                        \"logo\": \"\",\r\n                        \"enableTimeLimit\": false,\r\n                        \"min\": 0,\r\n                        \"hours\": 0,\r\n                        \"questionsPerPage\": 1,\r\n                        \"enableAnswerNotInOrder\": false,\r\n                        \"enableAskForBasicUserInfo\": true,\r\n                        \"enableProgressBar\": true,\r\n                        \"enableRandomizeQuestions\": false,\r\n                        \"enablePublic\": false,\r\n                        \"enableShowAnswersAtTheEnd\": true\r\n                    },\r\n                    \"theme\": {\r\n                        \"id\": 452,\r\n                        \"bgColor\": \"#14101f\",\r\n                        \"bgImage\": null,\r\n                        \"questionColor\": \"#006aff\",\r\n                        \"optionBgColor\": \"#f3f4f6\",\r\n                        \"optionTextColor\": \"#4b5563\",\r\n                        \"buttonBgColor\": \"#8b5cf6\",\r\n                        \"buttonTextColor\": \"#ffffff\"\r\n                    }\r\n                }\r\n            ],\r\n            \"surveys\": []\r\n        },\r\n        {\r\n            \"id\": 1304,\r\n            \"text\": \"aaaa\",\r\n            \"type\": \"MULTI_CHOICE\",\r\n            \"score\": 0,\r\n            \"inBank\": false,\r\n            \"ownerId\": 1,\r\n            \"options\": [\r\n                {\r\n                    \"id\": 1309,\r\n                    \"text\": \"ccc\",\r\n                    \"correct\": false,\r\n                    \"answers\": []\r\n                },\r\n                {\r\n                    \"id\": 1310,\r\n                    \"text\": \"3433\",\r\n                    \"correct\": false,\r\n                    \"answers\": []\r\n                },\r\n                {\r\n                    \"id\": 1311,\r\n                    \"text\": \"saasd\",\r\n                    \"correct\": true,\r\n                    \"answers\": [\r\n                        {\r\n                            \"id\": 554,\r\n                            \"participantName\": \"dalylvis\",\r\n                            \"participantAge\": 33\r\n                        }\r\n                    ]\r\n                }\r\n            ],\r\n            \"logic\": [\r\n                {\r\n                    \"id\": 1002,\r\n                    \"conditionType\": \"WHEN_ANSWER_IS\",\r\n                    \"conditionOptionId\": 1310,\r\n                    \"actionType\": \"SKIP_TO_QUESTION\",\r\n                    \"actionOptionId\": 1402\r\n                }\r\n            ],\r\n            \"answers\": [\r\n                {\r\n                    \"id\": 554,\r\n                    \"selectedOptions\": [\r\n                        {\r\n                            \"id\": 1311,\r\n                            \"text\": \"saasd\",\r\n                            \"correct\": true\r\n                        }\r\n                    ],\r\n                    \"participantName\": \"dalylvis\",\r\n                    \"participantAge\": 33\r\n                }\r\n            ],\r\n            \"quizzes\": [\r\n                {\r\n                    \"id\": 552,\r\n                    \"uuid\": \"02f59c5c-cd44-492e-83fe-1daa87b9a885\",\r\n                    \"title\": \"testing1z\",\r\n                    \"responses\": 1,\r\n                    \"dateCreated\": \"2024-03-14\",\r\n                    \"status\": \"OPEN\",\r\n                    \"settings\": {\r\n                        \"id\": 802,\r\n                        \"logo\": \"\",\r\n                        \"enableTimeLimit\": false,\r\n                        \"min\": 0,\r\n                        \"hours\": 0,\r\n                        \"questionsPerPage\": 1,\r\n                        \"enableAnswerNotInOrder\": false,\r\n                        \"enableAskForBasicUserInfo\": true,\r\n                        \"enableProgressBar\": true,\r\n                        \"enableRandomizeQuestions\": false,\r\n                        \"enablePublic\": false,\r\n                        \"enableShowAnswersAtTheEnd\": true\r\n                    },\r\n                    \"theme\": {\r\n                        \"id\": 452,\r\n                        \"bgColor\": \"#14101f\",\r\n                        \"bgImage\": null,\r\n                        \"questionColor\": \"#006aff\",\r\n                        \"optionBgColor\": \"#f3f4f6\",\r\n                        \"optionTextColor\": \"#4b5563\",\r\n                        \"buttonBgColor\": \"#8b5cf6\",\r\n                        \"buttonTextColor\": \"#ffffff\"\r\n                    }\r\n                }\r\n            ],\r\n            \"surveys\": []\r\n        },\r\n        {\r\n            \"id\": 1402,\r\n            \"text\": \"33\",\r\n            \"type\": \"MULTI_CHOICE\",\r\n            \"score\": 1,\r\n            \"inBank\": false,\r\n            \"ownerId\": 1,\r\n            \"options\": [\r\n                {\r\n                    \"id\": 1402,\r\n                    \"text\": \"aa\",\r\n                    \"correct\": false,\r\n                    \"answers\": []\r\n                },\r\n                {\r\n                    \"id\": 1403,\r\n                    \"text\": \"cc\",\r\n                    \"correct\": true,\r\n                    \"answers\": []\r\n                },\r\n                {\r\n                    \"id\": 1404,\r\n                    \"text\": \"v\",\r\n                    \"correct\": false,\r\n                    \"answers\": []\r\n                }\r\n            ],\r\n            \"logic\": [],\r\n            \"answers\": [],\r\n            \"quizzes\": [\r\n                {\r\n                    \"id\": 552,\r\n                    \"uuid\": \"02f59c5c-cd44-492e-83fe-1daa87b9a885\",\r\n                    \"title\": \"testing1z\",\r\n                    \"responses\": 1,\r\n                    \"dateCreated\": \"2024-03-14\",\r\n                    \"status\": \"OPEN\",\r\n                    \"settings\": {\r\n                        \"id\": 802,\r\n                        \"logo\": \"\",\r\n                        \"enableTimeLimit\": false,\r\n                        \"min\": 0,\r\n                        \"hours\": 0,\r\n                        \"questionsPerPage\": 1,\r\n                        \"enableAnswerNotInOrder\": false,\r\n                        \"enableAskForBasicUserInfo\": true,\r\n                        \"enableProgressBar\": true,\r\n                        \"enableRandomizeQuestions\": false,\r\n                        \"enablePublic\": false,\r\n                        \"enableShowAnswersAtTheEnd\": true\r\n                    },\r\n                    \"theme\": {\r\n                        \"id\": 452,\r\n                        \"bgColor\": \"#14101f\",\r\n                        \"bgImage\": null,\r\n                        \"questionColor\": \"#006aff\",\r\n                        \"optionBgColor\": \"#f3f4f6\",\r\n                        \"optionTextColor\": \"#4b5563\",\r\n                        \"buttonBgColor\": \"#8b5cf6\",\r\n                        \"buttonTextColor\": \"#ffffff\"\r\n                    }\r\n                }\r\n            ],\r\n            \"surveys\": []\r\n        }\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/quiz/edit",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"quiz",
+										"edit"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "400 http://localhost:8080/api/quiz/edit",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const loginRequest = {\r",
+											"    url: 'http://localhost:8080/api/user/login',\r",
+											"    method: 'POST',\r",
+											"    header: 'Content-Type:application/json',\r",
+											"    body: {\r",
+											"        mode: 'raw',\r",
+											"        raw: JSON.stringify({\r",
+											"            username: 'user1',\r",
+											"            password: '123'\r",
+											"        })\r",
+											"    }\r",
+											"};\r",
+											"\r",
+											"\r",
+											"pm.sendRequest(loginRequest, function (err, res) {\r",
+											"    if (err) {\r",
+											"        console.error('Login request failed:', err);\r",
+											"    } else {\r",
+											"        if (res.code === 200) {\r",
+											"            const authToken = res.json().token; \r",
+											"\r",
+											"            pm.environment.set('authToken', authToken);\r",
+											"\r",
+											"            pm.request.headers.add({\r",
+											"                key: 'Authorization',\r",
+											"                value: 'Bearer ' + authToken\r",
+											"            });\r",
+											"            \r",
+											"        } else {\r",
+											"            console.error('Login failed:', res.code, res.body);\r",
+											"        }\r",
+											"    }\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/quiz/edit",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"quiz",
+										"edit"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "403 http://localhost:8080/api/quiz/edit",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const loginRequest = {\r",
+											"    url: 'http://localhost:8080/api/user/login',\r",
+											"    method: 'POST',\r",
+											"    header: 'Content-Type:application/json',\r",
+											"    body: {\r",
+											"        mode: 'raw',\r",
+											"        raw: JSON.stringify({\r",
+											"            username: 'user1',\r",
+											"            password: '123'\r",
+											"        })\r",
+											"    }\r",
+											"};\r",
+											"\r",
+											"\r",
+											"pm.sendRequest(loginRequest, function (err, res) {\r",
+											"    if (err) {\r",
+											"        console.error('Login request failed:', err);\r",
+											"    } else {\r",
+											"        if (res.code === 200) {\r",
+											"            const authToken = res.json().token; \r",
+											"\r",
+											"            pm.environment.set('authToken', authToken);\r",
+											"\r",
+											"            pm.request.headers.add({\r",
+											"                key: 'Authorization',\r",
+											"                value: 'Bearer ' + authToken\r",
+											"            });\r",
+											"            \r",
+											"        } else {\r",
+											"            console.error('Login failed:', res.code, res.body);\r",
+											"        }\r",
+											"    }\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 403\", function () {\r",
+											"    pm.response.to.have.status(403);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\": 202,\r\n    \"title\": \"testing2\",\r\n    \"responses\": 1,\r\n    \"status\": \"OPEN\",\r\n    \"settings\": {\r\n        \"id\": 802,\r\n        \"logo\": \"\",\r\n        \"enableTimeLimit\": false,\r\n        \"min\": 0,\r\n        \"hours\": 0,\r\n        \"questionsPerPage\": 1,\r\n        \"enableAnswerNotInOrder\": false,\r\n        \"enableAskForBasicUserInfo\": true,\r\n        \"enableProgressBar\": true,\r\n        \"enableRandomizeQuestions\": false,\r\n        \"enablePublic\": false,\r\n        \"enableShowAnswersAtTheEnd\": true\r\n    },\r\n    \"theme\": {\r\n        \"id\": 452,\r\n        \"bgColor\": \"#14101f\",\r\n        \"bgImage\": null,\r\n        \"questionColor\": \"#006aff\",\r\n        \"optionBgColor\": \"#f3f4f6\",\r\n        \"optionTextColor\": \"#4b5563\",\r\n        \"buttonBgColor\": \"#8b5cf6\",\r\n        \"buttonTextColor\": \"#ffffff\"\r\n    },\r\n    \"userId\": \"1\",\r\n    \"questions\": [\r\n        {\r\n            \"id\": 1302,\r\n            \"text\": \"quesstui111???\",\r\n            \"type\": \"MULTI_CHOICE\",\r\n            \"score\": 2,\r\n            \"inBank\": false,\r\n            \"ownerId\": 1,\r\n            \"options\": [\r\n                {\r\n                    \"id\": 1453,\r\n                    \"text\": \"aaa\",\r\n                    \"correct\": false,\r\n                    \"answers\": []\r\n                },\r\n                {\r\n                    \"id\": 1454,\r\n                    \"text\": \"dd\",\r\n                    \"correct\": false,\r\n                    \"answers\": []\r\n                },\r\n                {\r\n                    \"id\": 1455,\r\n                    \"text\": \"ccc\",\r\n                    \"correct\": false,\r\n                    \"answers\": []\r\n                }\r\n            ],\r\n            \"logic\": [],\r\n            \"answers\": [\r\n                {\r\n                    \"id\": 552,\r\n                    \"selectedOptions\": [\r\n                        {\r\n                            \"id\": 1303,\r\n                            \"text\": \"bb\",\r\n                            \"correct\": true\r\n                        }\r\n                    ],\r\n                    \"participantName\": \"dalylvis\",\r\n                    \"participantAge\": 33\r\n                }\r\n            ],\r\n            \"quizzes\": [\r\n                {\r\n                    \"id\": 552,\r\n                    \"uuid\": \"02f59c5c-cd44-492e-83fe-1daa87b9a885\",\r\n                    \"title\": \"testing1z\",\r\n                    \"responses\": 1,\r\n                    \"dateCreated\": \"2024-03-14\",\r\n                    \"status\": \"OPEN\",\r\n                    \"settings\": {\r\n                        \"id\": 802,\r\n                        \"logo\": \"\",\r\n                        \"enableTimeLimit\": false,\r\n                        \"min\": 0,\r\n                        \"hours\": 0,\r\n                        \"questionsPerPage\": 1,\r\n                        \"enableAnswerNotInOrder\": false,\r\n                        \"enableAskForBasicUserInfo\": true,\r\n                        \"enableProgressBar\": true,\r\n                        \"enableRandomizeQuestions\": false,\r\n                        \"enablePublic\": false,\r\n                        \"enableShowAnswersAtTheEnd\": true\r\n                    },\r\n                    \"theme\": {\r\n                        \"id\": 452,\r\n                        \"bgColor\": \"#14101f\",\r\n                        \"bgImage\": null,\r\n                        \"questionColor\": \"#006aff\",\r\n                        \"optionBgColor\": \"#f3f4f6\",\r\n                        \"optionTextColor\": \"#4b5563\",\r\n                        \"buttonBgColor\": \"#8b5cf6\",\r\n                        \"buttonTextColor\": \"#ffffff\"\r\n                    }\r\n                }\r\n            ],\r\n            \"surveys\": []\r\n        },\r\n        {\r\n            \"id\": 1305,\r\n            \"text\": \"adasd\",\r\n            \"type\": \"MULTI_CHOICE\",\r\n            \"score\": 1,\r\n            \"inBank\": false,\r\n            \"ownerId\": 1,\r\n            \"options\": [\r\n                {\r\n                    \"id\": 1312,\r\n                    \"text\": \"asdasd\",\r\n                    \"correct\": false,\r\n                    \"answers\": []\r\n                },\r\n                {\r\n                    \"id\": 1313,\r\n                    \"text\": \"czxczxc\",\r\n                    \"correct\": true,\r\n                    \"answers\": []\r\n                },\r\n                {\r\n                    \"id\": 1314,\r\n                    \"text\": \"2133\",\r\n                    \"correct\": false,\r\n                    \"answers\": []\r\n                }\r\n            ],\r\n            \"logic\": [],\r\n            \"answers\": [\r\n                {\r\n                    \"id\": 553,\r\n                    \"selectedOptions\": [],\r\n                    \"participantName\": \"dalylvis\",\r\n                    \"participantAge\": 33\r\n                }\r\n            ],\r\n            \"quizzes\": [\r\n                {\r\n                    \"id\": 552,\r\n                    \"uuid\": \"02f59c5c-cd44-492e-83fe-1daa87b9a885\",\r\n                    \"title\": \"testing1z\",\r\n                    \"responses\": 1,\r\n                    \"dateCreated\": \"2024-03-14\",\r\n                    \"status\": \"OPEN\",\r\n                    \"settings\": {\r\n                        \"id\": 802,\r\n                        \"logo\": \"\",\r\n                        \"enableTimeLimit\": false,\r\n                        \"min\": 0,\r\n                        \"hours\": 0,\r\n                        \"questionsPerPage\": 1,\r\n                        \"enableAnswerNotInOrder\": false,\r\n                        \"enableAskForBasicUserInfo\": true,\r\n                        \"enableProgressBar\": true,\r\n                        \"enableRandomizeQuestions\": false,\r\n                        \"enablePublic\": false,\r\n                        \"enableShowAnswersAtTheEnd\": true\r\n                    },\r\n                    \"theme\": {\r\n                        \"id\": 452,\r\n                        \"bgColor\": \"#14101f\",\r\n                        \"bgImage\": null,\r\n                        \"questionColor\": \"#006aff\",\r\n                        \"optionBgColor\": \"#f3f4f6\",\r\n                        \"optionTextColor\": \"#4b5563\",\r\n                        \"buttonBgColor\": \"#8b5cf6\",\r\n                        \"buttonTextColor\": \"#ffffff\"\r\n                    }\r\n                }\r\n            ],\r\n            \"surveys\": []\r\n        },\r\n        {\r\n            \"id\": 1304,\r\n            \"text\": \"aaaa\",\r\n            \"type\": \"MULTI_CHOICE\",\r\n            \"score\": 0,\r\n            \"inBank\": false,\r\n            \"ownerId\": 1,\r\n            \"options\": [\r\n                {\r\n                    \"id\": 1309,\r\n                    \"text\": \"ccc\",\r\n                    \"correct\": false,\r\n                    \"answers\": []\r\n                },\r\n                {\r\n                    \"id\": 1310,\r\n                    \"text\": \"3433\",\r\n                    \"correct\": false,\r\n                    \"answers\": []\r\n                },\r\n                {\r\n                    \"id\": 1311,\r\n                    \"text\": \"saasd\",\r\n                    \"correct\": true,\r\n                    \"answers\": [\r\n                        {\r\n                            \"id\": 554,\r\n                            \"participantName\": \"dalylvis\",\r\n                            \"participantAge\": 33\r\n                        }\r\n                    ]\r\n                }\r\n            ],\r\n            \"logic\": [\r\n                {\r\n                    \"id\": 1002,\r\n                    \"conditionType\": \"WHEN_ANSWER_IS\",\r\n                    \"conditionOptionId\": 1310,\r\n                    \"actionType\": \"SKIP_TO_QUESTION\",\r\n                    \"actionOptionId\": 1402\r\n                }\r\n            ],\r\n            \"answers\": [\r\n                {\r\n                    \"id\": 554,\r\n                    \"selectedOptions\": [\r\n                        {\r\n                            \"id\": 1311,\r\n                            \"text\": \"saasd\",\r\n                            \"correct\": true\r\n                        }\r\n                    ],\r\n                    \"participantName\": \"dalylvis\",\r\n                    \"participantAge\": 33\r\n                }\r\n            ],\r\n            \"quizzes\": [\r\n                {\r\n                    \"id\": 552,\r\n                    \"uuid\": \"02f59c5c-cd44-492e-83fe-1daa87b9a885\",\r\n                    \"title\": \"testing1z\",\r\n                    \"responses\": 1,\r\n                    \"dateCreated\": \"2024-03-14\",\r\n                    \"status\": \"OPEN\",\r\n                    \"settings\": {\r\n                        \"id\": 802,\r\n                        \"logo\": \"\",\r\n                        \"enableTimeLimit\": false,\r\n                        \"min\": 0,\r\n                        \"hours\": 0,\r\n                        \"questionsPerPage\": 1,\r\n                        \"enableAnswerNotInOrder\": false,\r\n                        \"enableAskForBasicUserInfo\": true,\r\n                        \"enableProgressBar\": true,\r\n                        \"enableRandomizeQuestions\": false,\r\n                        \"enablePublic\": false,\r\n                        \"enableShowAnswersAtTheEnd\": true\r\n                    },\r\n                    \"theme\": {\r\n                        \"id\": 452,\r\n                        \"bgColor\": \"#14101f\",\r\n                        \"bgImage\": null,\r\n                        \"questionColor\": \"#006aff\",\r\n                        \"optionBgColor\": \"#f3f4f6\",\r\n                        \"optionTextColor\": \"#4b5563\",\r\n                        \"buttonBgColor\": \"#8b5cf6\",\r\n                        \"buttonTextColor\": \"#ffffff\"\r\n                    }\r\n                }\r\n            ],\r\n            \"surveys\": []\r\n        },\r\n        {\r\n            \"id\": 1402,\r\n            \"text\": \"33\",\r\n            \"type\": \"MULTI_CHOICE\",\r\n            \"score\": 1,\r\n            \"inBank\": false,\r\n            \"ownerId\": 1,\r\n            \"options\": [\r\n                {\r\n                    \"id\": 1402,\r\n                    \"text\": \"aa\",\r\n                    \"correct\": false,\r\n                    \"answers\": []\r\n                },\r\n                {\r\n                    \"id\": 1403,\r\n                    \"text\": \"cc\",\r\n                    \"correct\": true,\r\n                    \"answers\": []\r\n                },\r\n                {\r\n                    \"id\": 1404,\r\n                    \"text\": \"v\",\r\n                    \"correct\": false,\r\n                    \"answers\": []\r\n                }\r\n            ],\r\n            \"logic\": [],\r\n            \"answers\": [],\r\n            \"quizzes\": [\r\n                {\r\n                    \"id\": 552,\r\n                    \"uuid\": \"02f59c5c-cd44-492e-83fe-1daa87b9a885\",\r\n                    \"title\": \"testing1z\",\r\n                    \"responses\": 1,\r\n                    \"dateCreated\": \"2024-03-14\",\r\n                    \"status\": \"OPEN\",\r\n                    \"settings\": {\r\n                        \"id\": 802,\r\n                        \"logo\": \"\",\r\n                        \"enableTimeLimit\": false,\r\n                        \"min\": 0,\r\n                        \"hours\": 0,\r\n                        \"questionsPerPage\": 1,\r\n                        \"enableAnswerNotInOrder\": false,\r\n                        \"enableAskForBasicUserInfo\": true,\r\n                        \"enableProgressBar\": true,\r\n                        \"enableRandomizeQuestions\": false,\r\n                        \"enablePublic\": false,\r\n                        \"enableShowAnswersAtTheEnd\": true\r\n                    },\r\n                    \"theme\": {\r\n                        \"id\": 452,\r\n                        \"bgColor\": \"#14101f\",\r\n                        \"bgImage\": null,\r\n                        \"questionColor\": \"#006aff\",\r\n                        \"optionBgColor\": \"#f3f4f6\",\r\n                        \"optionTextColor\": \"#4b5563\",\r\n                        \"buttonBgColor\": \"#8b5cf6\",\r\n                        \"buttonTextColor\": \"#ffffff\"\r\n                    }\r\n                }\r\n            ],\r\n            \"surveys\": []\r\n        }\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/quiz/edit",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"quiz",
+										"edit"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "404 http://localhost:8080/api/quiz/edit",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const loginRequest = {\r",
+											"    url: 'http://localhost:8080/api/user/login',\r",
+											"    method: 'POST',\r",
+											"    header: 'Content-Type:application/json',\r",
+											"    body: {\r",
+											"        mode: 'raw',\r",
+											"        raw: JSON.stringify({\r",
+											"            username: 'user1',\r",
+											"            password: '123'\r",
+											"        })\r",
+											"    }\r",
+											"};\r",
+											"\r",
+											"\r",
+											"pm.sendRequest(loginRequest, function (err, res) {\r",
+											"    if (err) {\r",
+											"        console.error('Login request failed:', err);\r",
+											"    } else {\r",
+											"        if (res.code === 200) {\r",
+											"            const authToken = res.json().token; \r",
+											"\r",
+											"            pm.environment.set('authToken', authToken);\r",
+											"\r",
+											"            pm.request.headers.add({\r",
+											"                key: 'Authorization',\r",
+											"                value: 'Bearer ' + authToken\r",
+											"            });\r",
+											"            \r",
+											"        } else {\r",
+											"            console.error('Login failed:', res.code, res.body);\r",
+											"        }\r",
+											"    }\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 404\", function () {\r",
+											"    pm.response.to.have.status(404);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\": 101010101,\r\n    \"title\": \"testing2\",\r\n    \"responses\": 1,\r\n    \"status\": \"OPEN\",\r\n    \"settings\": {\r\n        \"id\": 802,\r\n        \"logo\": \"\",\r\n        \"enableTimeLimit\": false,\r\n        \"min\": 0,\r\n        \"hours\": 0,\r\n        \"questionsPerPage\": 1,\r\n        \"enableAnswerNotInOrder\": false,\r\n        \"enableAskForBasicUserInfo\": true,\r\n        \"enableProgressBar\": true,\r\n        \"enableRandomizeQuestions\": false,\r\n        \"enablePublic\": false,\r\n        \"enableShowAnswersAtTheEnd\": true\r\n    },\r\n    \"theme\": {\r\n        \"id\": 452,\r\n        \"bgColor\": \"#14101f\",\r\n        \"bgImage\": null,\r\n        \"questionColor\": \"#006aff\",\r\n        \"optionBgColor\": \"#f3f4f6\",\r\n        \"optionTextColor\": \"#4b5563\",\r\n        \"buttonBgColor\": \"#8b5cf6\",\r\n        \"buttonTextColor\": \"#ffffff\"\r\n    },\r\n    \"userId\": \"1\",\r\n    \"questions\": [\r\n        {\r\n            \"id\": 1302,\r\n            \"text\": \"quesstui111???\",\r\n            \"type\": \"MULTI_CHOICE\",\r\n            \"score\": 2,\r\n            \"inBank\": false,\r\n            \"ownerId\": 1,\r\n            \"options\": [\r\n                {\r\n                    \"id\": 1453,\r\n                    \"text\": \"aaa\",\r\n                    \"correct\": false,\r\n                    \"answers\": []\r\n                },\r\n                {\r\n                    \"id\": 1454,\r\n                    \"text\": \"dd\",\r\n                    \"correct\": false,\r\n                    \"answers\": []\r\n                },\r\n                {\r\n                    \"id\": 1455,\r\n                    \"text\": \"ccc\",\r\n                    \"correct\": false,\r\n                    \"answers\": []\r\n                }\r\n            ],\r\n            \"logic\": [],\r\n            \"answers\": [\r\n                {\r\n                    \"id\": 552,\r\n                    \"selectedOptions\": [\r\n                        {\r\n                            \"id\": 1303,\r\n                            \"text\": \"bb\",\r\n                            \"correct\": true\r\n                        }\r\n                    ],\r\n                    \"participantName\": \"dalylvis\",\r\n                    \"participantAge\": 33\r\n                }\r\n            ],\r\n            \"quizzes\": [\r\n                {\r\n                    \"id\": 552,\r\n                    \"uuid\": \"02f59c5c-cd44-492e-83fe-1daa87b9a885\",\r\n                    \"title\": \"testing1z\",\r\n                    \"responses\": 1,\r\n                    \"dateCreated\": \"2024-03-14\",\r\n                    \"status\": \"OPEN\",\r\n                    \"settings\": {\r\n                        \"id\": 802,\r\n                        \"logo\": \"\",\r\n                        \"enableTimeLimit\": false,\r\n                        \"min\": 0,\r\n                        \"hours\": 0,\r\n                        \"questionsPerPage\": 1,\r\n                        \"enableAnswerNotInOrder\": false,\r\n                        \"enableAskForBasicUserInfo\": true,\r\n                        \"enableProgressBar\": true,\r\n                        \"enableRandomizeQuestions\": false,\r\n                        \"enablePublic\": false,\r\n                        \"enableShowAnswersAtTheEnd\": true\r\n                    },\r\n                    \"theme\": {\r\n                        \"id\": 452,\r\n                        \"bgColor\": \"#14101f\",\r\n                        \"bgImage\": null,\r\n                        \"questionColor\": \"#006aff\",\r\n                        \"optionBgColor\": \"#f3f4f6\",\r\n                        \"optionTextColor\": \"#4b5563\",\r\n                        \"buttonBgColor\": \"#8b5cf6\",\r\n                        \"buttonTextColor\": \"#ffffff\"\r\n                    }\r\n                }\r\n            ],\r\n            \"surveys\": []\r\n        },\r\n        {\r\n            \"id\": 1305,\r\n            \"text\": \"adasd\",\r\n            \"type\": \"MULTI_CHOICE\",\r\n            \"score\": 1,\r\n            \"inBank\": false,\r\n            \"ownerId\": 1,\r\n            \"options\": [\r\n                {\r\n                    \"id\": 1312,\r\n                    \"text\": \"asdasd\",\r\n                    \"correct\": false,\r\n                    \"answers\": []\r\n                },\r\n                {\r\n                    \"id\": 1313,\r\n                    \"text\": \"czxczxc\",\r\n                    \"correct\": true,\r\n                    \"answers\": []\r\n                },\r\n                {\r\n                    \"id\": 1314,\r\n                    \"text\": \"2133\",\r\n                    \"correct\": false,\r\n                    \"answers\": []\r\n                }\r\n            ],\r\n            \"logic\": [],\r\n            \"answers\": [\r\n                {\r\n                    \"id\": 553,\r\n                    \"selectedOptions\": [],\r\n                    \"participantName\": \"dalylvis\",\r\n                    \"participantAge\": 33\r\n                }\r\n            ],\r\n            \"quizzes\": [\r\n                {\r\n                    \"id\": 552,\r\n                    \"uuid\": \"02f59c5c-cd44-492e-83fe-1daa87b9a885\",\r\n                    \"title\": \"testing1z\",\r\n                    \"responses\": 1,\r\n                    \"dateCreated\": \"2024-03-14\",\r\n                    \"status\": \"OPEN\",\r\n                    \"settings\": {\r\n                        \"id\": 802,\r\n                        \"logo\": \"\",\r\n                        \"enableTimeLimit\": false,\r\n                        \"min\": 0,\r\n                        \"hours\": 0,\r\n                        \"questionsPerPage\": 1,\r\n                        \"enableAnswerNotInOrder\": false,\r\n                        \"enableAskForBasicUserInfo\": true,\r\n                        \"enableProgressBar\": true,\r\n                        \"enableRandomizeQuestions\": false,\r\n                        \"enablePublic\": false,\r\n                        \"enableShowAnswersAtTheEnd\": true\r\n                    },\r\n                    \"theme\": {\r\n                        \"id\": 452,\r\n                        \"bgColor\": \"#14101f\",\r\n                        \"bgImage\": null,\r\n                        \"questionColor\": \"#006aff\",\r\n                        \"optionBgColor\": \"#f3f4f6\",\r\n                        \"optionTextColor\": \"#4b5563\",\r\n                        \"buttonBgColor\": \"#8b5cf6\",\r\n                        \"buttonTextColor\": \"#ffffff\"\r\n                    }\r\n                }\r\n            ],\r\n            \"surveys\": []\r\n        },\r\n        {\r\n            \"id\": 1304,\r\n            \"text\": \"aaaa\",\r\n            \"type\": \"MULTI_CHOICE\",\r\n            \"score\": 0,\r\n            \"inBank\": false,\r\n            \"ownerId\": 1,\r\n            \"options\": [\r\n                {\r\n                    \"id\": 1309,\r\n                    \"text\": \"ccc\",\r\n                    \"correct\": false,\r\n                    \"answers\": []\r\n                },\r\n                {\r\n                    \"id\": 1310,\r\n                    \"text\": \"3433\",\r\n                    \"correct\": false,\r\n                    \"answers\": []\r\n                },\r\n                {\r\n                    \"id\": 1311,\r\n                    \"text\": \"saasd\",\r\n                    \"correct\": true,\r\n                    \"answers\": [\r\n                        {\r\n                            \"id\": 554,\r\n                            \"participantName\": \"dalylvis\",\r\n                            \"participantAge\": 33\r\n                        }\r\n                    ]\r\n                }\r\n            ],\r\n            \"logic\": [\r\n                {\r\n                    \"id\": 1002,\r\n                    \"conditionType\": \"WHEN_ANSWER_IS\",\r\n                    \"conditionOptionId\": 1310,\r\n                    \"actionType\": \"SKIP_TO_QUESTION\",\r\n                    \"actionOptionId\": 1402\r\n                }\r\n            ],\r\n            \"answers\": [\r\n                {\r\n                    \"id\": 554,\r\n                    \"selectedOptions\": [\r\n                        {\r\n                            \"id\": 1311,\r\n                            \"text\": \"saasd\",\r\n                            \"correct\": true\r\n                        }\r\n                    ],\r\n                    \"participantName\": \"dalylvis\",\r\n                    \"participantAge\": 33\r\n                }\r\n            ],\r\n            \"quizzes\": [\r\n                {\r\n                    \"id\": 552,\r\n                    \"uuid\": \"02f59c5c-cd44-492e-83fe-1daa87b9a885\",\r\n                    \"title\": \"testing1z\",\r\n                    \"responses\": 1,\r\n                    \"dateCreated\": \"2024-03-14\",\r\n                    \"status\": \"OPEN\",\r\n                    \"settings\": {\r\n                        \"id\": 802,\r\n                        \"logo\": \"\",\r\n                        \"enableTimeLimit\": false,\r\n                        \"min\": 0,\r\n                        \"hours\": 0,\r\n                        \"questionsPerPage\": 1,\r\n                        \"enableAnswerNotInOrder\": false,\r\n                        \"enableAskForBasicUserInfo\": true,\r\n                        \"enableProgressBar\": true,\r\n                        \"enableRandomizeQuestions\": false,\r\n                        \"enablePublic\": false,\r\n                        \"enableShowAnswersAtTheEnd\": true\r\n                    },\r\n                    \"theme\": {\r\n                        \"id\": 452,\r\n                        \"bgColor\": \"#14101f\",\r\n                        \"bgImage\": null,\r\n                        \"questionColor\": \"#006aff\",\r\n                        \"optionBgColor\": \"#f3f4f6\",\r\n                        \"optionTextColor\": \"#4b5563\",\r\n                        \"buttonBgColor\": \"#8b5cf6\",\r\n                        \"buttonTextColor\": \"#ffffff\"\r\n                    }\r\n                }\r\n            ],\r\n            \"surveys\": []\r\n        },\r\n        {\r\n            \"id\": 1402,\r\n            \"text\": \"33\",\r\n            \"type\": \"MULTI_CHOICE\",\r\n            \"score\": 1,\r\n            \"inBank\": false,\r\n            \"ownerId\": 1,\r\n            \"options\": [\r\n                {\r\n                    \"id\": 1402,\r\n                    \"text\": \"aa\",\r\n                    \"correct\": false,\r\n                    \"answers\": []\r\n                },\r\n                {\r\n                    \"id\": 1403,\r\n                    \"text\": \"cc\",\r\n                    \"correct\": true,\r\n                    \"answers\": []\r\n                },\r\n                {\r\n                    \"id\": 1404,\r\n                    \"text\": \"v\",\r\n                    \"correct\": false,\r\n                    \"answers\": []\r\n                }\r\n            ],\r\n            \"logic\": [],\r\n            \"answers\": [],\r\n            \"quizzes\": [\r\n                {\r\n                    \"id\": 552,\r\n                    \"uuid\": \"02f59c5c-cd44-492e-83fe-1daa87b9a885\",\r\n                    \"title\": \"testing1z\",\r\n                    \"responses\": 1,\r\n                    \"dateCreated\": \"2024-03-14\",\r\n                    \"status\": \"OPEN\",\r\n                    \"settings\": {\r\n                        \"id\": 802,\r\n                        \"logo\": \"\",\r\n                        \"enableTimeLimit\": false,\r\n                        \"min\": 0,\r\n                        \"hours\": 0,\r\n                        \"questionsPerPage\": 1,\r\n                        \"enableAnswerNotInOrder\": false,\r\n                        \"enableAskForBasicUserInfo\": true,\r\n                        \"enableProgressBar\": true,\r\n                        \"enableRandomizeQuestions\": false,\r\n                        \"enablePublic\": false,\r\n                        \"enableShowAnswersAtTheEnd\": true\r\n                    },\r\n                    \"theme\": {\r\n                        \"id\": 452,\r\n                        \"bgColor\": \"#14101f\",\r\n                        \"bgImage\": null,\r\n                        \"questionColor\": \"#006aff\",\r\n                        \"optionBgColor\": \"#f3f4f6\",\r\n                        \"optionTextColor\": \"#4b5563\",\r\n                        \"buttonBgColor\": \"#8b5cf6\",\r\n                        \"buttonTextColor\": \"#ffffff\"\r\n                    }\r\n                }\r\n            ],\r\n            \"surveys\": []\r\n        }\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/quiz/edit",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"quiz",
+										"edit"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "DeleteQuiz",
+					"item": [
+						{
+							"name": "200 http://localhost:8080/api/quiz/delete/:id",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const loginRequest = {\r",
+											"    url: 'http://localhost:8080/api/user/login',\r",
+											"    method: 'POST',\r",
+											"    header: 'Content-Type:application/json',\r",
+											"    body: {\r",
+											"        mode: 'raw',\r",
+											"        raw: JSON.stringify({\r",
+											"            username: 'user1',\r",
+											"            password: '123'\r",
+											"        })\r",
+											"    }\r",
+											"};\r",
+											"\r",
+											"\r",
+											"pm.sendRequest(loginRequest, function (err, res) {\r",
+											"    if (err) {\r",
+											"        console.error('Login request failed:', err);\r",
+											"    } else {\r",
+											"        if (res.code === 200) {\r",
+											"            const authToken = res.json().token; \r",
+											"\r",
+											"            pm.environment.set('authToken', authToken);\r",
+											"\r",
+											"            pm.request.headers.add({\r",
+											"                key: 'Authorization',\r",
+											"                value: 'Bearer ' + authToken\r",
+											"            });\r",
+											"            \r",
+											"        } else {\r",
+											"            console.error('Login failed:', res.code, res.body);\r",
+											"        }\r",
+											"    }\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.not.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/quiz/delete/:id\n",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"quiz",
+										"delete",
+										":id\n"
+									],
+									"variable": [
+										{
+											"key": "id\n",
+											"value": "44444"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "400 http://localhost:8080/api/quiz/delete/:id",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const loginRequest = {\r",
+											"    url: 'http://localhost:8080/api/user/login',\r",
+											"    method: 'POST',\r",
+											"    header: 'Content-Type:application/json',\r",
+											"    body: {\r",
+											"        mode: 'raw',\r",
+											"        raw: JSON.stringify({\r",
+											"            username: 'user1',\r",
+											"            password: '123'\r",
+											"        })\r",
+											"    }\r",
+											"};\r",
+											"\r",
+											"\r",
+											"pm.sendRequest(loginRequest, function (err, res) {\r",
+											"    if (err) {\r",
+											"        console.error('Login request failed:', err);\r",
+											"    } else {\r",
+											"        if (res.code === 200) {\r",
+											"            const authToken = res.json().token; \r",
+											"\r",
+											"            pm.environment.set('authToken', authToken);\r",
+											"\r",
+											"            pm.request.headers.add({\r",
+											"                key: 'Authorization',\r",
+											"                value: 'Bearer ' + authToken\r",
+											"            });\r",
+											"            \r",
+											"        } else {\r",
+											"            console.error('Login failed:', res.code, res.body);\r",
+											"        }\r",
+											"    }\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/quiz/delete/:id\n",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"quiz",
+										"delete",
+										":id\n"
+									],
+									"variable": [
+										{
+											"key": "id\n",
+											"value": "dfgdfg"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "403 http://localhost:8080/api/quiz/delete/:id",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test(\"Status code is 403\", function () {\r",
+											"    pm.response.to.have.status(403);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/quiz/delete/:id\n",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"quiz",
+										"delete",
+										":id\n"
+									],
+									"variable": [
+										{
+											"key": "id\n",
+											"value": "11"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "404 http://localhost:8080/api/quiz/delete/:id",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const loginRequest = {\r",
+											"    url: 'http://localhost:8080/api/user/login',\r",
+											"    method: 'POST',\r",
+											"    header: 'Content-Type:application/json',\r",
+											"    body: {\r",
+											"        mode: 'raw',\r",
+											"        raw: JSON.stringify({\r",
+											"            username: 'user1',\r",
+											"            password: '123'\r",
+											"        })\r",
+											"    }\r",
+											"};\r",
+											"\r",
+											"\r",
+											"pm.sendRequest(loginRequest, function (err, res) {\r",
+											"    if (err) {\r",
+											"        console.error('Login request failed:', err);\r",
+											"    } else {\r",
+											"        if (res.code === 200) {\r",
+											"            const authToken = res.json().token; \r",
+											"\r",
+											"            pm.environment.set('authToken', authToken);\r",
+											"\r",
+											"            pm.request.headers.add({\r",
+											"                key: 'Authorization',\r",
+											"                value: 'Bearer ' + authToken\r",
+											"            });\r",
+											"            \r",
+											"        } else {\r",
+											"            console.error('Login failed:', res.code, res.body);\r",
+											"        }\r",
+											"    }\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test(\"Status code is 404\", function () {\r",
+											"    pm.response.to.have.status(404);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/quiz/delete/:id\n",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"quiz",
+										"delete",
+										":id\n"
+									],
+									"variable": [
+										{
+											"key": "id\n",
+											"value": "11111111"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Answer",
+			"item": [
+				{
+					"name": "getAnswers",
+					"item": [
+						{
+							"name": "200 http://localhost:8080/api/answer/getAnswers/:id",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.globals.set(\"expectedResult\",([\r",
+											"    {\r",
+											"        \"id\": 502,\r",
+											"        \"selectedOptions\": [\r",
+											"            {\r",
+											"                \"id\": 1254,\r",
+											"                \"text\": \"Vilnius\",\r",
+											"                \"correct\": false\r",
+											"            }\r",
+											"        ],\r",
+											"        \"participantName\": \"Jack\",\r",
+											"        \"participantAge\": 33\r",
+											"    },\r",
+											"    {\r",
+											"        \"id\": 507,\r",
+											"        \"selectedOptions\": [\r",
+											"            {\r",
+											"                \"id\": 1252,\r",
+											"                \"text\": \"Tokyo\",\r",
+											"                \"correct\": true\r",
+											"            }\r",
+											"        ],\r",
+											"        \"participantName\": \"Tim\",\r",
+											"        \"participantAge\": 55\r",
+											"    },\r",
+											"    {\r",
+											"        \"id\": 512,\r",
+											"        \"selectedOptions\": [\r",
+											"            {\r",
+											"                \"id\": 1253,\r",
+											"                \"text\": \"Kaunas\",\r",
+											"                \"correct\": false\r",
+											"            }\r",
+											"        ],\r",
+											"        \"participantName\": \"blablabla\",\r",
+											"        \"participantAge\": 11\r",
+											"    },\r",
+											"    {\r",
+											"        \"id\": 517,\r",
+											"        \"selectedOptions\": [\r",
+											"            {\r",
+											"                \"id\": 1252,\r",
+											"                \"text\": \"Tokyo\",\r",
+											"                \"correct\": true\r",
+											"            }\r",
+											"        ],\r",
+											"        \"participantName\": \"test\",\r",
+											"        \"participantAge\": 44\r",
+											"    },\r",
+											"    {\r",
+											"        \"id\": 602,\r",
+											"        \"selectedOptions\": [\r",
+											"            {\r",
+											"                \"id\": 1253,\r",
+											"                \"text\": \"Kaunas\",\r",
+											"                \"correct\": false\r",
+											"            }\r",
+											"        ],\r",
+											"        \"participantName\": \"aaa\",\r",
+											"        \"participantAge\": 11\r",
+											"    }\r",
+											"]))\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/answer/getAnswers/:id\n",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"answer",
+										"getAnswers",
+										":id\n"
+									],
+									"variable": [
+										{
+											"key": "id\n",
+											"value": "1252"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "404 http://localhost:8080/api/answer/getAnswers/:id",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 404\", function () {\r",
+											"    pm.response.to.not.have.status(404);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/answer/getAnswers/:id",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"answer",
+										"getAnswers",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1252777"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "createAnswer",
+					"item": [
+						{
+							"name": "200 http://localhost:8080/api/answer/create",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "[\r\n    {\r\n        \"questionId\": 1252,\r\n        \"selectedOptionIds\": [\r\n            1253\r\n        ],\r\n        \"participantName\": \"aaa\",\r\n        \"participantAge\": 11\r\n    }\r\n]",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/answer/create",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"answer",
+										"create"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "400 http://localhost:8080/api/answer/create",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/answer/create",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"answer",
+										"create"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Login",
+					"item": [
+						{
+							"name": "200  http://localhost:8080/api/user/login",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.globals.set(\"expectedResult\",(\r",
+											"{\r",
+											"    \"id\": 1,\r",
+											"    \"token\": \"eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6IlVTRVJfUk9MRVMiLCJzdWIiOiJ1c2VyMSIsImlhdCI6MTcxMjQ3NDc3NSwiZXhwIjoxNzEyNDkyNzc1fQ.m8_JjuXUMfmpAR8RnQh5VS66NzOBrYWxMEdIPEGZT_M\",\r",
+											"    \"response\": {\r",
+											"        \"message\": \"Login success\",\r",
+											"        \"severity\": \"SUCCESS\"\r",
+											"    }\r",
+											"}\r",
+											"))"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"\r",
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Response Body is valid\", function () {\r",
+											"    pm.expect(response.id).to.eql(pm.globals.get(\"expectedResult\").id);\r",
+											"    pm.expect(response.response).to.eql(pm.globals.get(\"expectedResult\").response);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"user1\",\r\n    \"password\": \"123\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/user/login",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"user",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "400  http://localhost:8080/api/user/login",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.globals.set(\"expectedResult\",(\r",
+											"{\r",
+											"    \"id\": 1,\r",
+											"    \"token\": \"eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6IlVTRVJfUk9MRVMiLCJzdWIiOiJ1c2VyMSIsImlhdCI6MTcxMjQ3NDc3NSwiZXhwIjoxNzEyNDkyNzc1fQ.m8_JjuXUMfmpAR8RnQh5VS66NzOBrYWxMEdIPEGZT_M\",\r",
+											"    \"response\": {\r",
+											"        \"message\": \"Login success\",\r",
+											"        \"severity\": \"SUCCESS\"\r",
+											"    }\r",
+											"}\r",
+											"))"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/user/login",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"user",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "403  http://localhost:8080/api/user/login",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.globals.set(\"expectedResult\",(\r",
+											"{\r",
+											"    \"id\": 1,\r",
+											"    \"token\": \"eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6IlVTRVJfUk9MRVMiLCJzdWIiOiJ1c2VyMSIsImlhdCI6MTcxMjQ3NDc3NSwiZXhwIjoxNzEyNDkyNzc1fQ.m8_JjuXUMfmpAR8RnQh5VS66NzOBrYWxMEdIPEGZT_M\",\r",
+											"    \"response\": {\r",
+											"        \"message\": \"Login success\",\r",
+											"        \"severity\": \"SUCCESS\"\r",
+											"    }\r",
+											"}\r",
+											"))"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 403\", function () {\r",
+											"    pm.response.to.have.status(403);\r",
+											"});\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"user1\",\r\n    \"password\": \"1234\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/user/login",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"user",
+										"login"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Register",
+					"item": [
+						{
+							"name": "200 http://localhost:8080/api/user/create",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.globals.set(\"expectedResult\",({\r",
+											"    \"id\": 202,\r",
+											"    \"email\": \"test148@gmail.com\",\r",
+											"    \"username\": \"test148\",\r",
+											"    \"password\": \"$2a$10$Tkr3Hu3CwweZsjrWVM8yYeUq4UZAMgC9CFGydTxwNNH7vq9FK7uVG\",\r",
+											"    \"blocked\": false,\r",
+											"    \"dateJoined\": \"2024-04-07\",\r",
+											"    \"roles\": \"USER_ROLES\",\r",
+											"    \"quiz\": [],\r",
+											"    \"survey\": []\r",
+											"}))\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Response Body is valid\", function () {\r",
+											"    pm.expect(response.email).to.eql(pm.globals.get(\"expectedResult\").email);\r",
+											"    pm.expect(response.username).to.eql(pm.globals.get(\"expectedResult\").username);\r",
+											"    pm.expect(response.blocked).to.eql(pm.globals.get(\"expectedResult\").blocked);\r",
+											"    pm.expect(response.roles).to.eql(pm.globals.get(\"expectedResult\").roles);\r",
+											"\r",
+											"});\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"test148@gmail.com\",\r\n    \"username\": \"test148\",\r\n    \"password\": \"123\",\r\n    \"dateJoined\": \"2024-04-07\"\r\n}\r\n\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/user/create",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"user",
+										"create"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "400 http://localhost:8080/api/user/create",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"pm.globals.set(\"expectedResult\",({\r",
+											"    \"id\": 202,\r",
+											"    \"email\": \"test148@gmail.com\",\r",
+											"    \"username\": \"test148\",\r",
+											"    \"password\": \"$2a$10$Tkr3Hu3CwweZsjrWVM8yYeUq4UZAMgC9CFGydTxwNNH7vq9FK7uVG\",\r",
+											"    \"blocked\": false,\r",
+											"    \"dateJoined\": \"2024-04-07\",\r",
+											"    \"roles\": \"USER_ROLES\",\r",
+											"    \"quiz\": [],\r",
+											"    \"survey\": []\r",
+											"}))\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/user/create",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"user",
+										"create"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "GetAllUsers",
+					"item": [
+						{
+							"name": "200 http://localhost:8080/api/user/getUsers",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const loginRequest = {\r",
+											"    url: 'http://localhost:8080/api/user/login',\r",
+											"    method: 'POST',\r",
+											"    header: 'Content-Type:application/json',\r",
+											"    body: {\r",
+											"        mode: 'raw',\r",
+											"        raw: JSON.stringify({\r",
+											"            username: 'admin',\r",
+											"            password: '123'\r",
+											"        })\r",
+											"    }\r",
+											"};\r",
+											"\r",
+											"\r",
+											"pm.sendRequest(loginRequest, function (err, res) {\r",
+											"    if (err) {\r",
+											"        console.error('Login request failed:', err);\r",
+											"    } else {\r",
+											"        if (res.code === 200) {\r",
+											"            const authToken = res.json().token; \r",
+											"\r",
+											"            pm.environment.set('authToken', authToken);\r",
+											"\r",
+											"            pm.request.headers.add({\r",
+											"                key: 'Authorization',\r",
+											"                value: 'Bearer ' + authToken\r",
+											"            });\r",
+											"            \r",
+											"        } else {\r",
+											"            console.error('Login failed:', res.code, res.body);\r",
+											"        }\r",
+											"    }\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/user/getUsers",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"user",
+										"getUsers"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "403 http://localhost:8080/api/user/getUsers",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const loginRequest = {\r",
+											"    url: 'http://localhost:8080/api/user/login',\r",
+											"    method: 'POST',\r",
+											"    header: 'Content-Type:application/json',\r",
+											"    body: {\r",
+											"        mode: 'raw',\r",
+											"        raw: JSON.stringify({\r",
+											"            username: 'user',\r",
+											"            password: '123'\r",
+											"        })\r",
+											"    }\r",
+											"};\r",
+											"\r",
+											"\r",
+											"pm.sendRequest(loginRequest, function (err, res) {\r",
+											"    if (err) {\r",
+											"        console.error('Login request failed:', err);\r",
+											"    } else {\r",
+											"        if (res.code === 200) {\r",
+											"            const authToken = res.json().token; \r",
+											"\r",
+											"            pm.environment.set('authToken', authToken);\r",
+											"\r",
+											"            pm.request.headers.add({\r",
+											"                key: 'Authorization',\r",
+											"                value: 'Bearer ' + authToken\r",
+											"            });\r",
+											"            \r",
+											"        } else {\r",
+											"            console.error('Login failed:', res.code, res.body);\r",
+											"        }\r",
+											"    }\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 403\", function () {\r",
+											"    pm.response.to.have.status(403);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/user/getUsers",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"user",
+										"getUsers"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "GetUser",
+					"item": [
+						{
+							"name": "200 http://localhost:8080/api/user/getUsers/:id",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const loginRequest = {\r",
+											"    url: 'http://localhost:8080/api/user/login',\r",
+											"    method: 'POST',\r",
+											"    header: 'Content-Type:application/json',\r",
+											"    body: {\r",
+											"        mode: 'raw',\r",
+											"        raw: JSON.stringify({\r",
+											"            username: 'user1',\r",
+											"            password: '123'\r",
+											"        })\r",
+											"    }\r",
+											"};\r",
+											"\r",
+											"\r",
+											"pm.sendRequest(loginRequest, function (err, res) {\r",
+											"    if (err) {\r",
+											"        console.error('Login request failed:', err);\r",
+											"    } else {\r",
+											"        if (res.code === 200) {\r",
+											"            const authToken = res.json().token; \r",
+											"\r",
+											"            pm.environment.set('authToken', authToken);\r",
+											"\r",
+											"            pm.request.headers.add({\r",
+											"                key: 'Authorization',\r",
+											"                value: 'Bearer ' + authToken\r",
+											"            });\r",
+											"            \r",
+											"        } else {\r",
+											"            console.error('Login failed:', res.code, res.body);\r",
+											"        }\r",
+											"    }\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/user/getUsers/:id",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"user",
+										"getUsers",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "403 http://localhost:8080/api/user/getUsers/:id",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const loginRequest = {\r",
+											"    url: 'http://localhost:8080/api/user/login',\r",
+											"    method: 'POST',\r",
+											"    header: 'Content-Type:application/json',\r",
+											"    body: {\r",
+											"        mode: 'raw',\r",
+											"        raw: JSON.stringify({\r",
+											"            username: 'user1',\r",
+											"            password: '123'\r",
+											"        })\r",
+											"    }\r",
+											"};\r",
+											"\r",
+											"\r",
+											"pm.sendRequest(loginRequest, function (err, res) {\r",
+											"    if (err) {\r",
+											"        console.error('Login request failed:', err);\r",
+											"    } else {\r",
+											"        if (res.code === 200) {\r",
+											"            const authToken = res.json().token; \r",
+											"\r",
+											"            pm.environment.set('authToken', authToken);\r",
+											"\r",
+											"            pm.request.headers.add({\r",
+											"                key: 'Authorization',\r",
+											"                value: 'Bearer ' + authToken\r",
+											"            });\r",
+											"            \r",
+											"        } else {\r",
+											"            console.error('Login failed:', res.code, res.body);\r",
+											"        }\r",
+											"    }\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 403\", function () {\r",
+											"    pm.response.to.have.status(403);\r",
+											"});\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/user/getUsers/:id",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"user",
+										"getUsers",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "2"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "404 http://localhost:8080/api/user/getUsers/:id",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const loginRequest = {\r",
+											"    url: 'http://localhost:8080/api/user/login',\r",
+											"    method: 'POST',\r",
+											"    header: 'Content-Type:application/json',\r",
+											"    body: {\r",
+											"        mode: 'raw',\r",
+											"        raw: JSON.stringify({\r",
+											"            username: 'user1',\r",
+											"            password: '123'\r",
+											"        })\r",
+											"    }\r",
+											"};\r",
+											"\r",
+											"\r",
+											"pm.sendRequest(loginRequest, function (err, res) {\r",
+											"    if (err) {\r",
+											"        console.error('Login request failed:', err);\r",
+											"    } else {\r",
+											"        if (res.code === 200) {\r",
+											"            const authToken = res.json().token; \r",
+											"\r",
+											"            pm.environment.set('authToken', authToken);\r",
+											"\r",
+											"            pm.request.headers.add({\r",
+											"                key: 'Authorization',\r",
+											"                value: 'Bearer ' + authToken\r",
+											"            });\r",
+											"            \r",
+											"        } else {\r",
+											"            console.error('Login failed:', res.code, res.body);\r",
+											"        }\r",
+											"    }\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 404\", function () {\r",
+											"    pm.response.to.have.status(404);\r",
+											"});\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/user/getUsers/:id",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"user",
+										"getUsers",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "211111"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Question",
+			"item": [
+				{
+					"name": "createQuestion",
+					"item": [
+						{
+							"name": "200 http://localhost:8080/api/question/create",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const loginRequest = {\r",
+											"    url: 'http://localhost:8080/api/user/login',\r",
+											"    method: 'POST',\r",
+											"    header: 'Content-Type:application/json',\r",
+											"    body: {\r",
+											"        mode: 'raw',\r",
+											"        raw: JSON.stringify({\r",
+											"            username: 'user1',\r",
+											"            password: '123'\r",
+											"        })\r",
+											"    }\r",
+											"};\r",
+											"\r",
+											"\r",
+											"pm.sendRequest(loginRequest, function (err, res) {\r",
+											"    if (err) {\r",
+											"        console.error('Login request failed:', err);\r",
+											"    } else {\r",
+											"        if (res.code === 200) {\r",
+											"            const authToken = res.json().token; \r",
+											"\r",
+											"            pm.environment.set('authToken', authToken);\r",
+											"\r",
+											"            pm.request.headers.add({\r",
+											"                key: 'Authorization',\r",
+											"                value: 'Bearer ' + authToken\r",
+											"            });\r",
+											"            \r",
+											"        } else {\r",
+											"            console.error('Login failed:', res.code, res.body);\r",
+											"        }\r",
+											"    }\r",
+											"});\r",
+											"\r",
+											"pm.globals.set(\"expectedResult\",(\r",
+											"{\r",
+											"    \"id\": 1454,\r",
+											"    \"text\": \"aa\",\r",
+											"    \"type\": \"SINGLE_CHOICE\",\r",
+											"    \"score\": 2,\r",
+											"    \"inBank\": false,\r",
+											"    \"ownerId\": 1,\r",
+											"    \"options\": [\r",
+											"        {\r",
+											"            \"id\": 1508,\r",
+											"            \"text\": \"cc\",\r",
+											"            \"correct\": true,\r",
+											"            \"answers\": []\r",
+											"        },\r",
+											"        {\r",
+											"            \"id\": 1509,\r",
+											"            \"text\": \"ccaa\",\r",
+											"            \"correct\": false,\r",
+											"            \"answers\": []\r",
+											"        },\r",
+											"        {\r",
+											"            \"id\": 1510,\r",
+											"            \"text\": \"vv\",\r",
+											"            \"correct\": false,\r",
+											"            \"answers\": []\r",
+											"        },\r",
+											"        {\r",
+											"            \"id\": 1511,\r",
+											"            \"text\": \"3\",\r",
+											"            \"correct\": false,\r",
+											"            \"answers\": []\r",
+											"        }\r",
+											"    ],\r",
+											"    \"logic\": null,\r",
+											"    \"answers\": null,\r",
+											"    \"quizzes\": [],\r",
+											"    \"surveys\": []\r",
+											"}\r",
+											"))\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"const response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Response Body is valid\", function () {\r",
+											"    pm.expect(response.text).to.eql(pm.globals.get(\"expectedResult\").text);\r",
+											"    pm.expect(response.type).to.eql(pm.globals.get(\"expectedResult\").type);\r",
+											"    pm.expect(response.score).to.eql(pm.globals.get(\"expectedResult\").score);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"question\": {\r\n        \"type\": \"SINGLE_CHOICE\",\r\n        \"text\": \"aa\",\r\n        \"inBank\": false,\r\n        \"ownerId\": 1,\r\n        \"score\": 2,\r\n        \"options\": [\r\n            {\r\n                \"text\": \"cc\",\r\n                \"correct\": true\r\n            },\r\n            {\r\n                \"text\": \"ccaa\",\r\n                \"correct\": false\r\n            },\r\n            {\r\n                \"text\": \"vv\",\r\n                \"correct\": false\r\n            },\r\n            {\r\n                \"text\": \"3\",\r\n                \"correct\": false\r\n            }\r\n        ],\r\n        \"quizzes\": []\r\n    },\r\n    \"projectId\": 652,\r\n    \"type\": \"QUIZ\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/question/create",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"question",
+										"create"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "400 http://localhost:8080/api/question/create",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const loginRequest = {\r",
+											"    url: 'http://localhost:8080/api/user/login',\r",
+											"    method: 'POST',\r",
+											"    header: 'Content-Type:application/json',\r",
+											"    body: {\r",
+											"        mode: 'raw',\r",
+											"        raw: JSON.stringify({\r",
+											"            username: 'user1',\r",
+											"            password: '123'\r",
+											"        })\r",
+											"    }\r",
+											"};\r",
+											"\r",
+											"\r",
+											"pm.sendRequest(loginRequest, function (err, res) {\r",
+											"    if (err) {\r",
+											"        console.error('Login request failed:', err);\r",
+											"    } else {\r",
+											"        if (res.code === 200) {\r",
+											"            const authToken = res.json().token; \r",
+											"\r",
+											"            pm.environment.set('authToken', authToken);\r",
+											"\r",
+											"            pm.request.headers.add({\r",
+											"                key: 'Authorization',\r",
+											"                value: 'Bearer ' + authToken\r",
+											"            });\r",
+											"            \r",
+											"        } else {\r",
+											"            console.error('Login failed:', res.code, res.body);\r",
+											"        }\r",
+											"    }\r",
+											"});\r",
+											"\r",
+											"pm.globals.set(\"expectedResult\",(\r",
+											"{\r",
+											"    \"id\": 1454,\r",
+											"    \"text\": \"aa\",\r",
+											"    \"type\": \"SINGLE_CHOICE\",\r",
+											"    \"score\": 2,\r",
+											"    \"inBank\": false,\r",
+											"    \"ownerId\": 1,\r",
+											"    \"options\": [\r",
+											"        {\r",
+											"            \"id\": 1508,\r",
+											"            \"text\": \"cc\",\r",
+											"            \"correct\": true,\r",
+											"            \"answers\": []\r",
+											"        },\r",
+											"        {\r",
+											"            \"id\": 1509,\r",
+											"            \"text\": \"ccaa\",\r",
+											"            \"correct\": false,\r",
+											"            \"answers\": []\r",
+											"        },\r",
+											"        {\r",
+											"            \"id\": 1510,\r",
+											"            \"text\": \"vv\",\r",
+											"            \"correct\": false,\r",
+											"            \"answers\": []\r",
+											"        },\r",
+											"        {\r",
+											"            \"id\": 1511,\r",
+											"            \"text\": \"3\",\r",
+											"            \"correct\": false,\r",
+											"            \"answers\": []\r",
+											"        }\r",
+											"    ],\r",
+											"    \"logic\": null,\r",
+											"    \"answers\": null,\r",
+											"    \"quizzes\": [],\r",
+											"    \"surveys\": []\r",
+											"}\r",
+											"))\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/question/create",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"question",
+										"create"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "403 http://localhost:8080/api/question/create",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"\r",
+											"\r",
+											"pm.globals.set(\"expectedResult\",(\r",
+											"{\r",
+											"    \"id\": 1454,\r",
+											"    \"text\": \"aa\",\r",
+											"    \"type\": \"SINGLE_CHOICE\",\r",
+											"    \"score\": 2,\r",
+											"    \"inBank\": false,\r",
+											"    \"ownerId\": 1,\r",
+											"    \"options\": [\r",
+											"        {\r",
+											"            \"id\": 1508,\r",
+											"            \"text\": \"cc\",\r",
+											"            \"correct\": true,\r",
+											"            \"answers\": []\r",
+											"        },\r",
+											"        {\r",
+											"            \"id\": 1509,\r",
+											"            \"text\": \"ccaa\",\r",
+											"            \"correct\": false,\r",
+											"            \"answers\": []\r",
+											"        },\r",
+											"        {\r",
+											"            \"id\": 1510,\r",
+											"            \"text\": \"vv\",\r",
+											"            \"correct\": false,\r",
+											"            \"answers\": []\r",
+											"        },\r",
+											"        {\r",
+											"            \"id\": 1511,\r",
+											"            \"text\": \"3\",\r",
+											"            \"correct\": false,\r",
+											"            \"answers\": []\r",
+											"        }\r",
+											"    ],\r",
+											"    \"logic\": null,\r",
+											"    \"answers\": null,\r",
+											"    \"quizzes\": [],\r",
+											"    \"surveys\": []\r",
+											"}\r",
+											"))\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 403\", function () {\r",
+											"    pm.response.to.have.status(403);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"question\": {\r\n        \"type\": \"SINGLE_CHOICE\",\r\n        \"text\": \"aa\",\r\n        \"inBank\": false,\r\n        \"ownerId\": 1,\r\n        \"score\": 2,\r\n        \"options\": [\r\n            {\r\n                \"text\": \"cc\",\r\n                \"correct\": true\r\n            },\r\n            {\r\n                \"text\": \"ccaa\",\r\n                \"correct\": false\r\n            },\r\n            {\r\n                \"text\": \"vv\",\r\n                \"correct\": false\r\n            },\r\n            {\r\n                \"text\": \"3\",\r\n                \"correct\": false\r\n            }\r\n        ],\r\n        \"quizzes\": []\r\n    },\r\n    \"projectId\": 11,\r\n    \"type\": \"QUIZ\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/question/create",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"question",
+										"create"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "deleteQuestion",
+					"item": [
+						{
+							"name": "200 http://localhost:8080/api/question/delete/:id",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const loginRequest = {\r",
+											"    url: 'http://localhost:8080/api/user/login',\r",
+											"    method: 'POST',\r",
+											"    header: 'Content-Type:application/json',\r",
+											"    body: {\r",
+											"        mode: 'raw',\r",
+											"        raw: JSON.stringify({\r",
+											"            username: 'user1',\r",
+											"            password: '123'\r",
+											"        })\r",
+											"    }\r",
+											"};\r",
+											"\r",
+											"\r",
+											"pm.sendRequest(loginRequest, function (err, res) {\r",
+											"    if (err) {\r",
+											"        console.error('Login request failed:', err);\r",
+											"    } else {\r",
+											"        if (res.code === 200) {\r",
+											"            const authToken = res.json().token; \r",
+											"\r",
+											"            pm.environment.set('authToken', authToken);\r",
+											"\r",
+											"            pm.request.headers.add({\r",
+											"                key: 'Authorization',\r",
+											"                value: 'Bearer ' + authToken\r",
+											"            });\r",
+											"            \r",
+											"        } else {\r",
+											"            console.error('Login failed:', res.code, res.body);\r",
+											"        }\r",
+											"    }\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.not.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/question/delete/:id",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"question",
+										"delete",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1456"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "403 http://localhost:8080/api/question/delete/:id",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 403\", function () {\r",
+											"    pm.response.to.have.status(403);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/question/delete/:id",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"question",
+										"delete",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1456"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "404 http://localhost:8080/api/question/delete/:id",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const loginRequest = {\r",
+											"    url: 'http://localhost:8080/api/user/login',\r",
+											"    method: 'POST',\r",
+											"    header: 'Content-Type:application/json',\r",
+											"    body: {\r",
+											"        mode: 'raw',\r",
+											"        raw: JSON.stringify({\r",
+											"            username: 'user1',\r",
+											"            password: '123'\r",
+											"        })\r",
+											"    }\r",
+											"};\r",
+											"\r",
+											"\r",
+											"pm.sendRequest(loginRequest, function (err, res) {\r",
+											"    if (err) {\r",
+											"        console.error('Login request failed:', err);\r",
+											"    } else {\r",
+											"        if (res.code === 200) {\r",
+											"            const authToken = res.json().token; \r",
+											"\r",
+											"            pm.environment.set('authToken', authToken);\r",
+											"\r",
+											"            pm.request.headers.add({\r",
+											"                key: 'Authorization',\r",
+											"                value: 'Bearer ' + authToken\r",
+											"            });\r",
+											"            \r",
+											"        } else {\r",
+											"            console.error('Login failed:', res.code, res.body);\r",
+											"        }\r",
+											"    }\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 404\", function () {\r",
+											"    pm.response.to.have.status(404);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/api/question/delete/:id",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"question",
+										"delete",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1456"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "editQuestion",
+					"item": [
+						{
+							"name": "New Request",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const loginRequest = {\r",
+											"    url: 'http://localhost:8080/api/user/login',\r",
+											"    method: 'POST',\r",
+											"    header: 'Content-Type:application/json',\r",
+											"    body: {\r",
+											"        mode: 'raw',\r",
+											"        raw: JSON.stringify({\r",
+											"            username: 'user1',\r",
+											"            password: '123'\r",
+											"        })\r",
+											"    }\r",
+											"};\r",
+											"\r",
+											"\r",
+											"pm.sendRequest(loginRequest, function (err, res) {\r",
+											"    if (err) {\r",
+											"        console.error('Login request failed:', err);\r",
+											"    } else {\r",
+											"        if (res.code === 200) {\r",
+											"            const authToken = res.json().token; \r",
+											"\r",
+											"            pm.environment.set('authToken', authToken);\r",
+											"\r",
+											"            pm.request.headers.add({\r",
+											"                key: 'Authorization',\r",
+											"                value: 'Bearer ' + authToken\r",
+											"            });\r",
+											"            \r",
+											"        } else {\r",
+											"            console.error('Login failed:', res.code, res.body);\r",
+											"        }\r",
+											"    }\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"question\": {\r\n        \"id\": 1455,\r\n        \"type\": \"SINGLE_CHOICE\",\r\n        \"text\": \"aa\",\r\n        \"inBank\": false,\r\n        \"ownerId\": 1,\r\n        \"score\": 2,\r\n        \"options\": [\r\n            {\r\n                \"id\": 1512,\r\n                \"text\": \"11\",\r\n                \"correct\": true,\r\n                \"answers\": []\r\n            },\r\n            {\r\n                \"id\": 1513,\r\n                \"text\": \"ccaa\",\r\n                \"correct\": false,\r\n                \"answers\": []\r\n            },\r\n            {\r\n                \"id\": 1514,\r\n                \"text\": \"vv\",\r\n                \"correct\": false,\r\n                \"answers\": []\r\n            },\r\n            {\r\n                \"id\": 1515,\r\n                \"text\": \"3\",\r\n                \"correct\": false,\r\n                \"answers\": []\r\n            }\r\n        ],\r\n        \"logic\": [],\r\n        \"quizzes\": []\r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/question/edit",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"question",
+										"edit"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "400 http://localhost:8080/api/question/edit",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const loginRequest = {\r",
+											"    url: 'http://localhost:8080/api/user/login',\r",
+											"    method: 'POST',\r",
+											"    header: 'Content-Type:application/json',\r",
+											"    body: {\r",
+											"        mode: 'raw',\r",
+											"        raw: JSON.stringify({\r",
+											"            username: 'user1',\r",
+											"            password: '123'\r",
+											"        })\r",
+											"    }\r",
+											"};\r",
+											"\r",
+											"\r",
+											"pm.sendRequest(loginRequest, function (err, res) {\r",
+											"    if (err) {\r",
+											"        console.error('Login request failed:', err);\r",
+											"    } else {\r",
+											"        if (res.code === 200) {\r",
+											"            const authToken = res.json().token; \r",
+											"\r",
+											"            pm.environment.set('authToken', authToken);\r",
+											"\r",
+											"            pm.request.headers.add({\r",
+											"                key: 'Authorization',\r",
+											"                value: 'Bearer ' + authToken\r",
+											"            });\r",
+											"            \r",
+											"        } else {\r",
+											"            console.error('Login failed:', res.code, res.body);\r",
+											"        }\r",
+											"    }\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/question/edit",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"question",
+										"edit"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "403 http://localhost:8080/api/question/edit",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 403\", function () {\r",
+											"    pm.response.to.have.status(403);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"question\": {\r\n        \"id\": 1455,\r\n        \"type\": \"SINGLE_CHOICE\",\r\n        \"text\": \"aa\",\r\n        \"inBank\": false,\r\n        \"ownerId\": 1,\r\n        \"score\": 2,\r\n        \"options\": [\r\n            {\r\n                \"id\": 1512,\r\n                \"text\": \"11\",\r\n                \"correct\": true,\r\n                \"answers\": []\r\n            },\r\n            {\r\n                \"id\": 1513,\r\n                \"text\": \"ccaa\",\r\n                \"correct\": false,\r\n                \"answers\": []\r\n            },\r\n            {\r\n                \"id\": 1514,\r\n                \"text\": \"vv\",\r\n                \"correct\": false,\r\n                \"answers\": []\r\n            },\r\n            {\r\n                \"id\": 1515,\r\n                \"text\": \"3\",\r\n                \"correct\": false,\r\n                \"answers\": []\r\n            }\r\n        ],\r\n        \"logic\": [],\r\n        \"quizzes\": []\r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/question/edit",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"question",
+										"edit"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "404 http://localhost:8080/api/question/edit Copy",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const loginRequest = {\r",
+											"    url: 'http://localhost:8080/api/user/login',\r",
+											"    method: 'POST',\r",
+											"    header: 'Content-Type:application/json',\r",
+											"    body: {\r",
+											"        mode: 'raw',\r",
+											"        raw: JSON.stringify({\r",
+											"            username: 'user1',\r",
+											"            password: '123'\r",
+											"        })\r",
+											"    }\r",
+											"};\r",
+											"\r",
+											"\r",
+											"pm.sendRequest(loginRequest, function (err, res) {\r",
+											"    if (err) {\r",
+											"        console.error('Login request failed:', err);\r",
+											"    } else {\r",
+											"        if (res.code === 200) {\r",
+											"            const authToken = res.json().token; \r",
+											"\r",
+											"            pm.environment.set('authToken', authToken);\r",
+											"\r",
+											"            pm.request.headers.add({\r",
+											"                key: 'Authorization',\r",
+											"                value: 'Bearer ' + authToken\r",
+											"            });\r",
+											"            \r",
+											"        } else {\r",
+											"            console.error('Login failed:', res.code, res.body);\r",
+											"        }\r",
+											"    }\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 404\", function () {\r",
+											"    pm.response.to.have.status(404);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"question\": {\r\n        \"id\": 1144,\r\n        \"type\": \"SINGLE_CHOICE\",\r\n        \"text\": \"aa\",\r\n        \"inBank\": false,\r\n        \"ownerId\": 1,\r\n        \"score\": 2,\r\n        \"options\": [\r\n            {\r\n                \"id\": 1512,\r\n                \"text\": \"11\",\r\n                \"correct\": true,\r\n                \"answers\": []\r\n            },\r\n            {\r\n                \"id\": 1513,\r\n                \"text\": \"ccaa\",\r\n                \"correct\": false,\r\n                \"answers\": []\r\n            },\r\n            {\r\n                \"id\": 1514,\r\n                \"text\": \"vv\",\r\n                \"correct\": false,\r\n                \"answers\": []\r\n            },\r\n            {\r\n                \"id\": 1515,\r\n                \"text\": \"3\",\r\n                \"correct\": false,\r\n                \"answers\": []\r\n            }\r\n        ],\r\n        \"logic\": [],\r\n        \"quizzes\": []\r\n    }\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/question/edit",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"question",
+										"edit"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	]
+}
