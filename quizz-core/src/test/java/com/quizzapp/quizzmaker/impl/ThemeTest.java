@@ -22,49 +22,49 @@ public class ThemeTest {
 
     @Test
     public void testBgColor() {
-        String bgColor = "bg_color";
+        String bgColor = "color";
         theme.setBgColor(bgColor);
         assertEquals(bgColor, theme.getBgColor());
     }
 
     @Test
     public void testBgImage() {
-        String bgImage = "bg_image_data";
+        String bgImage = "img";
         theme.setBgImage(bgImage);
         assertEquals(bgImage, theme.getBgImage());
     }
 
     @Test
     public void testQuestionColor() {
-        String questionColor = "question_color";
+        String questionColor = "red";
         theme.setQuestionColor(questionColor);
         assertEquals(questionColor, theme.getQuestionColor());
     }
 
     @Test
     public void testOptionBgColor() {
-        String optionBgColor = "option_bg_color";
+        String optionBgColor = "red";
         theme.setOptionBgColor(optionBgColor);
         assertEquals(optionBgColor, theme.getOptionBgColor());
     }
 
     @Test
     public void testOptionTextColor() {
-        String optionTextColor = "option_text_color";
+        String optionTextColor = "red";
         theme.setOptionTextColor(optionTextColor);
         assertEquals(optionTextColor, theme.getOptionTextColor());
     }
 
     @Test
     public void testButtonBgColor() {
-        String buttonBgColor = "button_bg_color";
+        String buttonBgColor = "red";
         theme.setButtonBgColor(buttonBgColor);
         assertEquals(buttonBgColor, theme.getButtonBgColor());
     }
 
     @Test
     public void testButtonTextColor() {
-        String buttonTextColor = "button_text_color";
+        String buttonTextColor = "red";
         theme.setButtonTextColor(buttonTextColor);
         assertEquals(buttonTextColor, theme.getButtonTextColor());
     }

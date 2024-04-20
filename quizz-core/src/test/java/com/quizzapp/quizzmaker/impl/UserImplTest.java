@@ -22,9 +22,6 @@ import java.util.*;
 class UserImplTest {
 
     @Mock
-    private JWTServiceTest jwtService;
-
-    @Mock
     private UserRepository userRepository;
 
     @Mock
@@ -39,26 +36,27 @@ class UserImplTest {
     }
 
     @Test
-    void createUser_ShouldSaveUser_WhenUserDTOIsProvided() {
-        UserDTO userDTO = new UserDTO(1, "user1@example.com", "user1", "encodedPassword", false, "2024-01-01");
-        User user = new User(1, "user1@example.com", "user1", "encodedPassword", false, "2023-01-01", "ROLE_USER", new ArrayList<>(), new ArrayList<>());
-        String encodedPassword = "encodedPassword";
+    void testCreateUser() {
+        UserDTO userDTO = new UserDTO(1, "user1@gmail.com", "user1", "password1", false, "2024-01-01");
+        User user = new User(1, "user1@gmail.com", "user1", "password1", false, "2023-01-01", "ROLE_USER", new ArrayList<>(), new ArrayList<>());
+        String encodedPassword = "password1";
 
         when(passwordEncoder.encode(anyString())).thenReturn(encodedPassword);
         when(userRepository.save(any(User.class))).thenReturn(user);
 
         User createdUser = userService.createUser(userDTO);
 
-        verify(passwordEncoder).encode(userDTO.getPassword());
-        verify(userRepository).save(any(User.class));
         assertNotNull(createdUser);
         assertEquals(encodedPassword, createdUser.getPassword());
+
+        verify(passwordEncoder).encode(userDTO.getPassword());
+        verify(userRepository).save(any(User.class));
     }
 
     @Test
-    void loadUserByUsername_ShouldReturnUserDetails_WhenUsernameExists() {
+    void testLoadUserByUsername() {
         String username = "user1";
-        User user = new User(1, "user1@example.com", "user1", "password", false, "2023-01-01", "ROLE_USER", new ArrayList<>(), new ArrayList<>());
+        User user = new User(1, "user1@gmail.com", "user1", "password", false, "2023-01-01", "ROLE_USER", new ArrayList<>(), new ArrayList<>());
         Optional<User> optionalUser = Optional.of(user);
 
         when(userRepository.findByUsername(username)).thenReturn(optionalUser);
@@ -70,8 +68,8 @@ class UserImplTest {
     }
 
     @Test
-    void loadUserByUsername_ShouldThrowException_WhenUsernameNotFound() {
-        String username = "nonExistentUsername";
+    void testLoadUserByUsernameException() {
+        String username = "bla bla bla";
         when(userRepository.findByUsername(username)).thenReturn(Optional.empty());
 
         assertThrows(UsernameNotFoundException.class, () -> {
@@ -81,8 +79,8 @@ class UserImplTest {
 
 
     @Test
-    void getAllUser_ShouldReturnAllUsers() {
-        List<User> users = Arrays.asList(new User(1, "user1@example.com", "user1", "password", false, "2023-01-01", "ROLE_USER", new ArrayList<>(), new ArrayList<>()), new User(1, "user2@example.com", "user2", "password", false, "2023-01-01", "ROLE_USER", new ArrayList<>(), new ArrayList<>()));
+    void testGetAllUsers() {
+        List<User> users = Arrays.asList(new User(1, "user1@gmail.com", "user1", "password", false, "2023-01-01", "ROLE_USER", new ArrayList<>(), new ArrayList<>()), new User(1, "user2@gmail.com", "user2", "password", false, "2023-01-01", "ROLE_USER", new ArrayList<>(), new ArrayList<>()));
         when(userRepository.findAll()).thenReturn(users);
 
         List<User> result = userService.getAllUser();
@@ -92,10 +90,10 @@ class UserImplTest {
     }
 
     @Test
-    void editUser_ShouldUpdateUserDetails_WhenUserExists() {
-        UserDTO userDTO = new UserDTO(1, "updated@example.com", "updatedUser", "updatedPassword", true, "2024-01-01");
-        User existingUser = new User(1, "user1@example.com", "user1", "password", false, "2023-01-01", "ROLE_USER", new ArrayList<>(), new ArrayList<>());
-        User updatedUser = new User(1, "updated@example.com", "updatedUser", "updatedPassword", true, "2024-01-01", "ROLE_USER", new ArrayList<>(), new ArrayList<>());
+    void testEditUser() {
+        UserDTO userDTO = new UserDTO(1, "user2@gmail.com", "user2", "password2", true, "2024-01-01");
+        User existingUser = new User(1, "user1@gmail.com", "user1", "password1", false, "2023-01-01", "ROLE_USER", new ArrayList<>(), new ArrayList<>());
+        User updatedUser = new User(1, "user2@gmail.com", "user2", "password2", true, "2024-01-01", "ROLE_USER", new ArrayList<>(), new ArrayList<>());
 
         when(userRepository.findById(userDTO.getId())).thenReturn(Optional.of(existingUser));
         when(userRepository.save(any(User.class))).thenReturn(updatedUser);
@@ -109,17 +107,17 @@ class UserImplTest {
     }
 
     @Test
-    void editUser_ShouldThrowException_WhenUserNotFound() {
-        UserDTO userDTO = new UserDTO(99, "user1@example.com", "user1", "password", false, "2024-01-01");
+    void testEditUserException() {
+        UserDTO userDTO = new UserDTO(99, "user1@gmail.com", "user1", "password1", false, "2024-01-01");
         when(userRepository.findById(userDTO.getId())).thenReturn(Optional.empty());
 
         assertThrows(RuntimeException.class, () -> userService.editUser(userDTO));
     }
 
     @Test
-    void getUserById_ShouldReturnUser_WhenUserExists() {
+    void testGetUserById() {
         int userId = 1;
-        Optional<User> user = Optional.of(new User(1, "user1@example.com", "user1", "password", false, "2023-01-01", "ROLE_USER", new ArrayList<>(), new ArrayList<>()));
+        Optional<User> user = Optional.of(new User(1, "user1@gmail.com", "user1", "password1", false, "2025-01-01", "ROLE_USER", new ArrayList<>(), new ArrayList<>()));
         when(userRepository.findById(userId)).thenReturn(user);
 
         Optional<User> result = userService.getUser(userId);
@@ -128,8 +126,8 @@ class UserImplTest {
     }
 
     @Test
-    void getUserById_ShouldReturnEmpty_WhenUserNotFound() {
-        int userId = 99;
+    void testGetUserByIdeException() {
+        int userId = 944;
         when(userRepository.findById(userId)).thenReturn(Optional.empty());
 
         Optional<User> result = userService.getUser(userId);
@@ -138,9 +136,9 @@ class UserImplTest {
     }
 
     @Test
-    void getUserByUsername_ShouldReturnUser_WhenUsernameExists() {
+    void testGetUserByUsername() {
         String username = "user1";
-        User user = new User(1, "user1@example.com", "user1", "password", false, "2023-01-01", "ROLE_USER", new ArrayList<>(), new ArrayList<>());;
+        User user = new User(1, "user1@gmail.com", "user1", "password1", false, "2023-01-01", "ROLE_USER", new ArrayList<>(), new ArrayList<>());;
         when(userRepository.findByUsername(username)).thenReturn(Optional.of(user));
 
         User result = userService.getUser(username);
@@ -150,8 +148,8 @@ class UserImplTest {
     }
 
     @Test
-    void getUserByUsername_ShouldThrowException_WhenUsernameNotFound() {
-        String username = "nonExistentUser";
+    void testGetUserByUsernameException() {
+        String username = "user2141";
         when(userRepository.findByUsername(username)).thenReturn(Optional.empty());
 
         assertThrows(NoSuchElementException.class, () -> userService.getUser(username));

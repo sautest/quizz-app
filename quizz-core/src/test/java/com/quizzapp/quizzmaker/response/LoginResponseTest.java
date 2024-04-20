@@ -16,8 +16,8 @@ public class LoginResponseTest {
 
     @Test
     public void testParamConstructor() {
-        LoginResponse response = new LoginResponse("Success", true);
-        assertEquals("Success", response.getMessage());
+        LoginResponse response = new LoginResponse("success", true);
+        assertEquals("success", response.getMessage());
         assertEquals(Boolean.TRUE, response.getStatus());
     }
 
@@ -25,8 +25,8 @@ public class LoginResponseTest {
     public void testSettersAndGetters() {
         LoginResponse response = new LoginResponse();
 
-        response.setMessage("Failed");
-        assertEquals("Failed", response.getMessage());
+        response.setMessage("failed");
+        assertEquals("failed", response.getMessage());
 
         response.setStatus(false);
         assertEquals(Boolean.FALSE, response.getStatus());

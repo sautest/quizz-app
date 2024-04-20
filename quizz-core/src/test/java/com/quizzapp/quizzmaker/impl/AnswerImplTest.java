@@ -42,12 +42,11 @@ public class AnswerImplTest {
     }
 
     @Test
-    void createAnswer_Successful() {
+    void testCreateAnswer() {
         Long questionId = 1L;
         List<Long> selectedOptionIds = List.of(1L, 2L);
-        String participantName = "John Doe";
+        String participantName = "bla bla";
         int participantAge = 30;
-
         AnswerDTO answerDTO = new AnswerDTO(questionId, selectedOptionIds, participantName, participantAge);
         List<AnswerDTO> answerDTOList = List.of(answerDTO);
 
@@ -68,13 +67,13 @@ public class AnswerImplTest {
 
         List<Answer> answers = answerService.createAnswer(answerDTOList);
 
-        assertNotNull(answers, "Answers should not be null");
-        assertEquals(1, answers.size(), "There should be 1 answer");
+        assertNotNull(answers);
+        assertEquals(1, answers.size());
         Answer answer = answers.get(0);
-        assertEquals(question, answer.getQuestion(), "The question in the answer should match the provided question");
-        assertEquals(selectedOptions, answer.getSelectedOptions(), "The selected options in the answer should match the provided selected options");
-        assertEquals(participantName, answer.getParticipantName(), "The participant name should match");
-        assertEquals(participantAge, answer.getParticipantAge(), "The participant age should match");
+        assertEquals(question, answer.getQuestion());
+        assertEquals(selectedOptions, answer.getSelectedOptions());
+        assertEquals(participantName, answer.getParticipantName());
+        assertEquals(participantAge, answer.getParticipantAge());
 
         verify(questionRepository).findById(questionId);
         verify(questionOptionRepository).findAllById(selectedOptionIds);
@@ -84,22 +83,22 @@ public class AnswerImplTest {
 
 
     @Test
-    void createAnswer_QuestionNotFound_ThrowsException() {
-        Long nonExistentQuestionId = 99L;
-        AnswerDTO answerDTO = new AnswerDTO(nonExistentQuestionId, List.of(1L, 2L), "John Doe", 30);
+    void testCreateAnswerException() {
+        Long questionId = 99L;
+        AnswerDTO answerDTO = new AnswerDTO(questionId, List.of(1L, 2L), "bla bla", 30);
         List<AnswerDTO> answerDTOList = List.of(answerDTO);
 
-        when(questionRepository.findById(nonExistentQuestionId)).thenReturn(Optional.empty());
+        when(questionRepository.findById(questionId)).thenReturn(Optional.empty());
 
-        assertThrows(IllegalArgumentException.class, () -> answerService.createAnswer(answerDTOList), "Expected an IllegalArgumentException to be thrown when the question is not found");
+        assertThrows(IllegalArgumentException.class, () -> answerService.createAnswer(answerDTOList));
 
-        verify(questionRepository).findById(nonExistentQuestionId);
+        verify(questionRepository).findById(questionId);
         verifyNoInteractions(questionOptionRepository);
         verifyNoInteractions(answerRepository);
     }
 
     @Test
-    void getAnswers_Successful() {
+    void testGetAnswers() {
         Long questionId = 1L;
         List<Answer> expectedAnswers = Arrays.asList(new Answer(), new Answer());
 
@@ -107,8 +106,8 @@ public class AnswerImplTest {
 
         List<Answer> answers = answerService.getAnswers(questionId);
 
-        assertNotNull(answers, "Answers should not be null");
-        assertEquals(expectedAnswers.size(), answers.size(), "The number of returned answers should match the expected");
+        assertNotNull(answers);
+        assertEquals(expectedAnswers.size(), answers.size());
 
         verify(answerRepository).findAllByQuestionId(questionId);
     }

@@ -1,22 +1,17 @@
 package com.quizzapp.quizzmaker.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.quizzapp.quizzmaker.dto.GraphDTO;
 import com.quizzapp.quizzmaker.dto.QuizDTO;
 import com.quizzapp.quizzmaker.persistence.entities.Quiz;
 import com.quizzapp.quizzmaker.persistence.entities.User;
 import com.quizzapp.quizzmaker.services.GraphService;
 import com.quizzapp.quizzmaker.services.QuizService;
-import com.quizzapp.quizzmaker.services.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -28,8 +23,6 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import static org.mockito.ArgumentMatchers.any;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
-import static org.springframework.http.RequestEntity.post;
-import static org.springframework.test.web.client.match.MockRestRequestMatchers.content;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -40,8 +33,7 @@ public class QuizControllerTest {
 
     @Mock
     private QuizService quizService;
-    @Mock
-    private UserService userService;
+
     @Mock
     private GraphService graphService;
 
@@ -58,7 +50,7 @@ public class QuizControllerTest {
         MockitoAnnotations.openMocks(this);
         mockMvc = MockMvcBuilders.standaloneSetup(quizController).build();
 
-        user = new User(1, "user@test.com", "testUser", "password123", false, "2023-01-01", "ROLE_USER", null, null);
+        user = new User(1, "user@gmail.com", "testUser", "password123", false, "2025-01-01", "ROLE_USER", null, null);
         authentication = new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword());
         securityContext = mock(SecurityContext.class);
 
@@ -68,11 +60,10 @@ public class QuizControllerTest {
 
     @Test
     public void testGetAllPublicQuizzes() {
-
         List<Quiz> expectedQuizzes = new ArrayList<>();
         when(quizService.getAllPublicQuizzes()).thenReturn(expectedQuizzes);
         List<Quiz> actualQuizzes = quizController.getAllPublicQuizzes();
-        assertEquals(expectedQuizzes, actualQuizzes, "The returned list of quizzes should match the expected list.");
+        assertEquals(expectedQuizzes, actualQuizzes);
     }
 
 
@@ -98,7 +89,7 @@ public class QuizControllerTest {
 
         Quiz resultQuiz = quizController.createQuiz(quizDTO);
 
-        assertEquals(expectedQuiz, resultQuiz, "The returned quiz should match the expected quiz");
+        assertEquals(expectedQuiz, resultQuiz);
 
         verify(quizService).createQuiz(any(QuizDTO.class));
     }
@@ -107,14 +98,14 @@ public class QuizControllerTest {
     @Test
     public void testGenerateQuizGraph() {
         GraphDTO graphDTO = new GraphDTO();
-        String expectedGraphData = "generatedGraphData";
+        String expectedGraphData = "data";
 
         when(graphService.generate(any(GraphDTO.class))).thenReturn(expectedGraphData);
 
         ResponseEntity<Map<String, String>> responseEntity = quizController.generateQuizGraph(graphDTO);
 
-        assertEquals(HttpStatus.OK, responseEntity.getStatusCode(), "The response status should be OK");
-        assertEquals(expectedGraphData, responseEntity.getBody().get("graph"), "The graph data in the response should match the expected graph data");
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        assertEquals(expectedGraphData, responseEntity.getBody().get("graph"));
 
         verify(graphService).generate(any(GraphDTO.class));
     }

@@ -16,23 +16,21 @@ class QuizzMakerApplicationTests {
 
     private QuizzMakerApplication quizzMakerApplication;
 
-    @Mock
-    private HttpClient mockHttpClient;
 
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
         quizzMakerApplication = new QuizzMakerApplication();
     }
 
     @Test
-    void httpClientBeanTest() {
+    void testHttpClientBean() {
         HttpClient httpClient = quizzMakerApplication.httpClient();
         assertNotNull(httpClient);
     }
 
     @Test
-    void corsConfigurerTest() {
+    void testCorsConfigurer() {
         CorsRegistry mockCorsRegistry = mock(CorsRegistry.class);
         CorsRegistration mockCorsRegistration = mock(CorsRegistration.class);
         when(mockCorsRegistration.allowedOrigins(anyString())).thenReturn(mockCorsRegistration);

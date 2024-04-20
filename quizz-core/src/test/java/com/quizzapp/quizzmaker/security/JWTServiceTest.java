@@ -23,7 +23,7 @@ public class JWTServiceTest {
 
     @Test
     public void testGenerateToken() throws NoSuchFieldException, IllegalAccessException {
-        String userName = "testUser";
+        String userName = "user1";
         String roles = "ROLE_USER,ROLE_ADMIN";
         String token = jwtService.generateToken(userName, roles);
 
@@ -38,28 +38,26 @@ public class JWTServiceTest {
                 .parseClaimsJws(token)
                 .getBody();
 
-        assertEquals(userName, claims.getSubject(), "The subject should be the userName");
-        assertEquals(roles, claims.get("roles"), "The roles claim should match the roles provided");
+        assertEquals(userName, claims.getSubject());
+        assertEquals(roles, claims.get("roles"));
 
         long expectedExpirationTime = claims.getIssuedAt().getTime() + 1000 * 60 * 300;
-        assertTrue(Math.abs(expectedExpirationTime - claims.getExpiration().getTime()) < 1000,
-                "The token expiration time should be about 300 minutes from the issued time");
+        assertTrue(Math.abs(expectedExpirationTime - claims.getExpiration().getTime()) < 1000);
     }
 
 
     @Test
     public void testExtractUserName() {
-        String expectedUserName = "testUser";
+        String expectedUserName = "user";
         String token = jwtService.generateToken(expectedUserName, "ROLE_USER");
-
         String actualUserName = jwtService.extractUserName(token);
 
-        assertEquals(expectedUserName, actualUserName, "Extracted username should match the expected value");
+        assertEquals(expectedUserName, actualUserName);
     }
 
     @Test
     public void testExtractExpiration() {
-        String userName = "testUser";
+        String userName = "user";
         String token = jwtService.generateToken(userName, "ROLE_USER");
 
         Date actualExpiration = jwtService.extractExpiration(token);
@@ -67,12 +65,7 @@ public class JWTServiceTest {
         long expectedExpirationMillis = System.currentTimeMillis() + 1000 * 60 * 300;
         long actualExpirationMillis = actualExpiration.getTime();
 
-        assertTrue(Math.abs(expectedExpirationMillis - actualExpirationMillis) < 1000 * 60,
-                "Extracted expiration should be approximately 300 minutes from the current time");
+        assertTrue(Math.abs(expectedExpirationMillis - actualExpirationMillis) < 1000 * 60);
     }
-
-
-
-
 
 }

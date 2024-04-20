@@ -42,49 +42,49 @@ public class QuestionImplTest {
     }
 
     @Test
-    void getAllUserQuestions_Successful() {
+    void testGetAllUserQuestions() {
         Long ownerId = 1L;
         List<Question> expectedQuestions = List.of(new Question(), new Question());
         when(questionRepository.findAllByOwnerId(ownerId)).thenReturn(expectedQuestions);
 
         List<Question> questions = questionService.getAllUserQuestions(ownerId);
 
-        assertNotNull(questions, "The list of questions should not be null");
-        assertEquals(expectedQuestions.size(), questions.size(), "The list should contain the expected number of questions");
+        assertNotNull(questions);
+        assertEquals(expectedQuestions.size(), questions.size());
 
         verify(questionRepository).findAllByOwnerId(ownerId);
     }
 
     @Test
-    void getQuestion_Found() {
+    void testGetQuestion() {
         Long questionId = 1L;
         Question expectedQuestion = new Question();
         when(questionRepository.findById(questionId)).thenReturn(Optional.of(expectedQuestion));
 
         Optional<Question> question = questionService.getQuestion(questionId);
 
-        assertTrue(question.isPresent(), "Question should be found");
-        assertEquals(expectedQuestion, question.get(), "The found question should match the expected question");
+        assertTrue(question.isPresent());
+        assertEquals(expectedQuestion, question.get());
 
         verify(questionRepository).findById(questionId);
     }
 
     @Test
-    void getQuestion_NotFound() {
+    void testGetQuestionNotFound() {
         Long nonExistentQuestionId = 99L;
         when(questionRepository.findById(nonExistentQuestionId)).thenReturn(Optional.empty());
 
         Optional<Question> question = questionService.getQuestion(nonExistentQuestionId);
 
-        assertFalse(question.isPresent(), "Question should not be found");
+        assertFalse(question.isPresent());
 
         verify(questionRepository).findById(nonExistentQuestionId);
     }
 
     @Test
-    void createQuestion_AssociateWithQuiz_Successful() {
+    void testCreateQuizQuestion() {
         int quizId = 1;
-        String questionText = "What is the capital of France?";
+        String questionText = "bla bla???";
         QuestionType questionType = QuestionType.SINGLE_CHOICE;
         int score = 10;
         int ownerId = 1;
@@ -113,8 +113,8 @@ public class QuestionImplTest {
 
         Question result = questionService.createQuestion(questionDTO);
 
-        assertNotNull(result, "The created question should not be null");
-        assertEquals(savedQuestion.getId(), result.getId(), "The IDs should match");
+        assertNotNull(result);
+        assertEquals(savedQuestion.getId(), result.getId());
 
         verify(questionRepository).save(any(Question.class));
         verify(quizRepository).findById((long) quizId);
@@ -122,9 +122,9 @@ public class QuestionImplTest {
     }
 
     @Test
-    void createQuestion_AssociateWithSurvey_Successful() {
+    void testCreateSurveyQuestion() {
         int surveyId = 1;
-        String questionText = "What is your favorite color?";
+        String questionText = "bla bla?";
         QuestionType questionType = QuestionType.MULTI_CHOICE;
         int score = 0;
         int ownerId = 1;
@@ -154,27 +154,26 @@ public class QuestionImplTest {
 
         Question result = questionService.createQuestion(questionDTO);
 
-        assertNotNull(result, "The created question should not be null");
-        assertEquals(savedQuestion.getId(), result.getId(), "The IDs should match");
+        assertNotNull(result);
+        assertEquals(savedQuestion.getId(), result.getId());
 
         verify(questionRepository).save(any(Question.class));
         verify(surveyRepository).findById((long) surveyId);
         verify(surveyRepository).save(survey);
     }
 
-
     @Test
-    void updateQuestion_Successful() {
+    void testUpdateQuestion() {
         QuestionDTO questionDTO = new QuestionDTO();
         Question question = new Question();
         question.setId(1);
-        question.setText("Original Text");
+        question.setText("test1");
         question.setType(QuestionType.SINGLE_CHOICE);
         question.setScore(5);
 
         Question updatedQuestion = new Question();
         updatedQuestion.setId(question.getId());
-        updatedQuestion.setText("Updated Text");
+        updatedQuestion.setText("test2");
         updatedQuestion.setType(QuestionType.MULTI_CHOICE);
         updatedQuestion.setScore(10);
 
@@ -194,7 +193,7 @@ public class QuestionImplTest {
     }
 
     @Test
-    void deleteQuestion_Successful() {
+    void testDeleteQuestion() {
         int questionId = 1;
         Question question = new Question();
         question.setId(questionId);
@@ -211,25 +210,20 @@ public class QuestionImplTest {
 
         questionService.deleteQuestion((long) questionId);
 
-        verify(questionRepository, times(1)).findById((long) questionId);
-        verify(questionRepository, times(1)).delete(question);
+        verify(questionRepository).findById((long) questionId);
+        verify(questionRepository).delete(question);
     }
 
     @Test
-    void deleteQuestion_QuestionNotFound() {
+    void testDeleteQuestionException() {
         long questionId = 1L;
         when(questionRepository.findById(questionId)).thenReturn(Optional.empty());
 
         assertThrows(IllegalArgumentException.class, () -> questionService.deleteQuestion(questionId));
-        verify(questionRepository, times(1)).findById(questionId);
+        verify(questionRepository).findById(questionId);
         verify(questionRepository, never()).delete(any());
         verify(quizRepository, never()).save(any());
         verify(surveyRepository, never()).save(any());
     }
-
-
-
-
-
 
 }

@@ -178,31 +178,42 @@ export class ProjectActionViewComponent implements OnInit {
   }
 
   onNextQuestion() {
+    let breakCycle = false;
     let defaultIncrement = true;
 
     if (this.project.questions[this.currentPage].logic && !this.project.settings.enableRandomizeQuestions) {
       this.project.questions[this.currentPage].logic?.forEach(logic => {
-        if (logic.conditionType === LogicConditionType.ALWAYS) {
-          defaultIncrement = false;
-
-          if (logic.actionType === LogicActionType.END_QUESTIONING) {
-            this.currentPage = this.questionsAmount;
-          } else {
-            this.currentPage = this.project.questions.findIndex(q => q.id == logic.actionOptionId);
-          }
-        } else {
-          let option = this.project.questions[this.currentPage].options.find(opt => opt.id == logic.conditionOptionId);
-
-          if (
-            (this.project.questions[this.currentPage].type === QuestionType.MULTI_CHOICE && option?.checked) ||
-            (this.project.questions[this.currentPage].type === QuestionType.SINGLE_CHOICE &&
-              option?.text === this.project.questions[this.currentPage].selected)
-          ) {
+        if (!breakCycle) {
+          if (logic.conditionType === LogicConditionType.ALWAYS) {
             defaultIncrement = false;
+
             if (logic.actionType === LogicActionType.END_QUESTIONING) {
               this.currentPage = this.questionsAmount;
+              breakCycle = true;
             } else {
               this.currentPage = this.project.questions.findIndex(q => q.id == logic.actionOptionId);
+              breakCycle = true;
+            }
+          } else {
+            let option = this.project.questions[this.currentPage].options.find(opt => opt.id == logic.conditionOptionId);
+            console.log(this.project.questions[this.currentPage].options);
+
+            if (
+              (this.project.questions[this.currentPage].type === QuestionType.MULTI_CHOICE &&
+                option?.checked &&
+                this.project.questions[this.currentPage].options.filter(opt => opt.checked).length === 1) ||
+              (this.project.questions[this.currentPage].type === QuestionType.SINGLE_CHOICE &&
+                option?.text === this.project.questions[this.currentPage].selected)
+            ) {
+              defaultIncrement = false;
+              if (logic.actionType === LogicActionType.END_QUESTIONING) {
+                this.currentPage = this.questionsAmount;
+                breakCycle = true;
+              } else {
+                this.currentPage = this.project.questions.findIndex(q => q.id == logic.actionOptionId);
+                breakCycle = true;
+                console.log(this.currentPage);
+              }
             }
           }
         }

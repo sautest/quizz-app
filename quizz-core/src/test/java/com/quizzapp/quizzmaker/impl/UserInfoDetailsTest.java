@@ -20,14 +20,14 @@ class UserInfoDetailsTest {
     @BeforeEach
     void setUp() {
         User user = new User();
-        user.setUsername("testUser");
-        user.setPassword("testPassword");
+        user.setUsername("user1");
+        user.setPassword("password2");
         user.setRoles("ROLE_USER,ROLE_ADMIN");
         userDetails = new UserInfoDetails(user);
     }
 
     @Test
-    void getAuthorities_ShouldReturnCorrectAuthorities() {
+    void testGetAuthorities() {
         Collection<? extends GrantedAuthority> authorities = userDetails.getAuthorities();
         assertEquals(2, authorities.size());
         assertTrue(authorities.contains(new SimpleGrantedAuthority("ROLE_USER")));
@@ -35,32 +35,32 @@ class UserInfoDetailsTest {
     }
 
     @Test
-    void getPassword_ShouldReturnCorrectPassword() {
-        assertEquals("testPassword", userDetails.getPassword());
+    void testGetPassword() {
+        assertEquals("password2", userDetails.getPassword());
     }
 
     @Test
-    void getUsername_ShouldReturnCorrectUsername() {
-        assertEquals("testUser", userDetails.getUsername());
+    void testGetUsername() {
+        assertEquals("user1", userDetails.getUsername());
     }
 
     @Test
-    void isAccountNonExpired_ShouldReturnTrue() {
+    void testIsAccountNonExpired() {
         assertTrue(userDetails.isAccountNonExpired());
     }
 
     @Test
-    void isAccountNonLocked_ShouldReturnTrue() {
+    void testIsAccountNonLocked() {
         assertTrue(userDetails.isAccountNonLocked());
     }
 
     @Test
-    void isCredentialsNonExpired_ShouldReturnTrue() {
+    void testIsCredentialsNonExpired() {
         assertTrue(userDetails.isCredentialsNonExpired());
     }
 
     @Test
-    void isEnabled_ShouldReturnTrue() {
+    void testIsEnabled() {
         assertTrue(userDetails.isEnabled());
     }
 }

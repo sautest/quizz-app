@@ -46,9 +46,9 @@ class JWTAuthFilterTest {
     }
 
     @Test
-    void doFilterInternal_ValidToken_SetsAuthentication() throws Exception {
-        String token = "validToken";
-        String userName = "testUser";
+    void testDoFilterInternal() throws Exception {
+        String token = "token";
+        String userName = "user1";
         String authHeader = "Bearer " + token;
 
         when(request.getHeader("Authorization")).thenReturn(authHeader);
@@ -60,7 +60,7 @@ class JWTAuthFilterTest {
 
         assertTrue(SecurityContextHolder.getContext().getAuthentication() instanceof UsernamePasswordAuthenticationToken);
 
-        verify(filterChain, times(1)).doFilter(request, response);
+        verify(filterChain).doFilter(request, response);
     }
 
 }

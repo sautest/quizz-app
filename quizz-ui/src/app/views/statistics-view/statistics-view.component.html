@@ -38,9 +38,6 @@
               [labels]="showLabels"
               [doughnut]="isDoughnut"
               [labels]="true"
-              (select)="onSelect($event)"
-              (activate)="onActivate($event)"
-              (deactivate)="onDeactivate($event)"
             >
             </ngx-charts-pie-chart>
 
@@ -50,7 +47,6 @@
               [view]="view"
               [scheme]="colorSchemeH"
               [results]="item"
-              (select)="onSelect($event)"
             >
             </ngx-charts-pie-grid>
 
@@ -70,9 +66,6 @@
               [showYAxisLabel]="showYAxisLabel"
               [xAxisLabel]="xAxisLabel"
               [yAxisLabel]="yAxisLabel"
-              (select)="onSelect($event)"
-              (activate)="onActivate($event)"
-              (deactivate)="onDeactivate($event)"
             >
             </ngx-charts-bar-horizontal>
 
@@ -90,9 +83,6 @@
               [showYAxisLabel]="showYAxisLabel"
               [xAxisLabel]="xAxisLabel"
               [yAxisLabel]="yAxisLabel"
-              (select)="onSelect($event)"
-              (activate)="onActivate($event)"
-              (deactivate)="onDeactivate($event)"
             >
             </ngx-charts-bar-vertical>
 

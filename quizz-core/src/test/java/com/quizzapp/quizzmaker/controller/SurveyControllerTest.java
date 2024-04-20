@@ -1,14 +1,10 @@
 package com.quizzapp.quizzmaker.controller;
 
 import com.quizzapp.quizzmaker.dto.GraphDTO;
-import com.quizzapp.quizzmaker.dto.QuizDTO;
 import com.quizzapp.quizzmaker.dto.SurveyDTO;
-import com.quizzapp.quizzmaker.persistence.entities.Quiz;
 import com.quizzapp.quizzmaker.persistence.entities.Survey;
 import com.quizzapp.quizzmaker.services.GraphService;
-import com.quizzapp.quizzmaker.services.QuizService;
 import com.quizzapp.quizzmaker.services.SurveyService;
-import com.quizzapp.quizzmaker.services.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -34,11 +30,9 @@ public class SurveyControllerTest {
 
     private MockMvc mockMvc;
 
-
     @Mock
     private SurveyService surveyService;
-    @Mock
-    private UserService userService;
+
     @Mock
     private GraphService graphService;
 
@@ -54,11 +48,10 @@ public class SurveyControllerTest {
 
     @Test
     public void testGetAllPublicSurveys() {
-
         List<Survey> expectedSurveys = new ArrayList<>();
         when(surveyService.getAllPublicSurveys()).thenReturn(expectedSurveys);
         List<Survey> actualQuizzes = surveyController.getAllPublicSurveys();
-        assertEquals(expectedSurveys, actualQuizzes, "The returned list of quizzes should match the expected list.");
+        assertEquals(expectedSurveys, actualQuizzes);
     }
 
 
@@ -84,7 +77,7 @@ public class SurveyControllerTest {
 
         Survey resultSurvey = surveyController.createSurvey(surveyDTO);
 
-        assertEquals(expectedSurvey, resultSurvey, "The returned quiz should match the expected quiz");
+        assertEquals(expectedSurvey, resultSurvey);
 
         verify(surveyService).createSurvey(any(SurveyDTO.class));
     }
@@ -93,14 +86,14 @@ public class SurveyControllerTest {
     @Test
     public void testGenerateSurveyGraph() {
         GraphDTO graphDTO = new GraphDTO();
-        String expectedGraphData = "generatedGraphData";
+        String expectedGraphData = "data";
 
         when(graphService.generate(any(GraphDTO.class))).thenReturn(expectedGraphData);
 
         ResponseEntity<Map<String, String>> responseEntity = surveyController.generateQuizGraph(graphDTO);
 
-        assertEquals(HttpStatus.OK, responseEntity.getStatusCode(), "The response status should be OK");
-        assertEquals(expectedGraphData, responseEntity.getBody().get("graph"), "The graph data in the response should match the expected graph data");
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        assertEquals(expectedGraphData, responseEntity.getBody().get("graph"));
 
         verify(graphService).generate(any(GraphDTO.class));
     }

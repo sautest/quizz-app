@@ -39,7 +39,6 @@ export class StatisticsViewComponent implements OnInit {
   view: [number, number] = [600, 400];
   loadingFinished: boolean = false;
 
-  // options
   showXAxis: boolean = true;
   showYAxis: boolean = true;
   gradient: boolean = true;
@@ -205,18 +204,6 @@ export class StatisticsViewComponent implements OnInit {
         }, 1000);
       });
     }
-  }
-
-  onSelect(data: any): void {
-    console.log("Item clicked", JSON.parse(JSON.stringify(data)));
-  }
-
-  onActivate(data: any): void {
-    console.log("Activate", JSON.parse(JSON.stringify(data)));
-  }
-
-  onDeactivate(data: any): void {
-    console.log("Deactivate", JSON.parse(JSON.stringify(data)));
   }
 
   countAnswerPercentage(array: any[], value: number) {

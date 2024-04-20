@@ -5,17 +5,13 @@ import com.quizzapp.quizzmaker.persistence.entities.*;
 import com.quizzapp.quizzmaker.persistence.models.ProjectStatus;
 import com.quizzapp.quizzmaker.persistence.repositories.QuizRepository;
 import com.quizzapp.quizzmaker.persistence.repositories.UserRepository;
-import com.quizzapp.quizzmaker.services.QuizService;
 import com.quizzapp.quizzmaker.services.impl.QuizImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.context.SpringBootTest;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,17 +30,13 @@ public class QuizImplTest {
     @InjectMocks
     private QuizImpl quizService;
 
-
-    
-
-
     @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
     }
-    @Test
-    void createQuiz_Successful() {
 
+    @Test
+    void testCreateQuiz() {
         QuizDTO quizDTO = new QuizDTO();
         quizDTO.setId(0);
         quizDTO.setUserId(1);
@@ -53,7 +45,7 @@ public class QuizImplTest {
         quizDTO.setSettings(new Settings());
         quizDTO.setTheme(new Theme());
 
-        User user = new User(1, "user1@example.com", "user1", "password", false, "2023-01-01", "ROLE_USER", new ArrayList<>(), new ArrayList<>());
+        User user = new User(1, "user1@gmail.com", "user1", "password", false, "2023-01-01", "ROLE_USER", new ArrayList<>(), new ArrayList<>());
 
         when(userRepository.findById(quizDTO.getUserId())).thenReturn(Optional.of(user));
         when(quizRepository.save(any(Quiz.class))).thenAnswer(invocation -> {
@@ -64,24 +56,23 @@ public class QuizImplTest {
 
         Quiz result = quizService.createQuiz(quizDTO);
 
+        assertNotNull(result);
+        assertNotNull(result.getId());
+        assertEquals(quizDTO.getTitle(), result.getTitle());
+        assertNotNull(result.getDateCreated());
+        assertEquals(user, result.getUser());
+        assertEquals(quizDTO.getSettings(), result.getSettings());
+        assertEquals(quizDTO.getTheme(), result.getTheme());
 
-        assertNotNull(result, "The created quiz should not be null");
-        assertNotNull(result.getId(), "The ID of the created quiz should not be null");
-        assertEquals(quizDTO.getTitle(), result.getTitle(), "The titles should match");
-        assertNotNull(result.getDateCreated(), "The date created of the created quiz should not be null");
-        assertEquals(user, result.getUser(), "The user of the created quiz should match the provided user");
-        assertEquals(quizDTO.getSettings(), result.getSettings(), "The settings of the created quiz should match");
-        assertEquals(quizDTO.getTheme(), result.getTheme(), "The theme of the created quiz should match");
-
-        verify(userRepository, times(1)).findById(quizDTO.getUserId());
+        verify(userRepository).findById(quizDTO.getUserId());
     }
 
 
     @Test
-    void updateQuiz_Successful() {
+    void testUpdateQuiz() {
         QuizDTO quizDTO = new QuizDTO();
         quizDTO.setId(1);
-        quizDTO.setTitle("Updated Quiz Title");
+        quizDTO.setTitle("title");
         quizDTO.setQuestions(new ArrayList<>()) ;
         quizDTO.setSettings(new Settings());
         quizDTO.setTheme(new Theme());
@@ -95,21 +86,21 @@ public class QuizImplTest {
 
         Quiz updatedQuiz = quizService.updateQuiz(quizDTO);
 
-        assertNotNull(updatedQuiz, "The updated quiz should not be null");
-        assertEquals(quizDTO.getTitle(), updatedQuiz.getTitle(), "The titles should match");
-        assertEquals(quizDTO.getQuestions(), updatedQuiz.getQuestions(), "The questions should match");
-        assertEquals(quizDTO.getSettings(), updatedQuiz.getSettings(), "The settings should match");
-        assertEquals(quizDTO.getTheme(), updatedQuiz.getTheme(), "The theme should match");
-        assertEquals(quizDTO.getStatus(), updatedQuiz.getStatus(), "The status should match");
-        assertEquals(quizDTO.getResponses(), updatedQuiz.getResponses(), "The responses should match");
+        assertNotNull(updatedQuiz);
+        assertEquals(quizDTO.getTitle(), updatedQuiz.getTitle());
+        assertEquals(quizDTO.getQuestions(), updatedQuiz.getQuestions());
+        assertEquals(quizDTO.getSettings(), updatedQuiz.getSettings());
+        assertEquals(quizDTO.getTheme(), updatedQuiz.getTheme());
+        assertEquals(quizDTO.getStatus(), updatedQuiz.getStatus());
+        assertEquals(quizDTO.getResponses(), updatedQuiz.getResponses());
 
-        verify(quizRepository, times(1)).findById((long) quizDTO.getId());
-        verify(quizRepository, times(1)).save(any(Quiz.class));
+        verify(quizRepository).findById((long) quizDTO.getId());
+        verify(quizRepository).save(any(Quiz.class));
     }
 
 
     @Test
-    void getAllUserQuizzes_Successful() {
+    void testGetAllUserQuizzes() {
         Long userId = 1L;
         List<Quiz> expectedQuizzes = new ArrayList<>();
 
@@ -117,26 +108,26 @@ public class QuizImplTest {
 
         List<Quiz> result = quizService.getAllUserQuizzes(userId);
 
-        assertEquals(expectedQuizzes, result, "Returned quizzes should match the expected quizzes");
+        assertEquals(expectedQuizzes, result);
 
-        verify(quizRepository, times(1)).findByUserId(userId);
+        verify(quizRepository).findByUserId(userId);
     }
 
     @Test
-    void getAllPublicQuizzes_Successful() {
+    void testGetAllPublicQuizzes() {
         List<Quiz> expectedQuizzes = new ArrayList<>();
 
         when(quizRepository.findAll()).thenReturn(expectedQuizzes);
 
         List<Quiz> result = quizService.getAllPublicQuizzes();
 
-        assertEquals(expectedQuizzes, result, "Returned public quizzes should match the expected quizzes");
+        assertEquals(expectedQuizzes, result);
 
-        verify(quizRepository, times(1)).findAll();
+        verify(quizRepository).findAll();
     }
 
     @Test
-    void getQuiz_Successful() {
+    void testGetQuiz() {
         Long quizId = 1L;
         Quiz expectedQuiz = new Quiz();
 
@@ -144,13 +135,13 @@ public class QuizImplTest {
 
         Optional<Quiz> result = quizService.getQuiz(quizId);
 
-        assertEquals(Optional.of(expectedQuiz), result, "Returned quiz should match the expected quiz");
+        assertEquals(Optional.of(expectedQuiz), result);
 
-        verify(quizRepository, times(1)).findById(quizId);
+        verify(quizRepository).findById(quizId);
     }
 
     @Test
-    void getAllQuestions_Successful() {
+    void testGetAllQuestions() {
         Long quizId = 1L;
         List<Quiz> expectedQuizzes = new ArrayList<>();
 
@@ -158,27 +149,27 @@ public class QuizImplTest {
 
         List<Quiz> result = quizService.getAllQuestions(quizId);
 
-        assertEquals(expectedQuizzes, result, "Returned quizzes should match the expected quizzes");
+        assertEquals(expectedQuizzes, result);
 
-        verify(quizRepository, times(1)).findAllById(quizId);
+        verify(quizRepository).findAllById(quizId);
     }
 
     @Test
-    void getAllQuestionsByUuid_Successful() {
-        String uuid = "example_uuid";
+    void testGetAllQuestionsByUuid() {
+        String uuid = "246546654546654";
         List<Quiz> expectedQuizzes = new ArrayList<>();
 
         when(quizRepository.findAllByUuid(uuid)).thenReturn(expectedQuizzes);
 
         List<Quiz> result = quizService.getAllQuestionsByUuid(uuid);
 
-        assertEquals(expectedQuizzes, result, "Returned quizzes should match the expected quizzes");
+        assertEquals(expectedQuizzes, result);
 
-        verify(quizRepository, times(1)).findAllByUuid(uuid);
+        verify(quizRepository).findAllByUuid(uuid);
     }
 
     @Test
-    void deleteQuiz_Successful() {
+    void testDeleteQuiz() {
         Long quizId = 1L;
         Quiz quiz = new Quiz();
 
@@ -186,19 +177,19 @@ public class QuizImplTest {
 
         quizService.deleteQuiz(quizId);
 
-        verify(quizRepository, times(1)).findById(quizId);
-        verify(quizRepository, times(1)).delete(quiz);
+        verify(quizRepository).findById(quizId);
+        verify(quizRepository).delete(quiz);
     }
 
     @Test
-    void deleteQuiz_QuizNotFound() {
+    void testDeleteQuizExeption() {
         Long quizId = 1L;
 
         when(quizRepository.findById(quizId)).thenReturn(Optional.empty());
 
         assertThrows(IllegalArgumentException.class, () -> quizService.deleteQuiz(quizId));
 
-        verify(quizRepository, times(1)).findById(quizId);
+        verify(quizRepository).findById(quizId);
         verify(quizRepository, never()).delete(any());
     }
 

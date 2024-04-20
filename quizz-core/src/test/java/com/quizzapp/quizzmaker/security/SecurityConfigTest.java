@@ -40,15 +40,6 @@ public class SecurityConfigTest {
     private SecurityConfig securityConfig;
 
     @Mock
-    private JWTAuthFilter jwtAuthFilter;
-
-    @Mock
-    private PasswordEncoder passwordEncoder;
-
-    @Mock
-    private UserDetailsService userDetailsService;
-
-    @Mock
     private AuthenticationConfiguration authenticationConfiguration;
 
     @Mock
@@ -60,28 +51,29 @@ public class SecurityConfigTest {
     }
 
     @Test
-    public void userDetailsServiceBean() {
+    public void testUserDetailsServiceBean() {
         UserDetailsService userDetailsService = securityConfig.userDetailsService();
-        assertTrue(userDetailsService instanceof UserImpl, "The userDetailsService bean should be an instance of UserImpl");
+
+        assertTrue(userDetailsService instanceof UserImpl);
     }
 
 
     @Test
-    public void passwordEncoderBean() {
+    public void testPasswordEncoderBean() {
         PasswordEncoder passwordEncoder = securityConfig.passwordEncoder();
-        assertTrue(passwordEncoder instanceof BCryptPasswordEncoder, "The passwordEncoder bean should be an instance of BCryptPasswordEncoder");
+
+        assertTrue(passwordEncoder instanceof BCryptPasswordEncoder);
     }
 
 
     @Test
-    public void authenticationManagerBean() throws Exception {
+    public void testAuthenticationManagerBean() throws Exception {
         when(authenticationConfiguration.getAuthenticationManager()).thenReturn(authenticationManager);
 
         AuthenticationManager result = securityConfig.authenticationManager(authenticationConfiguration);
 
-        assertSame(authenticationManager, result, "The returned AuthenticationManager should be the same instance that was retrieved from the AuthenticationConfiguration");
+        assertSame(authenticationManager, result);
     }
-
 
 }
 

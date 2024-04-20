@@ -38,15 +38,15 @@ public class SurveyImplTest {
 
     @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test
-    void createSurvey_Successful() {
+    void testCreateSurvey() {
         SurveyDTO surveyDTO = new SurveyDTO();
         surveyDTO.setId(0);
         surveyDTO.setUserId(1);
-        surveyDTO.setTitle("Sample Survey");
+        surveyDTO.setTitle("bla bla");
         surveyDTO.setResponses(0);
         surveyDTO.setDateCreated("2024-03-20");
         surveyDTO.setStatus(ProjectStatus.IN_DESIGN);
@@ -55,7 +55,7 @@ public class SurveyImplTest {
         surveyDTO.setQuestions(new ArrayList<>());
         surveyDTO.setUserId(1);
 
-        User user = new User(1, "user1@example.com", "user1", "password", false, "2023-01-01", "ROLE_USER", new ArrayList<>(), new ArrayList<>());
+        User user = new User(1, "user1@gmail.com", "user1", "password", false, "2024-01-01", "ROLE_USER", new ArrayList<>(), new ArrayList<>());
 
         when(userRepository.findById(surveyDTO.getUserId())).thenReturn(Optional.of(user));
         when(surveyRepository.save(any(Survey.class))).thenAnswer(invocation -> {
@@ -66,24 +66,24 @@ public class SurveyImplTest {
 
         Survey result = surveyService.createSurvey(surveyDTO);
 
-        assertNotNull(result, "The created survey should not be null");
-        assertNotNull(result.getId(), "The ID of the created survey should not be null");
-        assertEquals(surveyDTO.getTitle(), result.getTitle(), "The titles should match");
-        assertEquals(0, result.getResponses(), "The responses of the created survey should be initialized to 0");
-        assertNotNull(result.getDateCreated(), "The date created of the created survey should not be null");
-        assertEquals(ProjectStatus.IN_DESIGN, result.getStatus(), "The status of the created survey should be IN_DESIGN");
-        assertEquals(user, result.getUser(), "The user of the created survey should match the provided user");
-        assertEquals(surveyDTO.getSettings(), result.getSettings(), "The settings of the created survey should match");
-        assertEquals(surveyDTO.getTheme(), result.getTheme(), "The theme of the created survey should match");
+        assertNotNull(result);
+        assertNotNull(result.getId());
+        assertEquals(surveyDTO.getTitle(), result.getTitle());
+        assertEquals(0, result.getResponses());
+        assertNotNull(result.getDateCreated());
+        assertEquals(ProjectStatus.IN_DESIGN, result.getStatus());
+        assertEquals(user, result.getUser());
+        assertEquals(surveyDTO.getSettings(), result.getSettings());
+        assertEquals(surveyDTO.getTheme(), result.getTheme());
 
-        verify(userRepository, times(1)).findById(surveyDTO.getUserId());
+        verify(userRepository).findById(surveyDTO.getUserId());
     }
 
     @Test
-    void updateSurvey_Successful() {
+    void testUpdateSurvey() {
         SurveyDTO surveyDTO = new SurveyDTO();
         surveyDTO.setId(1);
-        surveyDTO.setTitle("Updated Survey Title");
+        surveyDTO.setTitle("bla bla1");
         surveyDTO.setStatus(ProjectStatus.IN_DESIGN);
         surveyDTO.setQuestions(null);
         surveyDTO.setSettings(new Settings());
@@ -92,7 +92,7 @@ public class SurveyImplTest {
 
         Survey existingSurvey = new Survey();
         existingSurvey.setId(1);
-        existingSurvey.setTitle("Original Survey Title");
+        existingSurvey.setTitle("blab bla2");
         existingSurvey.setStatus(ProjectStatus.IN_DESIGN);
         existingSurvey.setSettings(new Settings());
         existingSurvey.setTheme(new Theme());
@@ -103,102 +103,102 @@ public class SurveyImplTest {
 
         Survey updatedSurvey = surveyService.updateSurvey(surveyDTO);
 
-        assertNotNull(updatedSurvey, "The updated survey should not be null");
-        assertEquals(surveyDTO.getId(), updatedSurvey.getId(), "The IDs should match");
-        assertEquals(surveyDTO.getTitle(), updatedSurvey.getTitle(), "The titles should match");
-        assertEquals(surveyDTO.getStatus(), updatedSurvey.getStatus(), "The status should match");
-        assertEquals(surveyDTO.getQuestions(), updatedSurvey.getQuestions(), "The questions should match");
-        assertEquals(surveyDTO.getSettings(), updatedSurvey.getSettings(), "The settings should match");
-        assertEquals(surveyDTO.getTheme(), updatedSurvey.getTheme(), "The theme should match");
-        assertEquals(surveyDTO.getResponses(), updatedSurvey.getResponses(), "The number of responses should match");
+        assertNotNull(updatedSurvey);
+        assertEquals(surveyDTO.getId(), updatedSurvey.getId());
+        assertEquals(surveyDTO.getTitle(), updatedSurvey.getTitle());
+        assertEquals(surveyDTO.getStatus(), updatedSurvey.getStatus());
+        assertEquals(surveyDTO.getQuestions(), updatedSurvey.getQuestions());
+        assertEquals(surveyDTO.getSettings(), updatedSurvey.getSettings());
+        assertEquals(surveyDTO.getTheme(), updatedSurvey.getTheme());
+        assertEquals(surveyDTO.getResponses(), updatedSurvey.getResponses());
 
-        verify(surveyRepository, times(1)).findById(1L);
-        verify(surveyRepository, times(1)).save(any(Survey.class));
+        verify(surveyRepository).findById(1L);
+        verify(surveyRepository).save(any(Survey.class));
     }
 
     @Test
-    void getAllUserSurveys_Successful() {
+    void testGetAllUserSurveys() {
         long userId = 1;
         List<Survey> userSurveys = new ArrayList<>();
         when(surveyRepository.findByUserId(userId)).thenReturn(userSurveys);
 
         List<Survey> result = surveyService.getAllUserSurveys(userId);
 
-        assertNotNull(result, "The result should not be null");
-        assertEquals(userSurveys, result, "The returned surveys should match the user surveys");
+        assertNotNull(result);
+        assertEquals(userSurveys, result);
 
-        verify(surveyRepository, times(1)).findByUserId(userId);
+        verify(surveyRepository).findByUserId(userId);
     }
 
     @Test
-    void getAllPublicSurveys_Successful() {
+    void testGetAllPublicSurveys() {
         List<Survey> publicSurveys = new ArrayList<>();
         when(surveyRepository.findAll()).thenReturn(publicSurveys);
 
         List<Survey> result = surveyService.getAllPublicSurveys();
 
-        assertNotNull(result, "The result should not be null");
-        assertEquals(publicSurveys, result, "The returned surveys should match the public surveys");
+        assertNotNull(result);
+        assertEquals(publicSurveys, result);
 
-        verify(surveyRepository, times(1)).findAll();
+        verify(surveyRepository).findAll();
     }
 
     @Test
-    void getSurvey_WithValidId_Successful() {
+    void testGetSurvey() {
         long surveyId = 1;
         Survey survey = new Survey();
         when(surveyRepository.findById(surveyId)).thenReturn(Optional.of(survey));
 
         Optional<Survey> result = surveyService.getSurvey(surveyId);
 
-        assertTrue(result.isPresent(), "The result should be present");
-        assertEquals(survey, result.get(), "The returned survey should match the expected survey");
+        assertTrue(result.isPresent());
+        assertEquals(survey, result.get());
 
-        verify(surveyRepository, times(1)).findById(surveyId);
+        verify(surveyRepository).findById(surveyId);
     }
 
     @Test
-    void getAllQuestions_Successful() {
+    void testGetAllQuestions() {
         long id = 1;
         List<Survey> surveys = new ArrayList<>();
         when(surveyRepository.findAllById(id)).thenReturn(surveys);
 
         List<Survey> result = surveyService.getAllQuestions(id);
 
-        assertNotNull(result, "The result should not be null");
-        assertEquals(surveys, result, "The returned surveys should match the surveys by ID");
+        assertNotNull(result);
+        assertEquals(surveys, result);
 
-        verify(surveyRepository, times(1)).findAllById(id);
+        verify(surveyRepository).findAllById(id);
     }
 
     @Test
-    void getAllQuestionsByUuid_Successful() {
-        String uuid = "example_uuid";
+    void testGetAllQuestionsByUuid() {
+        String uuid = "4224242424";
         List<Survey> surveys = new ArrayList<>();
         when(surveyRepository.findAllByUuid(uuid)).thenReturn(surveys);
 
         List<Survey> result = surveyService.getAllQuestionsByUuid(uuid);
 
-        assertNotNull(result, "The result should not be null");
-        assertEquals(surveys, result, "The returned surveys should match the surveys by UUID");
+        assertNotNull(result);
+        assertEquals(surveys, result);
 
-        verify(surveyRepository, times(1)).findAllByUuid(uuid);
+        verify(surveyRepository).findAllByUuid(uuid);
     }
 
     @Test
-    void deleteSurvey_WithValidId_Successful() {
+    void testDeleteSurvey() {
         long id = 1;
         Survey survey = new Survey();
         when(surveyRepository.findById(id)).thenReturn(Optional.of(survey));
 
         surveyService.deleteSurvey(id);
 
-        verify(surveyRepository, times(1)).findById(id);
-        verify(surveyRepository, times(1)).delete(survey);
+        verify(surveyRepository).findById(id);
+        verify(surveyRepository).delete(survey);
     }
 
     @Test
-    void deleteSurvey_WithInvalidId_ExceptionThrown() {
+    void testDeleteSurveyException() {
         long id = 1;
         when(surveyRepository.findById(id)).thenReturn(Optional.empty());
 

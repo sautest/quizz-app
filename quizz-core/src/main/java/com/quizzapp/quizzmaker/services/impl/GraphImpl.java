@@ -151,12 +151,12 @@ public class GraphImpl implements GraphService, InitializingBean {
                 if (questions.get(i).getLogic().get(ii).getConditionType() == LogicConditionType.ALWAYS) {
                     context.put(GraphUtils.Keys.IS_ALWAYS_EDGE, true);
                 } else if (isQuiz) {
-                    if (option !=null && option.getCorrect()) {
+                    if (option != null && option.getCorrect()) {
                         context.put(GraphUtils.Keys.IS_CORRECT_EDGE, true);
                     } else {
                         context.put(GraphUtils.Keys.IS_INCORRECT_EDGE, true);
                     }
-                    if(option !=null){
+                    if (option != null) {
                         context.put(GraphUtils.Keys.EDGE_LABEL, option.getText());
 
                     }

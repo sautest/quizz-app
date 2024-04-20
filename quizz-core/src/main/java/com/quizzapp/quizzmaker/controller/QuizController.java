@@ -2,9 +2,7 @@ package com.quizzapp.quizzmaker.controller;
 
 import com.quizzapp.quizzmaker.dto.GraphDTO;
 import com.quizzapp.quizzmaker.dto.QuizDTO;
-import com.quizzapp.quizzmaker.persistence.entities.Question;
 import com.quizzapp.quizzmaker.persistence.entities.Quiz;
-import com.quizzapp.quizzmaker.persistence.entities.Survey;
 import com.quizzapp.quizzmaker.persistence.entities.User;
 import com.quizzapp.quizzmaker.services.GraphService;
 import com.quizzapp.quizzmaker.services.QuizService;
@@ -142,7 +140,5 @@ public class QuizController {
         response.put("graph", graphService.generate(graphDTO));
         return ResponseEntity.ok(response);
     }
-
-
 
 }

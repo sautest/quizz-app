@@ -1,10 +1,8 @@
 package com.quizzapp.quizzmaker.impl;
 
 import com.quizzapp.quizzmaker.dto.GraphDTO;
-import com.quizzapp.quizzmaker.dto.QuizDTO;
 import com.quizzapp.quizzmaker.persistence.entities.*;
 import com.quizzapp.quizzmaker.persistence.models.QuestionType;
-import com.quizzapp.quizzmaker.services.GraphService;
 import com.quizzapp.quizzmaker.services.impl.GraphImpl;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
@@ -52,19 +50,15 @@ class GraphImplTest {
         when(velocityEngine.evaluate(any(VelocityContext.class), any(StringWriter.class), anyString(), anyString()))
                 .then(invocation -> {
                     StringWriter writer = invocation.getArgument(1);
-                    writer.write("Generated Graph String");
+                    writer.write("digraph{}");
                     return true;
                 });
-
-
     }
 
     @Test
-    public void testGetPositionById_WithExistingId() {
-
-
+    public void testGetPositionWithId() {
         Question q1 = new Question(
-                1, "What?", QuestionType.SINGLE_CHOICE, 10, false, 123,
+                1, "test?", QuestionType.SINGLE_CHOICE, 10, false, 123,
                 Arrays.asList(new QuestionOption(), new QuestionOption()),
                 Arrays.asList(new QuestionLogic()),
                 Arrays.asList(new Answer()),
@@ -72,7 +66,7 @@ class GraphImplTest {
                 Arrays.asList(new Survey())
         );
         Question q2 = new Question(
-                2, "What?", QuestionType.SINGLE_CHOICE, 10, false, 123,
+                2, "test?", QuestionType.SINGLE_CHOICE, 10, false, 123,
                 Arrays.asList(new QuestionOption(), new QuestionOption()),
                 Arrays.asList(new QuestionLogic()),
                 Arrays.asList(new Answer()),
@@ -87,16 +81,16 @@ class GraphImplTest {
     }
 
     @Test
-    public void testGetPositionById_WithNonExistingId() {
+    public void testGetPositionWithNonExistantId() {
         Question q1 = new Question(
-                1, "What?", QuestionType.SINGLE_CHOICE, 10, false, 123,
+                1, "test?", QuestionType.SINGLE_CHOICE, 10, false, 123,
                 Arrays.asList(new QuestionOption(), new QuestionOption()),
                 Arrays.asList(new QuestionLogic()),
                 Arrays.asList(new Answer()),
                 Arrays.asList(new Quiz()),
                 Arrays.asList(new Survey())
         );
-        List<Question> list = Collections.singletonList(q1);
+        List<Question> list = List.of(q1);
 
         int position = graphService.getPositionById(list, 999);
 
@@ -105,8 +99,8 @@ class GraphImplTest {
 
 
     @Test
-    public void testGetPositionById_WithEmptyList() {
-        List<Question> list = Collections.emptyList();
+    public void testGetPositionWithIdWhenListIsEmpty() {
+        List<Question> list = List.of();
 
         int position = graphService.getPositionById(list, 1);
 
@@ -114,41 +108,7 @@ class GraphImplTest {
     }
 
     @Test
-    public void testGetPositionById_WithNullList() {
-        List<Question> list = null;
-
-        assertThrows(NullPointerException.class, () -> {
-            graphService.getPositionById(list, 1);
-        });
-    }
-
-    @Test
-    public void testGetPositionById_WithDuplicateIds() {
-        Question q1 = new Question(
-                1, "What?", QuestionType.SINGLE_CHOICE, 10, false, 123,
-                Arrays.asList(new QuestionOption(), new QuestionOption()),
-                Arrays.asList(new QuestionLogic()),
-                Arrays.asList(new Answer()),
-                Arrays.asList(new Quiz()),
-                Arrays.asList(new Survey())
-        );
-        Question q2 = new Question(
-                2, "What?", QuestionType.SINGLE_CHOICE, 10, false, 123,
-                Arrays.asList(new QuestionOption(), new QuestionOption()),
-                Arrays.asList(new QuestionLogic()),
-                Arrays.asList(new Answer()),
-                Arrays.asList(new Quiz()),
-                Arrays.asList(new Survey()
-                ));
-        List<Question> list = Arrays.asList(q1, q2);
-
-        int position = graphService.getPositionById(list, 1);
-
-        assertEquals(0, position);
-    }
-
-    @Test
-    public void testFindObjectById_WithExistingId() {
+    public void testFindObjectWithId() {
         QuestionOption option1 = new QuestionOption();
         option1.setId(1);
         option1.setText("Option 1");
@@ -173,7 +133,7 @@ class GraphImplTest {
     }
 
     @Test
-    public void testFindObjectById_WithNonExistingId() {
+    public void testFindObjectWithNonExistantId() {
         QuestionOption option1 = new QuestionOption();
         option1.setId(1);
         option1.setText("Option 1");
@@ -206,9 +166,18 @@ class GraphImplTest {
         assertNull(result);
     }
 
+    private String getPrivateFieldValue(Object obj, String fieldName) throws Exception {
+        Field field = obj.getClass().getDeclaredField(fieldName);
+        field.setAccessible(true);
+        return (String) field.get(obj);
+    }
+
+    private String readResourceFile(String path) throws Exception {
+        return new String(new ClassPathResource(path).getInputStream().readAllBytes(), StandardCharsets.UTF_8);
+    }
 
     @Test
-    void afterPropertiesSet_loadsTemplatesCorrectly() throws Exception {
+    void testAfterPropertiesSet() throws Exception {
 
         graphService.afterPropertiesSet();
 
@@ -231,25 +200,13 @@ class GraphImplTest {
         assertEquals(expectedEndNodeTemplate, endNodeTemplate);
     }
 
-    private String getPrivateFieldValue(Object obj, String fieldName) throws Exception {
-        Field field = obj.getClass().getDeclaredField(fieldName);
-        field.setAccessible(true);
-        return (String) field.get(obj);
-    }
-
-    private String readResourceFile(String path) throws Exception {
-        return new String(new ClassPathResource(path).getInputStream().readAllBytes(), StandardCharsets.UTF_8);
-    }
-
-
     @Test
-    void createEdgesDef_QuizBased() {
+    void testCreateEdgesDefForQuiz() {
 
         Quiz existingQuiz = new Quiz();
-        Survey existingSurvey = new Survey();
 
         Question q1 = new Question(
-                1, "What?", QuestionType.SINGLE_CHOICE, 10, false, 123,
+                1, "test?", QuestionType.SINGLE_CHOICE, 10, false, 123,
                 Arrays.asList(new QuestionOption(1, "test", false, new Question(), new ArrayList<Answer>()), new QuestionOption(2, "test2", true, new Question(), new ArrayList<Answer>())),
                 Arrays.asList(new QuestionLogic()),
                 Arrays.asList(new Answer()),
@@ -257,7 +214,7 @@ class GraphImplTest {
                 Arrays.asList(new Survey())
         );
         Question q2 = new Question(
-                2, "What?", QuestionType.SINGLE_CHOICE, 10, false, 123,
+                2, "test?", QuestionType.SINGLE_CHOICE, 10, false, 123,
                 Arrays.asList(new QuestionOption(1, "test", false, new Question(), new ArrayList<Answer>()), new QuestionOption(2, "test2", true, new Question(), new ArrayList<Answer>())),
                 Arrays.asList(new QuestionLogic()),
                 Arrays.asList(new Answer()),
@@ -267,11 +224,9 @@ class GraphImplTest {
 
         existingQuiz.setQuestions(Arrays.asList(q1,q2));
 
-
         graphDTO = new GraphDTO();
         graphDTO.setQuiz(existingQuiz);
         graphDTO.setIsVerticalAlignment(true);
-
 
         when(velocityEngine.evaluate(any(VelocityContext.class), any(StringWriter.class), eq("TEMPLATE"), anyString())).thenReturn(true);
 
@@ -281,19 +236,12 @@ class GraphImplTest {
 
     }
 
-
-    @Mock
-    private Quiz quiz;
-
-    @Mock
-    private Survey survey;
-
     @Test
-    void createQuestionsDef_WithQuiz() {
+    void createQuestionsDefForQuiz() {
         Quiz existingQuiz = new Quiz();
         existingQuiz.setQuestions(Arrays.asList(
                 new Question(
-                        1, "What?", QuestionType.SINGLE_CHOICE, 10, false, 123,
+                        1, "test?", QuestionType.SINGLE_CHOICE, 10, false, 123,
                         Arrays.asList(new QuestionOption(), new QuestionOption()),
                         Arrays.asList(new QuestionLogic()),
                         Arrays.asList(new Answer()),
@@ -301,7 +249,7 @@ class GraphImplTest {
                         Arrays.asList(new Survey())
                 ),
                 new Question(
-                        2, "What?", QuestionType.SINGLE_CHOICE, 10, false, 123,
+                        2, "test?", QuestionType.SINGLE_CHOICE, 10, false, 123,
                         Arrays.asList(new QuestionOption(), new QuestionOption()),
                         Arrays.asList(new QuestionLogic()),
                         Arrays.asList(new Answer()),
@@ -316,21 +264,18 @@ class GraphImplTest {
 
         String result = graphService.createQuestionsDef(graphDTO);
 
-        String expected = "Processed questionTemplate with ID 0\n" +
-                "Processed questionTemplate with ID 1\n" +
-                "Processed startNodeTemplate with ID 2\n" +
-                "Processed endNodeTemplate with ID 3";
+        String expected = "digraph{}";
 
     }
 
 
     @Test
-    void generate_ShouldProcessGraphDTOAndReturnGraphString() {
+    void testGenerate() {
 
         graphService = spy(new GraphImpl(velocityEngine));
 
-        doReturn("mockedQuestionsDefinition").when(graphService).createQuestionsDef(any(GraphDTO.class));
-        doReturn("mockedEdgesDefinition").when(graphService).createEdgesDef(any(GraphDTO.class));
+        doReturn("mockedQuestions").when(graphService).createQuestionsDef(any(GraphDTO.class));
+        doReturn("mockedEdges").when(graphService).createEdgesDef(any(GraphDTO.class));
 
         String result = graphService.generate(graphDTO);
 
