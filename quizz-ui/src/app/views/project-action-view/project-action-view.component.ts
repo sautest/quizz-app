@@ -196,7 +196,6 @@ export class ProjectActionViewComponent implements OnInit {
             }
           } else {
             let option = this.project.questions[this.currentPage].options.find(opt => opt.id == logic.conditionOptionId);
-            console.log(this.project.questions[this.currentPage].options);
 
             if (
               (this.project.questions[this.currentPage].type === QuestionType.MULTI_CHOICE &&
@@ -212,7 +211,6 @@ export class ProjectActionViewComponent implements OnInit {
               } else {
                 this.currentPage = this.project.questions.findIndex(q => q.id == logic.actionOptionId);
                 breakCycle = true;
-                console.log(this.currentPage);
               }
             }
           }
